@@ -1,0 +1,87 @@
+t=2018-10-24T01:17:13+0200 lvl=info msg="Database table locked, sleeping then retrying" logger=sqlstore retry=0
+t=2018-10-24T02:26:47+0200 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2018-10-24T02:26:47+0200 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2018-10-24T02:26:47+0200 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2018-10-24T02:26:47+0200 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2018-10-24T02:26:47+0200 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2018-10-24T02:26:47+0200 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2018-10-24T02:26:47+0200 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2018-10-24T02:26:47+0200 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2018-10-24T02:26:47+0200 lvl=info msg="App mode production" logger=settings
+t=2018-10-24T02:26:47+0200 lvl=info msg="Initializing HTTPServer" logger=server
+t=2018-10-24T02:26:47+0200 lvl=info msg="Initializing SqlStore" logger=server
+t=2018-10-24T02:26:47+0200 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2018-10-24T02:26:47+0200 lvl=info msg="Starting DB migration" logger=migrator
+t=2018-10-24T02:26:47+0200 lvl=info msg="Initializing PluginManager" logger=server
+t=2018-10-24T02:26:47+0200 lvl=info msg="Starting plugin search" logger=plugins
+t=2018-10-24T02:26:47+0200 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2018-10-24T02:26:47+0200 lvl=info msg="Initializing RenderingService" logger=server
+t=2018-10-24T02:26:47+0200 lvl=info msg="Initializing HooksService" logger=server
+t=2018-10-24T02:26:47+0200 lvl=info msg="Initializing SearchService" logger=server
+t=2018-10-24T02:26:47+0200 lvl=info msg="Initializing CleanUpService" logger=server
+t=2018-10-24T02:26:47+0200 lvl=info msg="Initializing NotificationService" logger=server
+t=2018-10-24T02:26:47+0200 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2018-10-24T02:26:47+0200 lvl=info msg="Initializing AlertingService" logger=server
+t=2018-10-24T02:26:47+0200 lvl=info msg="Initializing TracingService" logger=server
+t=2018-10-24T02:26:47+0200 lvl=info msg="Initializing Stream Manager"
+t=2018-10-24T02:26:47+0200 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2018-10-24T02:26:57+0200 lvl=info msg="Request Completed" logger=context userId=1 orgId=1 uname=admin method=GET path=/api/datasources/proxy/1/query status=502 remote_addr=[::1] time_ms=1305 size=0 referer="http://localhost:8080/d/cc_R7Bbiz/new-dashboard?orgId=1"
+t=2018-10-24T02:46:47+0200 lvl=info msg="Database table locked, sleeping then retrying" logger=sqlstore retry=0
+t=2018-10-24T02:58:33+0200 lvl=info msg="Request Completed" logger=context userId=1 orgId=1 uname=admin method=GET path=/api/datasources/proxy/1/query status=502 remote_addr=[::1] time_ms=1305 size=0 referer="http://localhost:8080/d/cc_R7Bbiz/new-dashboard?orgId=1"
+t=2018-10-24T02:59:15+0200 lvl=info msg="Request Completed" logger=context userId=1 orgId=1 uname=admin method=GET path=/api/datasources/proxy/1/query status=502 remote_addr=[::1] time_ms=1304 size=0 referer="http://localhost:8080/d/cc_R7Bbiz/new-dashboard?orgId=1"
+t=2018-10-24T03:01:41+0200 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2018-10-24T03:01:41+0200 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2018-10-24T03:01:41+0200 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2018-10-24T03:01:41+0200 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2018-10-24T03:01:41+0200 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2018-10-24T03:01:41+0200 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2018-10-24T03:01:41+0200 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2018-10-24T03:01:41+0200 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2018-10-24T03:01:41+0200 lvl=info msg="App mode production" logger=settings
+t=2018-10-24T03:01:41+0200 lvl=info msg="Initializing HTTPServer" logger=server
+t=2018-10-24T03:01:41+0200 lvl=info msg="Initializing SqlStore" logger=server
+t=2018-10-24T03:01:41+0200 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2018-10-24T03:01:41+0200 lvl=info msg="Starting DB migration" logger=migrator
+t=2018-10-24T03:01:41+0200 lvl=info msg="Initializing PluginManager" logger=server
+t=2018-10-24T03:01:41+0200 lvl=info msg="Starting plugin search" logger=plugins
+t=2018-10-24T03:01:41+0200 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2018-10-24T03:01:41+0200 lvl=info msg="Initializing RenderingService" logger=server
+t=2018-10-24T03:01:41+0200 lvl=info msg="Initializing HooksService" logger=server
+t=2018-10-24T03:01:41+0200 lvl=info msg="Initializing SearchService" logger=server
+t=2018-10-24T03:01:41+0200 lvl=info msg="Initializing CleanUpService" logger=server
+t=2018-10-24T03:01:41+0200 lvl=info msg="Initializing NotificationService" logger=server
+t=2018-10-24T03:01:41+0200 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2018-10-24T03:01:41+0200 lvl=info msg="Initializing AlertingService" logger=server
+t=2018-10-24T03:01:41+0200 lvl=info msg="Initializing TracingService" logger=server
+t=2018-10-24T03:01:41+0200 lvl=info msg="Initializing Stream Manager"
+t=2018-10-24T03:01:41+0200 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2018-10-24T03:01:48+0200 lvl=info msg="Request Completed" logger=context userId=1 orgId=1 uname=admin method=GET path=/api/datasources/proxy/1/query status=502 remote_addr=[::1] time_ms=1304 size=0 referer="http://localhost:8080/d/cc_R7Bbiz/new-dashboard?orgId=1"
+t=2018-10-24T14:24:20+0200 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2018-10-24T14:24:20+0200 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2018-10-24T14:24:20+0200 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2018-10-24T14:24:20+0200 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2018-10-24T14:24:20+0200 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2018-10-24T14:24:20+0200 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2018-10-24T14:24:20+0200 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2018-10-24T14:24:20+0200 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2018-10-24T14:24:20+0200 lvl=info msg="App mode production" logger=settings
+t=2018-10-24T14:24:20+0200 lvl=info msg="Initializing HTTPServer" logger=server
+t=2018-10-24T14:24:20+0200 lvl=info msg="Initializing SqlStore" logger=server
+t=2018-10-24T14:24:20+0200 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2018-10-24T14:24:20+0200 lvl=info msg="Starting DB migration" logger=migrator
+t=2018-10-24T14:24:20+0200 lvl=info msg="Initializing PluginManager" logger=server
+t=2018-10-24T14:24:20+0200 lvl=info msg="Starting plugin search" logger=plugins
+t=2018-10-24T14:24:20+0200 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2018-10-24T14:24:20+0200 lvl=info msg="Initializing RenderingService" logger=server
+t=2018-10-24T14:24:20+0200 lvl=info msg="Initializing HooksService" logger=server
+t=2018-10-24T14:24:20+0200 lvl=info msg="Initializing SearchService" logger=server
+t=2018-10-24T14:24:20+0200 lvl=info msg="Initializing CleanUpService" logger=server
+t=2018-10-24T14:24:20+0200 lvl=info msg="Initializing NotificationService" logger=server
+t=2018-10-24T14:24:20+0200 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2018-10-24T14:24:20+0200 lvl=info msg="Initializing AlertingService" logger=server
+t=2018-10-24T14:24:20+0200 lvl=info msg="Initializing TracingService" logger=server
+t=2018-10-24T14:24:20+0200 lvl=info msg="Initializing Stream Manager"
+t=2018-10-24T14:24:20+0200 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2018-10-24T14:24:25+0200 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/ status=302 remote_addr=[::1] time_ms=4 size=29 referer=
+t=2018-10-24T14:24:25+0200 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/login status=302 remote_addr=[::1] time_ms=12 size=24 referer=
+t=2018-10-24T14:24:30+0200 lvl=info msg="Request Completed" logger=context userId=1 orgId=1 uname=admin method=GET path=/api/datasources/proxy/1/query status=502 remote_addr=[::1] time_ms=1375 size=0 referer="http://localhost:8080/d/cc_R7Bbiz/new-dashboard?orgId=1"
