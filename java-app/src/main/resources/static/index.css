@@ -1,0 +1,80 @@
+body{
+    background-color: #171819;
+    color: #d8d9da;
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.secondaryPanel{
+    background-color:  #212124;
+}
+.introCont{
+    margin-top: 50px;
+    padding: 50px;
+    text-align: center;
+}
+.introCont .addImgButton{
+    padding-top: 70px;
+    padding-bottom: 40px;
+}
+.introCont a{
+    color: inherit;
+}
+.horisontalScroll{
+    overflow: auto;
+    white-space: nowrap;
+    margin-top: 20px;
+}
+.horisontalScroll > a, .addPanelCont .panelConts{
+    display: inline-block;
+    text-align: center;
+    padding: 0;
+    color: inherit;
+    vertical-align: top;
+}
+.horisontalScroll span{
+    display: block;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    white-space: normal;
+}
+.addPanelCont .panelLabel{
+    display: block;
+    white-space: normal;
+}
+.pointerCursorб .noPanel{
+    cursor: pointer;
+}
+.loadSavedCont, .addPanelCont{
+    margin-top: 70px;
+}
+.addPanelCont .col-12{
+    padding: 0;
+}
+.submitBtn{
+    margin-top: 20px;
+}
+
+.addPanelCont .col-12 .panelConts{
+    cursor: pointer;
+    min-height: 70px;
+}
+.addPanelCont .col-12 img{
+    padding: 15px;
+}
+.panelConts .btn-outline-danger{
+    padding: 5px;
+    line-height: 12px;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.noPanel{
+     border: 2px dashed grey;
+}
+#newPanelModal{
+    color: black;
+}
+
+
+
+

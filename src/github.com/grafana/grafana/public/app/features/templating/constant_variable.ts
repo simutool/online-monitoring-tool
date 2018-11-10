@@ -18,7 +18,7 @@ export class ConstantVariable implements Variable {
   };
 
   /** @ngInject */
-  constructor(private model, private variableSrv) {
+  constructor(private model, private variableSrv, private $http) {
     assignModelProperties(this, model, this.defaults);
   }
 
@@ -48,6 +48,8 @@ export class ConstantVariable implements Variable {
   getValueForUrl() {
     return this.current.value;
   }
+
+
 }
 
 variableTypes['constant'] = {

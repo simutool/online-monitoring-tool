@@ -28,6 +28,10 @@ export class TemplateSrv {
     this.variables = variables;
     this.updateTemplateData();
   }
+  
+  getVarFromIndex(){
+	  return this.index;
+  }
 
   updateTemplateData() {
     this.index = {};

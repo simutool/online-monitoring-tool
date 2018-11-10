@@ -214,7 +214,33 @@
       </plugin>
     </plugins>
   </build>
+  <parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.8.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
   <dependencies>
+  	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+	<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
+<dependency>
+    <groupId>commons-dbcp</groupId>
+    <artifactId>commons-dbcp</artifactId>
+    <version>1.2.2</version>
+</dependency>
+		
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
@@ -287,29 +313,8 @@
     <version>3.17</version>
 </dependency>
 
-<dependency>
-  <groupId>io.prometheus</groupId>
-  <artifactId>simpleclient</artifactId>
-  <version>0.5.0</version>
-</dependency>
-<!-- Hotspot JVM metrics-->
-<dependency>
-  <groupId>io.prometheus</groupId>
-  <artifactId>simpleclient_hotspot</artifactId>
-  <version>0.5.0</version>
-</dependency>
-<!-- Exposition HTTPServer-->
-<dependency>
-  <groupId>io.prometheus</groupId>
-  <artifactId>simpleclient_httpserver</artifactId>
-  <version>0.5.0</version>
-</dependency>
-<!-- Pushgateway exposition-->
-<dependency>
-  <groupId>io.prometheus</groupId>
-  <artifactId>simpleclient_pushgateway</artifactId>
-  <version>0.5.0</version>
-</dependency>
+
+
 
 <!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
 <dependency>
@@ -330,6 +335,12 @@
     <version>1.0.5</version>
 </dependency>
  
+<!-- https://mvnrepository.com/artifact/net.sourceforge.nekohtml/nekohtml -->
+<dependency>
+    <groupId>net.sourceforge.nekohtml</groupId>
+    <artifactId>nekohtml</artifactId>
+    <version>1.9.22</version>
+</dependency>
 
 
   </dependencies>

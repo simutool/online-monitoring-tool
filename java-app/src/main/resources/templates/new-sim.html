@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>New Simulation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous"></link>
+    <link rel="stylesheet" type="text/css" th:href="@{/index.css}"></link>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+    <div class="introCont col-8 offset-2 secondaryPanel">
+            <h1>New simulation:</h1>
+            <form class="form-group col-12" action="#" th:action="@{/newsimulation}" th:object="${simulation}" method="post">
+                <span style="color: red;" th:text="${error}"></span>
+                <p >Name: <input class="form-control" type="text" th:field="*{name}" /></p>
+
+                 <div class="addPanelCont">
+                    <h4>Graphs:</h4>
+                        <div class="col-12">
+                            <div data-toggle="modal" data-target="#newPanelModal" class="col-3 panelConts" th:classappend="${pendingPanels.size()>0} ? dummy : noPanel" >
+                                <a >
+                                    <img th:if="${pendingPanels.size()>0}" th:src="@{/icn-panel.svg}" class=" " ></img>
+                                    <span th:text="${pendingPanels.size()>0 ? pendingPanels.get(0).name : '+'}"  class="col-12 panelLabel">Add new graph</span>
+                                </a>
+                                <a class="btn btn-outline-danger" th:if="${pendingPanels.size()>0}" th:href="@{'/removePanel/' + ${pendingPanels.get(0).id}}">Remove &times;</a>
+                            </div>
+                            <div data-toggle="modal" data-target="#newPanelModal" class="col-3 panelConts" th:classappend="${pendingPanels.size()>1} ? dummy : noPanel" >
+                                <a>
+                                    <img th:if="${pendingPanels.size()>1}" th:src="@{/icn-panel.svg}" class=" " ></img>
+                                    <span th:text="${pendingPanels.size()>1 ? pendingPanels.get(1).name : '+'}" class="col-12 panelLabel">Add new graph</span>
+                                </a>
+                                <a class="btn btn-outline-danger" th:if="${pendingPanels.size()>1}" th:href="@{'/removePanel/' + ${pendingPanels.get(1).id}}">Remove &times;</a>
+                            </div>
+                            <div data-toggle="modal" data-target="#newPanelModal" class="col-3 panelConts" th:classappend="${pendingPanels.size()>2} ? dummy : noPanel" >
+                                <a>
+                                    <img th:if="${pendingPanels.size()>2}" th:src="@{/icn-panel.svg}" class=" " ></img>
+                                    <span th:text="${pendingPanels.size()>2 ? pendingPanels.get(2).name : '+'}" class="col-12 panelLabel">Add new graph</span>
+                                </a>
+                                <a class="btn btn-outline-danger" th:if="${pendingPanels.size()>2}" th:href="@{'/removePanel/' + ${pendingPanels.get(2).id}}">Remove &times;</a>
+                            </div>
+                        </div> 
+                 </div>
+                <p><input class="btn btn-success submitBtn" type="submit" value="Submit" /> </p>
+            </form>
+    </div>
+
+        <div id="newPanelModal" class="modal" tabindex="-1" role="dialog">
+             <div class="modal-dialog" role="document">
+               <form class="form-group col-12" action="#" th:action="@{/newpanel}" th:object="${panel}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                          <h5 class="modal-title">New graph</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                          </button>
+                    </div>
+                     <div class="modal-body">
+                        <p >Name: <input class="form-control" type="text" th:field="*{name}" /></p>
+                        <p >Sensor: <input class="form-control" type="file" th:field="*{sensorPath}" /></p>
+                        <p >Simulation: <input class="form-control" type="file" th:field="*{simulationPath}" /></p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <a th:href="@{/newpanel}"><button type="submit" class="btn btn-primary">Save changes</button></a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+               </form>
+            </div>
+        </div>
+</body>
+</html>

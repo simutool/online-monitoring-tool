@@ -3,6 +3,7 @@ import config from 'app/core/config';
 import coreModule from 'app/core/core_module';
 import { DashboardModel } from './dashboard_model';
 import { PanelModel } from './panel_model';
+import { ConstantVariable } from 'app/features/templating/constant_variable';
 
 export class DashboardCtrl {
   dashboard: DashboardModel;
@@ -21,7 +22,9 @@ export class DashboardCtrl {
     private dashboardSrv,
     private unsavedChangesSrv,
     private dashboardViewStateSrv,
-    public playlistSrv
+    public playlistSrv,
+	private $http,
+	private templateSrv
   ) {
     // temp hack due to way dashboards are loaded
     // can't use controllerAs on route yet
@@ -163,6 +166,9 @@ export class DashboardCtrl {
       this.dashboard.destroy();
     }
   }
+  
+  setDatasourceVars(){
+  }
 
   init(dashboard) {
     this.$scope.onAppEvent('show-json-editor', this.showJsonEditor.bind(this));
@@ -170,6 +176,7 @@ export class DashboardCtrl {
     this.$scope.onAppEvent('panel-remove', this.onRemovingPanel.bind(this));
     this.$scope.$on('$destroy', this.onDestroy.bind(this));
     this.setupDashboard(dashboard);
+	
   }
 }
 

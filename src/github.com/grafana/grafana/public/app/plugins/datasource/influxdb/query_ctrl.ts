@@ -4,6 +4,8 @@ import { InfluxQueryBuilder } from './query_builder';
 import InfluxQuery from './influx_query';
 import queryPart from './query_part';
 import { QueryCtrl } from 'app/plugins/sdk';
+import coreModule from 'app/core/core_module';
+
 
 export class InfluxQueryCtrl extends QueryCtrl {
   static templateUrl = 'partials/query.editor.html';
@@ -20,7 +22,7 @@ export class InfluxQueryCtrl extends QueryCtrl {
   removeTagFilterSegment: any;
 
   /** @ngInject */
-  constructor($scope, $injector, private templateSrv, private $q, private uiSegmentSrv) {
+  constructor($scope, $injector, private templateSrv, private $q, private uiSegmentSrv, private variableSrv) {
     super($scope, $injector);
     this.target = this.target;
     this.queryModel = new InfluxQuery(this.target, templateSrv, this.panel.scopedVars);
@@ -142,8 +144,56 @@ export class InfluxQueryCtrl extends QueryCtrl {
   addSelectPart(selectParts, cat, subitem) {
     this.queryModel.addSelectPart(selectParts, subitem.value);
     this.panelCtrl.refresh();
+	this.getFields();
   }
 
+  getFields(){
+	  let variable;
+	  let simStrings = [];
+	  let sensStrings = [];
+	  
+	  	const fieldsQuery = this.queryBuilder.buildExploreQuery('FIELDS');
+			this.datasource.metricFindQuery(fieldsQuery).then(results => { 
+			
+			for(let i of results){
+				console.log(i); 
+				console.log(i.text); 
+				console.log(i.text.substring(0, 4)); 
+				
+				if(i.text.substring(0, 4) == "sens"){
+					sensStrings.push(i.text);
+				}else if(i.text.substring(0, 4) == "simu"){
+					simStrings.push(i.text);
+				}
+			}
+			
+			if(this.templateSrv.variableExists("$Sensor")){
+				this.templateSrv.getVarFromIndex()["Sensor"].query = sensStrings.join(',');
+				this.variableSrv.updateOptions(this.templateSrv.getVarFromIndex()["Sensor"]);
+			}else{
+				variable = this.variableSrv.createVariableFromModel( {type: "custom"} );
+				variable.name = "Sensor";
+				variable.query = sensStrings.join(',');
+				this.variableSrv.updateOptions(variable);
+				this.variableSrv.addVariable(variable);
+				console.log(this.templateSrv.getVarFromIndex()["Sensor"]);
+			}
+			
+			if(this.templateSrv.variableExists("$Simulation")){
+				this.templateSrv.getVarFromIndex()["Simulation"].query = simStrings.join(',');
+				this.variableSrv.updateOptions(this.templateSrv.getVarFromIndex()["Simulation"]);
+			}else{
+				variable = this.variableSrv.createVariableFromModel( {type: "custom"} );
+				variable.name = "Simulation";
+				variable.query = simStrings.join(',');
+				this.variableSrv.updateOptions(variable);
+				this.variableSrv.addVariable(variable);
+				console.log(this.templateSrv.getVarFromIndex()["Simulation"]);
+			}
+		});
+
+  }
+  
   handleSelectPartEvent(selectParts, part, evt) {
     switch (evt.name) {
       case 'get-param-options': {
@@ -384,3 +434,6 @@ export class InfluxQueryCtrl extends QueryCtrl {
     return this.queryModel.render(false);
   }
 }
+
+
+
