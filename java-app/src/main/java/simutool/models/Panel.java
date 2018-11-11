@@ -68,9 +68,14 @@ public class Panel {
 		this.curingCyclePath = curingCyclePath;
 	}
 	public boolean filesAreCSV() {
-		boolean simIsValid =  simulationPath == null || simulationPath.getName().substring(simulationPath.getName().lastIndexOf('.') + 1).equals(".csv");
-		boolean curIsValid = curingCyclePath == null || curingCyclePath.getName().substring(curingCyclePath.getName().lastIndexOf('.') + 1).equals(".csv");
-		boolean sensIsValid = sensorPath == null || sensorPath.getName().substring(sensorPath.getName().lastIndexOf('.') + 1).equals(".csv");
+		boolean simIsValid =  simulationPath == null || simulationPath.length() < 1 || simulationPath.getName().substring(simulationPath.getName().lastIndexOf('.') + 1).equals("csv");
+		boolean curIsValid = curingCyclePath == null || curingCyclePath.length() < 1 || curingCyclePath.getName().substring(curingCyclePath.getName().lastIndexOf('.') + 1).equals("csv");
+		boolean sensIsValid = sensorPath == null || sensorPath.length() < 1 || sensorPath.getName().substring(sensorPath.getName().lastIndexOf('.') + 1).equals("csv");
+
+		System.out.println(simulationPath + " : " + simIsValid);
+		System.out.println(curingCyclePath + " : " + curIsValid);
+		System.out.println(sensorPath + " : " + sensIsValid);
+		System.out.println(simIsValid && curIsValid && sensIsValid);
 
 		return simIsValid && curIsValid && sensIsValid;
 	}

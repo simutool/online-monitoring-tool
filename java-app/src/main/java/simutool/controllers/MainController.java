@@ -113,6 +113,10 @@ public class MainController {
 	
 	@PostMapping("/newpanel")
 		public String savePanel(@ModelAttribute Panel panel, Model m) {
+			System.out.println(panel.getSensorPath());
+			System.out.println(panel.getSimulationPath() );
+			System.out.println(panel.getCuringCyclePath() );
+
 			if(panel.filesAreCSV()) {
 				pendingPanels.add(panel);
 			}else {

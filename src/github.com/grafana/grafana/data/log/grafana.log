@@ -3629,3 +3629,4 @@ t=2018-11-11T16:49:06+0100 lvl=eror msg="Failed to get user with id" logger=cont
 t=2018-11-11T16:49:06+0100 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/api/datasources/proxy/1/query status=401 remote_addr=[::1] time_ms=12 size=26 referer="http://localhost:8080/d/OSF-tramk/3-panels-monitoring?refresh=1s&orgId=1"
 t=2018-11-11T17:24:31+0100 lvl=eror msg="Failed to get user with id" logger=context userId=1 error="User not found"
 t=2018-11-11T17:24:31+0100 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/api/datasources/proxy/1/query status=401 remote_addr=[::1] time_ms=1699 size=26 referer="http://localhost:8080/d/OSF-tramk/3-panels-monitoring?refresh=1s&orgId=1"
+t=2018-11-11T19:19:46+0100 lvl=info msg="Database table locked, sleeping then retrying" logger=sqlstore retry=0
