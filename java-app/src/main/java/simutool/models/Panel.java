@@ -67,6 +67,13 @@ public class Panel {
 	public void setCuringCyclePath(File curingCyclePath) {
 		this.curingCyclePath = curingCyclePath;
 	}
+	public boolean filesAreCSV() {
+		boolean simIsValid =  simulationPath == null || simulationPath.getName().substring(simulationPath.getName().lastIndexOf('.') + 1).equals(".csv");
+		boolean curIsValid = curingCyclePath == null || curingCyclePath.getName().substring(curingCyclePath.getName().lastIndexOf('.') + 1).equals(".csv");
+		boolean sensIsValid = sensorPath == null || sensorPath.getName().substring(sensorPath.getName().lastIndexOf('.') + 1).equals(".csv");
+
+		return simIsValid && curIsValid && sensIsValid;
+	}
 	
 	
 	

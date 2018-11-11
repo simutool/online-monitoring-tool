@@ -112,13 +112,17 @@ public class MainController {
 	}
 	
 	@PostMapping("/newpanel")
-		public String savePanel(@ModelAttribute Panel panel) {
+		public String savePanel(@ModelAttribute Panel panel, Model m) {
+			if(panel.filesAreCSV()) {
+				pendingPanels.add(panel);
+			}else {
+				m.addAttribute("panelError", "Only CSV files are allowed");
+			}
+			m.addAttribute("simulation", pendingSimulation);
+			m.addAttribute("panel", new Panel());
+			m.addAttribute("pendingPanels", pendingPanels);
+			return "new-sim";
 
-			System.out.println(panel.getName());
-			System.out.println(panel.getSensorPath());
-			System.out.println(panel.getSimulationPath());
-			pendingPanels.add(panel);
-			return "redirect:/newsimulation";
 	}
 	
 	@GetMapping("/removePanel/{id}")

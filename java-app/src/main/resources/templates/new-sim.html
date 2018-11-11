@@ -48,7 +48,7 @@
             </form>
     </div>
 
-        <div id="newPanelModal" class="modal" tabindex="-1" role="dialog">
+        <div id="newPanelModal" class="modal"  tabindex="-1" role="dialog">
              <div class="modal-dialog" role="document">
                <form class="form-group col-12" action="#" th:action="@{/newpanel}" th:object="${panel}" method="post">
                 <div class="modal-content">
@@ -59,6 +59,7 @@
                           </button>
                     </div>
                      <div class="modal-body">
+                        <span style="color: red;" th:text="${panelError}"></span>
                         <p >Name: <input class="form-control" type="text" th:field="*{name}" /></p>
                         <p >Sensor: <input class="form-control" type="file" th:field="*{sensorPath}" /></p>
                         <p >Simulation: <input class="form-control" type="file" th:field="*{simulationPath}" /></p>
@@ -73,4 +74,9 @@
             </div>
         </div>
 </body>
+<script type="text/javascript"  th:if="${panelError != null}">
+    $(window).on('load',function(){
+        $('#newPanelModal').modal('show');
+    });
+</script>
 </html>
