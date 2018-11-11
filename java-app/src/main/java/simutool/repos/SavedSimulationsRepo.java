@@ -51,8 +51,9 @@ public class SavedSimulationsRepo {
 			String name = rs.getString("name");
 			 String sensorPath = rs.getString("sensorPath");
 			 String simulationPath = rs.getString("simulationPath");
+			 String curingCyclePath = rs.getString("curingCyclePath");
 			 int simulationId = rs.getInt("simulationId");
-			return new Panel(id, name, new File(sensorPath), new File(simulationPath), simulationId);
+			return new Panel(id, name, new File(sensorPath), new File(simulationPath), new File(curingCyclePath), simulationId);
 		}
 	};
 }

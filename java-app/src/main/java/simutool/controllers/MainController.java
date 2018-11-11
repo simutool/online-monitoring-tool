@@ -42,7 +42,6 @@ public class MainController {
 	@RequestMapping("/home")
 		public String startMenu(Model m) {
 			m.addAttribute("saved", simRepo.getAllSavedSimulations());
-			influx.startInflux();
 			return "index";
 	}
 	
@@ -83,7 +82,11 @@ public class MainController {
 			else {
 				List<FileDTO> sims = parser.parseFilesForPanels(pendingPanels, "sensor");
 				List<FileDTO> sens = parser.parseFilesForPanels(pendingPanels, "simulation");
-				influx.addSimulationPoints(sims);
+				List<FileDTO> cur = parser.parseFilesForPanels(pendingPanels, "curing_cycle");
+
+				influx.tearDownTables();
+				influx.addSimulationPoints(sims, "simulation");
+				influx.addSimulationPoints(cur, "curing_cycle");
 				influx.simulateSensor(1000, sens);
 				String redirectLink;
 				switch(pendingPanels.size()){

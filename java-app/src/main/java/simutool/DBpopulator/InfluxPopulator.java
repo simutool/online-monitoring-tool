@@ -1,5 +1,6 @@
 package simutool.DBpopulator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,6 +27,7 @@ public class InfluxPopulator {
 	final String tableName = "test";
 	static InfluxDB influxDB;
 	Parser parser;
+	Timer timer;
 	
 	@Value("${influx.host}")
 	private String influxHost;
@@ -36,17 +38,26 @@ public class InfluxPopulator {
 	@Value("${influx.password}")
 	private String influxPassword;
 	
-	public void createConnection(String dbName, String url, String username, String password) {
-		influxDB = InfluxDBFactory.connect(url, username, password);
-		Query dropQuery = new Query("DROP database " + dbName, dbName);
-		Query createQuery = new Query("create database " + dbName, dbName);
-
-		influxDB.query(dropQuery);
-		influxDB.query(createQuery);
-		influxDB.setDatabase(dbName);
+	public void createConnection() {
+		influxDB = InfluxDBFactory.connect(influxHost, influxUser, influxPassword);
+		influxDB.setDatabase(tableName);
 		// String rpName = "aRetentionPolicy";
 		// influxDB.setRetentionPolicy(rpName);
 		influxDB.enableBatch(BatchOptions.DEFAULTS);
+	}
+	
+	public void tearDownTables() {
+		Query dropQuery = new Query("DROP database " + tableName, tableName);
+		Query createQuery = new Query("create database " + tableName, tableName);
+		influxDB.query(dropQuery);
+		influxDB.query(createQuery);
+		//tear down sensor threads
+		if(timer != null ) {
+			timer.cancel();
+			timer.purge();
+		}
+		
+
 	}
 	
 	/**
@@ -54,12 +65,11 @@ public class InfluxPopulator {
 	 * @param millis Interval between series
 	 */
 	public void simulateSensor(int millis, List<FileDTO> sensorData) {
-		Timer timer = new Timer();
+		timer = new Timer();
 		final CyclicBarrier gate = new CyclicBarrier(sensorData.size()+1);
 
 		try {
 			for(FileDTO file : sensorData) {
-				System.out.println(111);
 				Thread t = new Thread() {
 					public void run() {
 						try {
@@ -108,19 +118,15 @@ public class InfluxPopulator {
 			this.threadNum = threadNum;
 			counter = 0;
 			shift =  System.currentTimeMillis() - Long.valueOf( rows.get(0)[0] ) - 1;
-			System.out.println("sensor: ");
+			System.out.println("Start adding sensor");
 		}
 
 		public void run() {
 			String[] data = rows.get(counter);
 
-			if(counter < 5) {
-				System.out.println(Long.parseLong(data[0]) + shift);
-			}
 			Point point = Point.measurement(tableName).time( Long.parseLong(data[0])*1000 + shift, TimeUnit.MILLISECONDS)
 					.addField("sensor_" + threadNum, Double.parseDouble((data[1]))).build();
 			influxDB.write(point);
-			System.out.println(point.lineProtocol());
 
 			influxDB.close();
 			counter++;
@@ -135,24 +141,22 @@ public class InfluxPopulator {
 	/**
 	 * Pushes data from all simulation files as corresponding measurements
 	 */
-	public void addSimulationPoints(List<FileDTO> simData) {
+	public void addSimulationPoints(List<FileDTO> simData, String type) {
 		try {
 			for (FileDTO file : simData) {
 				List<String[]> rows = file.getRows();
 				Builder builder = BatchPoints.database(tableName);
 				long shift = System.currentTimeMillis() - Long.valueOf(rows.get(0)[0]) - 1;
-				System.out.println("simulation: ");
-				System.out.println(Long.parseLong(rows.get(0)[0]) + shift);
-				System.out.println(Long.parseLong(rows.get(1)[0]) + shift);
-				System.out.println(Long.parseLong(rows.get(2)[0]) + shift);
-				System.out.println(Long.parseLong(rows.get(3)[0]) + shift);
+				
 				for (String[] data : rows) {
 					Point batchPoint = Point.measurement(tableName)
 							.time(Long.valueOf(data[0]) * 1000 + shift, TimeUnit.MILLISECONDS)
-							.addField("simulation_" + file.getNumber(), Double.parseDouble((data[1]))).build();
+							.addField(type + "_" + file.getNumber(), Double.parseDouble((data[1]))).build();
 					builder.points(batchPoint);
 
 				}
+				System.out.println(" adding " + type);
+
 				influxDB.write(builder.build());
 				influxDB.close();
 			}
@@ -164,8 +168,7 @@ public class InfluxPopulator {
 	
 	
 	public void startInflux() {
-		createConnection(tableName, influxHost, influxUser, influxPassword);
-		System.out.println("InfluxDB server started.");
+		createConnection();
 	}
 	
 	public static void main(String[] args) {

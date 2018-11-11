@@ -9,19 +9,20 @@ public class Panel {
 	private File sensorPath;
 	private File simulationPath;
 	private int simulationId;
-	
+	private File curingCyclePath;
 	
 	
 	public Panel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Panel(int id, String name, File sensorPath, File simulationPath, int simulationId) {
+	public Panel(int id, String name, File sensorPath, File simulationPath, File curingCyclePath, int simulationId) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.sensorPath = sensorPath;
 		this.simulationPath = simulationPath;
+		this.curingCyclePath = curingCyclePath;
 		this.simulationId = simulationId;
 	}
 	public Panel(String name, File sensorPath, File simulationPath) {
@@ -60,6 +61,13 @@ public class Panel {
 	public void setSimulationPath(File simulationPath) {
 		this.simulationPath = simulationPath;
 	}
+	public File getCuringCyclePath() {
+		return curingCyclePath;
+	}
+	public void setCuringCyclePath(File curingCyclePath) {
+		this.curingCyclePath = curingCyclePath;
+	}
+	
 	
 	
 

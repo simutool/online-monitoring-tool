@@ -59,7 +59,15 @@ public class Parser {
     	int counter = 1;
     	
 	    for (final Panel p : panels) {
-	    	String path = type.equals("sensor") ? folderSim + p.getSensorPath().getName() : folderSim + p.getSimulationPath().getName();
+	    	String path;
+	    	if(type.equals("sensor")) {
+	    		path = folderSim + p.getSensorPath().getName();
+	    	}else if(type.equals("simulation")) {
+	    		path = folderSim + p.getSimulationPath().getName();
+	    	}else {
+	    		path = folderSim + p.getCuringCyclePath().getName();
+	    	}
+	    	
 	        	try {
 					Reader r = new FileReader(path);
 			    	List<String[]> rows = null;	 
@@ -86,7 +94,7 @@ public class Parser {
 					
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					files.add(null);
 				}		
 	        }
 	    return files;

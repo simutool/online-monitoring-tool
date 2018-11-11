@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>New Simulation</title>
+    <title>New experiment</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous"></link>
@@ -13,13 +13,13 @@
 <body>
 
     <div class="introCont col-8 offset-2 secondaryPanel">
-            <h1>New simulation:</h1>
+            <h1>New experiment:</h1>
             <form class="form-group col-12" action="#" th:action="@{/newsimulation}" th:object="${simulation}" method="post">
                 <span style="color: red;" th:text="${error}"></span>
                 <p >Name: <input class="form-control" type="text" th:field="*{name}" /></p>
 
                  <div class="addPanelCont">
-                    <h4>Graphs:</h4>
+                    <h4>Panels:</h4>
                         <div class="col-12">
                             <div data-toggle="modal" data-target="#newPanelModal" class="col-3 panelConts" th:classappend="${pendingPanels.size()>0} ? dummy : noPanel" >
                                 <a >
@@ -53,7 +53,7 @@
                <form class="form-group col-12" action="#" th:action="@{/newpanel}" th:object="${panel}" method="post">
                 <div class="modal-content">
                     <div class="modal-header">
-                          <h5 class="modal-title">New graph</h5>
+                          <h5 class="modal-title">New panel</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                              <span aria-hidden="true">&times;</span>
                           </button>
@@ -62,7 +62,7 @@
                         <p >Name: <input class="form-control" type="text" th:field="*{name}" /></p>
                         <p >Sensor: <input class="form-control" type="file" th:field="*{sensorPath}" /></p>
                         <p >Simulation: <input class="form-control" type="file" th:field="*{simulationPath}" /></p>
-
+                        <p >Curing cycle: <input class="form-control" type="file" th:field="*{curingCyclePath}" /></p>
                     </div>
                     <div class="modal-footer">
                         <a th:href="@{/newpanel}"><button type="submit" class="btn btn-primary">Save changes</button></a>
