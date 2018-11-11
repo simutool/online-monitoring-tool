@@ -66,6 +66,8 @@ public class InfluxPopulator {
 	 */
 	public void simulateSensor(int millis, List<FileDTO> sensorData) {
 		timer = new Timer();
+		sensorData.removeIf(i -> i == null);
+		
 		final CyclicBarrier gate = new CyclicBarrier(sensorData.size()+1);
 
 		try {
@@ -143,6 +145,8 @@ public class InfluxPopulator {
 	 */
 	public void addSimulationPoints(List<FileDTO> simData, String type) {
 		try {
+			simData.removeIf(i -> i == null);
+
 			for (FileDTO file : simData) {
 				List<String[]> rows = file.getRows();
 				Builder builder = BatchPoints.database(tableName);

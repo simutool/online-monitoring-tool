@@ -90,12 +90,12 @@ public class Parser {
 						System.out.println("File added:    name: " + parsedFile.getName() +
 								", datasourse: " + parsedFile.getDatasource_id() + ", rows count: " +
 								parsedFile.getRows().size());
-						counter++;	
 					
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					files.add(null);
-				}		
+				}	
+				counter++;	
 	        }
 	    return files;
 	}
