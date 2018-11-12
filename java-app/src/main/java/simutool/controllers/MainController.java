@@ -117,16 +117,19 @@ public class MainController {
 			System.out.println(panel.getSimulationPath() );
 			System.out.println(panel.getCuringCyclePath() );
 
-			if(panel.filesAreCSV()) {
-				pendingPanels.add(panel);
-			}else {
+			if(!panel.filesAreCSV()) {
 				m.addAttribute("panelError", "Only CSV files are allowed");
+			}else if(panel.allPathsEmpty()){
+				m.addAttribute("panelError", "You must pick at least one dataset");
+			}else if(panel.getName() == null || panel.getName().length()<1){
+				m.addAttribute("panelError", "Name shall not be empty");
+			}else {
+				pendingPanels.add(panel);
 			}
 			m.addAttribute("simulation", pendingSimulation);
 			m.addAttribute("panel", new Panel());
 			m.addAttribute("pendingPanels", pendingPanels);
 			return "new-sim";
-
 	}
 	
 	@GetMapping("/removePanel/{id}")

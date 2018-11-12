@@ -68,9 +68,9 @@ public class Panel {
 		this.curingCyclePath = curingCyclePath;
 	}
 	public boolean filesAreCSV() {
-		boolean simIsValid =  simulationPath == null || simulationPath.length() < 1 || simulationPath.getName().substring(simulationPath.getName().lastIndexOf('.') + 1).equals("csv");
-		boolean curIsValid = curingCyclePath == null || curingCyclePath.length() < 1 || curingCyclePath.getName().substring(curingCyclePath.getName().lastIndexOf('.') + 1).equals("csv");
-		boolean sensIsValid = sensorPath == null || sensorPath.length() < 1 || sensorPath.getName().substring(sensorPath.getName().lastIndexOf('.') + 1).equals("csv");
+		boolean simIsValid =  simulationPath == null || simulationPath.getName().length() < 1 || simulationPath.getName().substring(simulationPath.getName().lastIndexOf('.') + 1).equals("csv");
+		boolean curIsValid = curingCyclePath == null || curingCyclePath.getName().length() < 1 || curingCyclePath.getName().substring(curingCyclePath.getName().lastIndexOf('.') + 1).equals("csv");
+		boolean sensIsValid = sensorPath == null || sensorPath.getName().length() < 1 || sensorPath.getName().substring(sensorPath.getName().lastIndexOf('.') + 1).equals("csv");
 
 		System.out.println(simulationPath + " : " + simIsValid);
 		System.out.println(curingCyclePath + " : " + curIsValid);
@@ -78,6 +78,18 @@ public class Panel {
 		System.out.println(simIsValid && curIsValid && sensIsValid);
 
 		return simIsValid && curIsValid && sensIsValid;
+	}
+	public boolean allPathsEmpty() {
+		boolean simIsEmpty =  simulationPath == null || simulationPath.getName().length() < 1;
+		boolean curIsEmpty =  curingCyclePath == null || curingCyclePath.getName().length() < 1;
+		boolean sensIsEmpty =  sensorPath == null || sensorPath.getName().length() < 1 ;
+		
+		System.out.println(simulationPath + " : " + simIsEmpty);
+		System.out.println(curingCyclePath + " : " + curIsEmpty);
+		System.out.println(sensorPath + " : " + sensIsEmpty);
+		System.out.println(simIsEmpty && curIsEmpty && sensIsEmpty);
+		
+		return simIsEmpty && curIsEmpty && sensIsEmpty;
 	}
 	
 	
