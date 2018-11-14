@@ -16,8 +16,8 @@ import simutool.models.Simulation;
 @Repository
 public class SavedSimulationsRepo {
 
-	@Autowired
-	private JdbcTemplate template;
+	 @Autowired
+	private JdbcTemplate template; 
 	
 	public List<Simulation> getAllSavedSimulations() {
 		List<Simulation> simList = template.query("SELECT * FROM simulations", simulationsRowMapper);
@@ -55,5 +55,5 @@ public class SavedSimulationsRepo {
 			 int simulationId = rs.getInt("simulationId");
 			return new Panel(id, name, new File(sensorPath), new File(simulationPath), new File(curingCyclePath), simulationId);
 		}
-	};
+	}; 
 }

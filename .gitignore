@@ -22,6 +22,10 @@ docs/GIT_BRANCH
 docs/GITCOMMIT
 docs/changed-files
 
+src/github.com/grafana/grafana/data/log/
+src/github.com/grafana/grafana/data/sessions
+ 
+ 
 # locally required config files
 public/css/*.min.css
 

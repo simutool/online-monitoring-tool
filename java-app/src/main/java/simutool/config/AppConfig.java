@@ -35,7 +35,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
         return new JdbcTemplate(dataSource);
     }
  
- 
+ /*// POSTGRES stuff - currently not in use
     @Bean
     public DataSource dataSource()
     {
@@ -58,7 +58,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
         dataSourceInitializer.setEnabled(Boolean.parseBoolean(initDatabase));
         return dataSourceInitializer;
     }
-    
+    */
 
 	
 	

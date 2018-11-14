@@ -29,7 +29,7 @@ public class StartApp {
 	}
 	
 	@PostConstruct
-	public void inluxStart() {
+	public void influxStart() {
 		influx.startInflux();
 	}
 

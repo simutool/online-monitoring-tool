@@ -4,11 +4,11 @@
     <title>New experiment</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous"></link>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"></link>
     <link rel="stylesheet" type="text/css" th:href="@{/index.css}"></link>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/jquery.min.js}" ></script>
+        <script th:src="@{/js/bootstrap.min.js}" ></script>
+
 </head>
 <body>
 
@@ -21,22 +21,22 @@
                  <div class="addPanelCont">
                     <h4>Panels:</h4>
                         <div class="col-12">
-                            <div data-toggle="modal" data-target="#newPanelModal" class="col-3 panelConts" th:classappend="${pendingPanels.size()>0} ? dummy : noPanel" >
-                                <a >
+                            <div  class="col-3 panelConts" th:classappend="${pendingPanels.size()>0} ? dummy : noPanel" >
+                                <a data-toggle="modal" data-target="#newPanelModal" th:onclick="${pendingPanels.size()>0 ? 'passPanelInfo(' + pendingPanels.get(0).id + ')' : ''}">
                                     <img th:if="${pendingPanels.size()>0}" th:src="@{/icn-panel.svg}" class=" " ></img>
                                     <span th:text="${pendingPanels.size()>0 ? pendingPanels.get(0).name : '+'}"  class="col-12 panelLabel">Add new graph</span>
                                 </a>
                                 <a class="btn btn-outline-danger" th:if="${pendingPanels.size()>0}" th:href="@{'/removePanel/' + ${pendingPanels.get(0).id}}">Remove &times;</a>
                             </div>
-                            <div data-toggle="modal" data-target="#newPanelModal" class="col-3 panelConts" th:classappend="${pendingPanels.size()>1} ? dummy : noPanel" >
-                                <a>
+                            <div  class="col-3 panelConts" th:classappend="${pendingPanels.size()>1} ? dummy : noPanel" >
+                                <a data-toggle="modal" data-target="#newPanelModal">
                                     <img th:if="${pendingPanels.size()>1}" th:src="@{/icn-panel.svg}" class=" " ></img>
                                     <span th:text="${pendingPanels.size()>1 ? pendingPanels.get(1).name : '+'}" class="col-12 panelLabel">Add new graph</span>
                                 </a>
                                 <a class="btn btn-outline-danger" th:if="${pendingPanels.size()>1}" th:href="@{'/removePanel/' + ${pendingPanels.get(1).id}}">Remove &times;</a>
                             </div>
-                            <div data-toggle="modal" data-target="#newPanelModal" class="col-3 panelConts" th:classappend="${pendingPanels.size()>2} ? dummy : noPanel" >
-                                <a>
+                            <div class="col-3 panelConts" th:classappend="${pendingPanels.size()>2} ? dummy : noPanel" >
+                                <a data-toggle="modal" data-target="#newPanelModal">
                                     <img th:if="${pendingPanels.size()>2}" th:src="@{/icn-panel.svg}" class=" " ></img>
                                     <span th:text="${pendingPanels.size()>2 ? pendingPanels.get(2).name : '+'}" class="col-12 panelLabel">Add new graph</span>
                                 </a>
@@ -60,10 +60,11 @@
                     </div>
                      <div class="modal-body">
                         <span style="color: red;" th:text="${panelError}"></span>
-                        <p >Name: <input class="form-control" type="text" th:field="*{name}" /></p>
-                        <p >Sensor: <input class="form-control" type="file" th:field="*{sensorPath}" /></p>
-                        <p >Simulation: <input class="form-control" type="file" th:field="*{simulationPath}" /></p>
-                        <p >Curing cycle: <input class="form-control" type="file" th:field="*{curingCyclePath}" /></p>
+                        <input class="form-control" id="modalId" type="text" style="display: none;" th:field="*{id}" />
+                        <p >Name: <input class="form-control" id="modalName" type="text" th:field="*{name}" /></p>
+                        <p >Sensor: <input class="form-control" id="modalSens" type="file" th:field="*{sensorPath}" /></p>
+                        <p >Simulation: <input class="form-control"  id="modalSim" type="file" th:field="*{simulationPath}" /></p>
+                        <p >Curing cycle: <input class="form-control"  id="modalCur" type="file" th:field="*{curingCyclePath}" /></p>
                     </div>
                     <div class="modal-footer">
                         <a th:href="@{/newpanel}"><button type="submit" class="btn btn-primary">Save changes</button></a>
@@ -78,5 +79,12 @@
     $(window).on('load',function(){
         $('#newPanelModal').modal('show');
     });
+</script>
+<script>
+    function passPanelInfo(id){
+                $("#modalId").val( id );
+
+        console.log(id);
+    }
 </script>
 </html>

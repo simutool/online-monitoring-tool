@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import simutool.CSVprocessor.FileDTO;
 import simutool.CSVprocessor.Parser;
@@ -80,8 +82,8 @@ public class MainController {
 				System.out.println("You must add at least 1 graph");
 			}
 			else {
-				List<FileDTO> sims = parser.parseFilesForPanels(pendingPanels, "sensor");
-				List<FileDTO> sens = parser.parseFilesForPanels(pendingPanels, "simulation");
+				List<FileDTO> sens  = parser.parseFilesForPanels(pendingPanels, "sensor");
+				List<FileDTO> sims  = parser.parseFilesForPanels(pendingPanels, "simulation");
 				List<FileDTO> cur = parser.parseFilesForPanels(pendingPanels, "curing_cycle");
 
 				influx.tearDownTables();
@@ -112,31 +114,48 @@ public class MainController {
 	}
 	
 	@PostMapping("/newpanel")
-		public String savePanel(@ModelAttribute Panel panel, Model m) {
+		public String savePanel(@ModelAttribute Panel panel, Model m, final RedirectAttributes redirectAttributes) {
 			System.out.println(panel.getSensorPath());
 			System.out.println(panel.getSimulationPath() );
 			System.out.println(panel.getCuringCyclePath() );
 
 			if(!panel.filesAreCSV()) {
-				m.addAttribute("panelError", "Only CSV files are allowed");
+			//	m.addAttribute("panelError", "Only CSV files are allowed");
+				redirectAttributes.addFlashAttribute("panelError", "Only CSV files are allowed");
 			}else if(panel.allPathsEmpty()){
-				m.addAttribute("panelError", "You must pick at least one dataset");
+				redirectAttributes.addFlashAttribute("panelError", "You must pick at least one dataset");
 			}else if(panel.getName() == null || panel.getName().length()<1){
-				m.addAttribute("panelError", "Name shall not be empty");
+				redirectAttributes.addFlashAttribute("panelError", "Name shall not be empty");
 			}else {
-				pendingPanels.add(panel);
+				boolean panelWasEdited = false;
+				for(Panel p : pendingPanels) {
+					if(p.getId() == panel.getId()) {
+						p.setName(panel.getName());
+						p.setSensorPath(panel.getSensorPath());
+						p.setSimulationPath(panel.getSimulationPath());
+						p.setCuringCyclePath(panel.getCuringCyclePath());
+						panelWasEdited = true;
+					}
+				}
+				if(!panelWasEdited) {
+					panel.setId();
+					pendingPanels.add(panel);	
+				}
 			}
-			m.addAttribute("simulation", pendingSimulation);
-			m.addAttribute("panel", new Panel());
-			m.addAttribute("pendingPanels", pendingPanels);
-			return "new-sim";
+			return "redirect:/newsimulation";
 	}
 	
 	@GetMapping("/removePanel/{id}")
-	public String removePanel(Long id) {
-		for(Panel p : pendingPanels) {
-			if(p.getId() == id)
-				pendingPanels.remove(p);
+	public String removePanel(@PathVariable(value="id") Long id) {
+		Panel panelToRemove = null;
+		for(Panel p : pendingPanels) {	
+			if(p.getId() == id){
+				panelToRemove = p;
+				break;
+			}
+		}
+		if(panelToRemove != null) {
+			pendingPanels.remove(panelToRemove);
 		}
 		return "redirect:/newsimulation";
 }

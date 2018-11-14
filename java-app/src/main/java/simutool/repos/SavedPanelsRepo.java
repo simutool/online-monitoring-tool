@@ -20,12 +20,12 @@ import simutool.models.Simulation;
 public class SavedPanelsRepo {
 
 	@Autowired
-	private JdbcTemplate template;
+	private JdbcTemplate template; 
 	
 	public List<Simulation> getPanelsForSimulation() {
 		List<Simulation> simList = template.query("SELECT * FROM simulations", panelsRowMapper);
 		return simList;
-	}
+	} 
 	
 	public RowMapper<Simulation> panelsRowMapper = new RowMapper<Simulation>() {
 		@Override
@@ -35,5 +35,5 @@ public class SavedPanelsRepo {
 			int panelNum = rs.getInt("panelsnum");
 			return new Simulation(id, name, panelNum);
 		}
-	};
+	}; 
 }

@@ -4,6 +4,7 @@ import java.io.File;
 
 public class Panel {
 	
+	private static int nextId = 0;	
 	private int id;
 	private String name;
 	private File sensorPath;
@@ -40,8 +41,9 @@ public class Panel {
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId() {
+		this.id = nextId;
+		nextId++;
 	}
 	public String getName() {
 		return name;
@@ -91,8 +93,14 @@ public class Panel {
 		
 		return simIsEmpty && curIsEmpty && sensIsEmpty;
 	}
-	
-	
+	public static long getNextId() {
+		return nextId;
+	}
+	@Override
+	public String toString() {
+		return "Panel [id=" + id + ", name=" + name + ", sensorPath=" + sensorPath + ", simulationPath="
+				+ simulationPath + ", simulationId=" + simulationId + ", curingCyclePath=" + curingCyclePath + "]";
+	}
 	
 
 }
