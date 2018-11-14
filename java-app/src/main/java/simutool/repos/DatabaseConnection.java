@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
 	
-	static Connection connection;
+/*	static Connection connection;
 	
 	public void setConnection() {
 		try{
@@ -19,5 +19,5 @@ public class DatabaseConnection {
 	        System.out.println("Connection failure.");
 	        e.printStackTrace();
 	    }	
-	}
+	} */
 }

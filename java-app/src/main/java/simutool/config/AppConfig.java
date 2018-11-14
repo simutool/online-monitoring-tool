@@ -16,12 +16,11 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@Configuration
 @ComponentScan
-@EnableTransactionManagement
 @PropertySource(value = { "classpath:application.properties" })
 public class AppConfig extends WebMvcConfigurerAdapter{
-	
+	 /*// POSTGRES stuff - currently not in use
+
     @Autowired
     private Environment env;
 	
@@ -35,7 +34,6 @@ public class AppConfig extends WebMvcConfigurerAdapter{
         return new JdbcTemplate(dataSource);
     }
  
- /*// POSTGRES stuff - currently not in use
     @Bean
     public DataSource dataSource()
     {

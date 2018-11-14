@@ -16,15 +16,15 @@ import simutool.models.Simulation;
 @Repository
 public class SavedSimulationsRepo {
 
-	 @Autowired
-	private JdbcTemplate template; 
+	/* @Autowired
+	private JdbcTemplate template; */
 	
 	public List<Simulation> getAllSavedSimulations() {
-		List<Simulation> simList = template.query("SELECT * FROM simulations", simulationsRowMapper);
-		return simList;
+		// List<Simulation> simList = template.query("SELECT * FROM simulations", simulationsRowMapper);
+		return null;
 	}
 	
-	public RowMapper<Simulation> simulationsRowMapper = new RowMapper<Simulation>() {
+/*	public RowMapper<Simulation> simulationsRowMapper = new RowMapper<Simulation>() {
 		@Override
 		public Simulation mapRow(ResultSet rs, int i) throws SQLException {
 			int id = rs.getInt("id");
@@ -32,14 +32,14 @@ public class SavedSimulationsRepo {
 			int panelNum = rs.getInt("panelsnum");
 			return new Simulation(id, name, panelNum);
 		}
-	};
+	}; */
 	
 	public boolean simulationNameExists(String name) {
-		boolean exists = template.queryForObject("SELECT COUNT(id) FROM simulations where name='" + name + "'", Integer.class) > 0;
-		return exists;
+	//	boolean exists = template.queryForObject("SELECT COUNT(id) FROM simulations where name='" + name + "'", Integer.class) > 0;
+		return false;
 	}
 	
-	public List<Panel> getAllPanelsForSimulation(int simId) {
+	/* public List<Panel> getAllPanelsForSimulation(int simId) {
 		List<Panel> simList = template.query("SELECT * FROM panels where simulationId=" + simId, panelsForSimulationRowMapper);
 		return simList;
 	}
@@ -55,5 +55,5 @@ public class SavedSimulationsRepo {
 			 int simulationId = rs.getInt("simulationId");
 			return new Panel(id, name, new File(sensorPath), new File(simulationPath), new File(curingCyclePath), simulationId);
 		}
-	}; 
+	}; */
 }

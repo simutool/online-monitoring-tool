@@ -54,9 +54,12 @@ body{
     margin-top: 20px;
 }
 
-.addPanelCont .col-12 .panelConts{
+.addPanelCont .panelConts{
     cursor: pointer;
     min-height: 70px;
+}
+.panelConts.noPanel a{
+    line-height: 70px;
 }
 .addPanelCont .col-12 img{
     padding: 15px;

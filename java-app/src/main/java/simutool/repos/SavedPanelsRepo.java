@@ -19,7 +19,7 @@ import simutool.models.Simulation;
 @Repository
 public class SavedPanelsRepo {
 
-	@Autowired
+/*	@Autowired
 	private JdbcTemplate template; 
 	
 	public List<Simulation> getPanelsForSimulation() {
@@ -35,5 +35,5 @@ public class SavedPanelsRepo {
 			int panelNum = rs.getInt("panelsnum");
 			return new Simulation(id, name, panelNum);
 		}
-	}; 
+	}; */
 }
