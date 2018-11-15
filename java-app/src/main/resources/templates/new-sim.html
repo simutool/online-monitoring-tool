@@ -16,27 +16,27 @@
             <h1>New experiment:</h1>
             <form class="form-group col-12" action="#" th:action="@{/newsimulation}" th:object="${simulation}" method="post">
                 <span style="color: red;" th:text="${error}"></span>
-                <p >Name: <input class="form-control" type="text" th:field="*{name}" /></p>
+                <p >Name: <input class="form-control" id="simName" type="text" th:field="*{name}" value="pendingName"  /></p>
 
                  <div class="addPanelCont">
                     <h4>Panels:</h4>
                         <div class="col-12">
                             <div  class="col-3 panelConts" th:classappend="${pendingPanels.size()>0} ? dummy : noPanel" >
-                                <a data-toggle="modal" data-target="#newPanelModal" th:onclick="${pendingPanels.size()>0 ? 'passPanelInfo(' + pendingPanels.get(0).id + ')' : ''}">
+                                <a data-toggle="modal" data-target="#newPanelModal" th:onclick="${pendingPanels.size()>0 ? 'passPanelInfo(' + pendingPanels.get(0).id + ')' : 'passSimName()'}">
                                     <img th:if="${pendingPanels.size()>0}" th:src="@{/icn-panel.svg}" class=" " ></img>
                                     <span th:text="${pendingPanels.size()>0 ? pendingPanels.get(0).name : '+'}"  class="col-12 panelLabel">Add new graph</span>
                                 </a>
                                 <a class="btn btn-outline-danger" th:if="${pendingPanels.size()>0}" th:href="@{'/removePanel/' + ${pendingPanels.get(0).id}}">Remove &times;</a>
                             </div>
                             <div  class="col-3 panelConts" th:classappend="${pendingPanels.size()>1} ? dummy : noPanel" >
-                                <a data-toggle="modal" data-target="#newPanelModal">
+                                <a data-toggle="modal" data-target="#newPanelModal" th:onclick="${pendingPanels.size()>1 ? 'passPanelInfo(' + pendingPanels.get(1).id + ')' : 'passSimName()'}">
                                     <img th:if="${pendingPanels.size()>1}" th:src="@{/icn-panel.svg}" class=" " ></img>
                                     <span th:text="${pendingPanels.size()>1 ? pendingPanels.get(1).name : '+'}" class="col-12 panelLabel">Add new graph</span>
                                 </a>
                                 <a class="btn btn-outline-danger" th:if="${pendingPanels.size()>1}" th:href="@{'/removePanel/' + ${pendingPanels.get(1).id}}">Remove &times;</a>
                             </div>
                             <div class="col-3 panelConts" th:classappend="${pendingPanels.size()>2} ? dummy : noPanel" >
-                                <a data-toggle="modal" data-target="#newPanelModal">
+                                <a data-toggle="modal" data-target="#newPanelModal" th:onclick="${pendingPanels.size()>2 ? 'passPanelInfo(' + pendingPanels.get(2).id + ')' : 'passSimName()'}">
                                     <img th:if="${pendingPanels.size()>2}" th:src="@{/icn-panel.svg}" class=" " ></img>
                                     <span th:text="${pendingPanels.size()>2 ? pendingPanels.get(2).name : '+'}" class="col-12 panelLabel">Add new graph</span>
                                 </a>
@@ -60,6 +60,7 @@
                     </div>
                      <div class="modal-body">
                         <span style="color: red;" th:text="${panelError}"></span>
+                        <input style="display: none;" type="text" id="simulationNameForPanel" th:field="*{simulationName}"  />
                         <input class="form-control" id="modalId" type="text" style="display: none;" th:field="*{id}" />
                         <p >Name: <input class="form-control" id="modalName" type="text" th:field="*{name}" /></p>
                         <p >Sensor: <input class="form-control" id="modalSens" type="file" th:field="*{sensorPath}" /></p>
@@ -79,10 +80,19 @@
     $(window).on('load',function(){
         $('#newPanelModal').modal('show');
     });
+
 </script>
-<script>
+<script type="text/javascript" >
     function passPanelInfo(id){
         $("#modalId").val( id );
+        $('#simulationNameForPanel').val( $("#simName").val() );
     }
+    function passSimName(){
+        $('#simulationNameForPanel').val( $("#simName").val() );
+    }
+
+
 </script>
+
+
 </html>

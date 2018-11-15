@@ -4,12 +4,13 @@ import java.io.File;
 
 public class Panel {
 	
-	private static int nextId = 0;	
+	private static int nextId = 1;	
 	private int id;
 	private String name;
 	private File sensorPath;
 	private File simulationPath;
 	private int simulationId;
+	private String simulationName;
 	private File curingCyclePath;
 	
 	
@@ -41,7 +42,10 @@ public class Panel {
 	public int getId() {
 		return id;
 	}
-	public void setId() {
+	public void setId(int id) {
+		this.id = id;
+	}
+	public void setFinalId() {
 		this.id = nextId;
 		nextId++;
 	}
@@ -95,6 +99,13 @@ public class Panel {
 	}
 	public static long getNextId() {
 		return nextId;
+	}
+	
+	public String getSimulationName() {
+		return simulationName;
+	}
+	public void setSimulationName(String simulationName) {
+		this.simulationName = simulationName;
 	}
 	@Override
 	public String toString() {

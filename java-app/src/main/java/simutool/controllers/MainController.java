@@ -62,6 +62,8 @@ public class MainController {
 			pendingPanels = new ArrayList<Panel>();
 		}
 		m.addAttribute("simulation", pendingSimulation);
+		m.addAttribute("simulationName", pendingSimulation.getName());
+		System.out.println("pending sim name: " + pendingSimulation.getName());
 		m.addAttribute("panel", new Panel());
 		m.addAttribute("pendingPanels", pendingPanels);
 		return "new-sim";
@@ -71,15 +73,10 @@ public class MainController {
 	    public String saveSimulation(@ModelAttribute Simulation simulation, Model m) {
 			if(simulation.getName() == null || simulation.getName().length() < 1) {
 				m.addAttribute("error", "Enter a name");
-				System.out.println("Enter a name");
-
 			}else if(simRepo.simulationNameExists(simulation.getName())) {
 				m.addAttribute("error", "Simulation with this name already exists");
-				System.out.println("Simulation with this name already exists");
-
 			}else if(pendingPanels.size() < 1) {
 				m.addAttribute("error", "You must add at least 1 graph");
-				System.out.println("You must add at least 1 graph");
 			}
 			else {
 				List<FileDTO> sens  = parser.parseFilesForPanels(pendingPanels, "sensor");
@@ -104,10 +101,11 @@ public class MainController {
 						redirectLink = "d/OSF-tramk/3-panels-monitoring";
 					}
 				}
-
 				return "redirect://" + grafanaHost + redirectLink;
 			}
 			m.addAttribute("simulation", pendingSimulation);
+
+
 			m.addAttribute("panel", new Panel());
 			m.addAttribute("pendingPanels", pendingPanels);
 			return "new-sim";
@@ -115,9 +113,8 @@ public class MainController {
 	
 	@PostMapping("/newpanel")
 		public String savePanel(@ModelAttribute Panel panel, Model m, final RedirectAttributes redirectAttributes) {
-			System.out.println(panel.getSensorPath());
-			System.out.println(panel.getSimulationPath() );
-			System.out.println(panel.getCuringCyclePath() );
+			redirectAttributes.addFlashAttribute("pendingName", panel.getSimulationName());
+			pendingSimulation.setName(panel.getSimulationName());
 
 			if(!panel.filesAreCSV()) {
 			//	m.addAttribute("panelError", "Only CSV files are allowed");
@@ -129,6 +126,7 @@ public class MainController {
 			}else {
 				boolean panelWasEdited = false;
 				for(Panel p : pendingPanels) {
+
 					if(p.getId() == panel.getId()) {
 						p.setName(panel.getName());
 						p.setSensorPath(panel.getSensorPath());
@@ -138,7 +136,7 @@ public class MainController {
 					}
 				}
 				if(!panelWasEdited) {
-					panel.setId();
+					panel.setFinalId();
 					pendingPanels.add(panel);	
 				}
 			}
@@ -147,6 +145,7 @@ public class MainController {
 	
 	@GetMapping("/removePanel/{id}")
 	public String removePanel(@PathVariable(value="id") Long id) {
+
 		Panel panelToRemove = null;
 		for(Panel p : pendingPanels) {	
 			if(p.getId() == id){
