@@ -34,6 +34,7 @@ import simutool.repos.SavedSimulationsRepo;
 public class MainController {
 	
 	Simulation pendingSimulation;
+	Panel pendingPanel;
 	List<Panel> pendingPanels;
 	
 	@Autowired
@@ -70,10 +71,33 @@ public class MainController {
 		if(pendingPanels == null) {
 			pendingPanels = new ArrayList<Panel>();
 		}
+		if(pendingPanel == null) {
+			pendingPanel = new Panel();
+		}
 		m.addAttribute("simulation", pendingSimulation);
 		m.addAttribute("simulationName", pendingSimulation.getName());
-		System.out.println("pending sim name: " + pendingSimulation.getName());
-		m.addAttribute("panel", new Panel());
+		System.out.println("pendingSimulation.getName(): " + pendingSimulation.getName());
+		m.addAttribute("panel", pendingPanel);
+		m.addAttribute("pendingPanels", pendingPanels);
+		return "new-sim";
+	}
+	
+	@GetMapping("{simName}/newpanel/{id}")
+	public String getPanelForm(Model m, @PathVariable(value="id") Integer id, @PathVariable(value="simName") String simName) {
+		if(pendingPanels.size() > id) {
+			pendingPanel = pendingPanels.get(id);
+		}else {
+			pendingPanel = new Panel();
+		}
+		System.out.println("pendingSimulation 1: " + simName);
+
+		pendingSimulation.setName(simName);
+		System.out.println("pendingSimulation after: " + pendingSimulation.getName());
+
+		m.addAttribute("modal", true);
+		m.addAttribute("simulation", pendingSimulation);
+		m.addAttribute("simulationName", pendingSimulation.getName());
+		m.addAttribute("panel", pendingPanel);
 		m.addAttribute("pendingPanels", pendingPanels);
 		return "new-sim";
 	}
@@ -130,24 +154,14 @@ public class MainController {
 	
 	@PostMapping(value="/newpanel", consumes = "multipart/form-data")
 		public String savePanel(@ModelAttribute Panel panel, HttpServletRequest request, @RequestParam(name="sensorPath", required = false) MultipartFile file, Model m, final RedirectAttributes redirectAttributes) {
+		
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-
 		List<String> corruptedFiles = new ArrayList<String>(0);
 		System.out.println(1);
 			try {
-	
-				System.out.println(3);
-
 				panel.setSensorPath(multipartRequest.getPart("sensorPath").getSubmittedFileName());
-				System.out.println(4);
-
 					InputStream sensorStream = multipartRequest.getPart("sensorPath").getInputStream();
-					System.out.println(5);
-
 					Reader r = new InputStreamReader(sensorStream);
-					System.out.println(6);
-
-					System.out.println(7);
 					String extension = multipartRequest.getPart("sensorPath").getSubmittedFileName().substring(multipartRequest.getPart("sensorPath").getSubmittedFileName().lastIndexOf('.') + 1);
 					if(!extension.equals("csv") && panel.getSensorPath().length()>1) {
 						System.out.println("panel.getSensorPath().length(): " + panel.getSensorPath().length());
@@ -161,7 +175,6 @@ public class MainController {
 			}
 			
 			try {
-		
 				panel.setSimulationPath(multipartRequest.getPart("simulationPath").getSubmittedFileName());
 					InputStream simulationStream = multipartRequest.getPart("simulationPath").getInputStream();
 					Reader r = new InputStreamReader(simulationStream);	
@@ -192,13 +205,10 @@ public class MainController {
 			}
 				
 			redirectAttributes.addFlashAttribute("pendingName", panel.getSimulationName());
-			pendingSimulation.setName(panel.getSimulationName());
-			System.out.println("size: " + corruptedFiles.size());
 				
 				if(corruptedFiles.size() > 0) {
 					redirectAttributes.addFlashAttribute("panelError", "Following datasets could not be parsed: " + String.join(", ", corruptedFiles) );
 				}else if(!panel.filesAreCSV()) {
-				//	m.addAttribute("panelError", "Only CSV files are allowed");
 					redirectAttributes.addFlashAttribute("panelError", "Only CSV files are allowed");
 				}else if(panel.allPathsEmpty()){
 					redirectAttributes.addFlashAttribute("panelError", "You must pick at least one dataset");
@@ -223,9 +233,10 @@ public class MainController {
 							panel.setFinalId();
 							pendingPanels.add(panel);	
 						}
+						return "redirect:/newsimulation";
 				}
 		
-			return "redirect:/newsimulation";
+			return "redirect:/newpanel";
 	}
 	
 	@GetMapping("/removePanel/{id}")

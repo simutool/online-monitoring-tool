@@ -23,21 +23,21 @@
                     <h4>Panels:</h4>
                         <div class="col-12">
                             <div  class="col-3 panelConts" th:classappend="${pendingPanels.size()>0} ? dummy : noPanel" >
-                                <a data-toggle="modal" data-target="#newPanelModal" th:onclick="${pendingPanels.size()>0 ? 'passPanelInfo(' + pendingPanels.get(0).id + ')' : 'passSimName()'}">
+                                <a  onclick="passPanelInfo(0)">
                                     <img th:if="${pendingPanels.size()>0}" th:src="@{/icn-panel.svg}" class=" " ></img>
                                     <span th:text="${pendingPanels.size()>0 ? pendingPanels.get(0).name : '+'}"  class="col-12 panelLabel">Add new graph</span>
                                 </a>
                                 <a class="btn btn-outline-danger" th:if="${pendingPanels.size()>0}" th:href="@{'/removePanel/' + ${pendingPanels.get(0).id}}">Remove &times;</a>
                             </div>
                             <div  class="col-3 panelConts" th:classappend="${pendingPanels.size()>1} ? dummy : noPanel" >
-                                <a data-toggle="modal" data-target="#newPanelModal" th:onclick="${pendingPanels.size()>1 ? 'passPanelInfo(' + pendingPanels.get(1).id + ')' : 'passSimName()'}">
+                                <a onclick="passPanelInfo(1)">
                                     <img th:if="${pendingPanels.size()>1}" th:src="@{/icn-panel.svg}" class=" " ></img>
                                     <span th:text="${pendingPanels.size()>1 ? pendingPanels.get(1).name : '+'}" class="col-12 panelLabel">Add new graph</span>
                                 </a>
                                 <a class="btn btn-outline-danger" th:if="${pendingPanels.size()>1}" th:href="@{'/removePanel/' + ${pendingPanels.get(1).id}}">Remove &times;</a>
                             </div>
                             <div class="col-3 panelConts" th:classappend="${pendingPanels.size()>2} ? dummy : noPanel" >
-                                <a data-toggle="modal" data-target="#newPanelModal" th:onclick="${pendingPanels.size()>2 ? 'passPanelInfo(' + pendingPanels.get(2).id + ')' : 'passSimName()'}">
+                                <a onclick="passPanelInfo(2)">
                                     <img th:if="${pendingPanels.size()>2}" th:src="@{/icn-panel.svg}" class=" " ></img>
                                     <span th:text="${pendingPanels.size()>2 ? pendingPanels.get(2).name : '+'}" class="col-12 panelLabel">Add new graph</span>
                                 </a>
@@ -55,9 +55,9 @@
                 <div class="modal-content">
                     <div class="modal-header">
                           <h5 class="modal-title">New panel</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <a href="/newsimulation"><button type="button" class="close"  aria-label="Close">
                              <span aria-hidden="true">&times;</span>
-                          </button>
+                          </button></a>
                     </div>
                      <div class="modal-body">
                         <span style="color: red;" th:text="${panelError}"></span>
@@ -70,7 +70,7 @@
                     </div>
                     <div class="modal-footer">
                         <a ><button type="submit" class="btn btn-primary">Save changes</button></a>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <a href="/newsimulation"><button type="button" class="btn btn-secondary">Close</button></a>
                     </div>
                 </div>
                </form>
@@ -79,19 +79,21 @@
             </div>
         </div>
 </body>
-<script type="text/javascript"  th:if="${panelError != null}">
+<script type="text/javascript"  th:if="${modal}">
     $(window).on('load',function(){
         $('#newPanelModal').modal('show');
     });
 
+    $('#newPanelModal').on('hidden.bs.modal', function(e) {
+            $('#newPanelModal').modal('show');
+    });
+
+
 </script>
 <script type="text/javascript" >
     function passPanelInfo(id){
-        $("#modalId").val( id );
-        $('#simulationNameForPanel').val( $("#simName").val() );
-    }
-    function passSimName(){
-        $('#simulationNameForPanel').val( $("#simName").val() );
+        var name =  $("#simName").val();
+        window.location.href = "/" + name + "/newpanel/" + id ;
     }
 
 

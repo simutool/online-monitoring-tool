@@ -23,13 +23,6 @@ public class StartApp {
 	private InfluxPopulator influx;
 
 	public static void main(String[] args) {
-	//	Parser parser = new Parser();
-	//	parser.parse();
-	//	InfluxPopulator inf = new InfluxPopulator();
-	//	inf.startInflux(parser);
-	//	inf.addSimulationPoints();
-	//	inf.simulateSensor(1000, 3, "datasens.csv");
-	//	inf.simulateSensor(1000);
 		SpringApplication.run(StartApp.class, args);
 	}
 	
