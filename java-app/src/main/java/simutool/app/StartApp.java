@@ -27,7 +27,7 @@ public class StartApp {
 	}
 	
 	@PostConstruct
-	public void influxStart() {
+	public void influxStart() { 
 		influx.startInflux();
 	}
 

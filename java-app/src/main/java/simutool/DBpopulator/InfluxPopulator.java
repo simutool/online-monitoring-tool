@@ -143,7 +143,7 @@ public class InfluxPopulator {
 	/**
 	 * Pushes data from all simulation files as corresponding measurements
 	 */
-	public void addSimulationPoints(List<FileDTO> simData, String type) {
+	public void addStaticPoints(List<FileDTO> simData, String type) {
 		try {
 			simData.removeIf(i -> i == null);
 

@@ -114,24 +114,33 @@ public class MainController {
 				List<FileDTO> sims  = new ArrayList<FileDTO>();
 				List<FileDTO> cur  = new ArrayList<FileDTO>();
 				int counter = 1;
+				boolean allPanelsAreStatic = true;
+				int longestDuration = 0;
 				for(Panel p : pendingPanels) {
-					if(p.getSensorPathDTO() != null)
+					if(p.getSensorPathDTO() != null) {
 						p.getSensorPathDTO().setNumber(counter);
+						allPanelsAreStatic = false;
+					}
 					sens.add(p.getSensorPathDTO());
-					if(p.getSimulationPathDTO() != null)
+					if(p.getSimulationPathDTO() != null) {
 						p.getSimulationPathDTO().setNumber(counter);
+						longestDuration = Math.max(longestDuration, p.getSimulationPathDTO().getDuration());
+					}
 					sims.add(p.getSimulationPathDTO());
-					if(p.getCuringCyclePathDTO() != null)
+					if(p.getCuringCyclePathDTO() != null) {
 						p.getCuringCyclePathDTO().setNumber(counter);
+						longestDuration = Math.max(longestDuration, p.getCuringCyclePathDTO().getDuration());
+					}
 					cur.add(p.getCuringCyclePathDTO());
 					counter++;
 				}
 
 				influx.tearDownTables();
-				influx.addSimulationPoints(sims, "simulation");
-				influx.addSimulationPoints(cur, "curing_cycle");
+				influx.addStaticPoints(sims, "simulation");
+				influx.addStaticPoints(cur, "curing_cycle");
 				influx.simulateSensor(1000, sens);
-				String redirectLink;
+				String redirectLink; 
+				String refreshingPar = allPanelsAreStatic ? "?from=now-1m&to=now%2B" + (longestDuration+2) + "m" : "?orgId=1&refresh=1s"; 
 				switch(pendingPanels.size()){
 					case 1:{
 						redirectLink = "d/ibjZzy-iz/1-panel-monitoring";
@@ -145,7 +154,7 @@ public class MainController {
 						redirectLink = "d/OSF-tramk/3-panels-monitoring";
 					}
 				}
-				return "redirect://" + grafanaHost + redirectLink;
+				return "redirect://" + grafanaHost + redirectLink + refreshingPar;
 			}
 			return "redirect:/newsimulation";
 	}

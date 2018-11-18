@@ -44,6 +44,10 @@ public class FileDTO {
 	public void setDatasource_id(int datasource_id) {
 		this.datasource_id = datasource_id;
 	}
-	
+	public int getDuration() {
+		int result = 0;
+				return (Integer.parseInt( rows.get(rows.size()-1)[0] ) - Integer.parseInt( rows.get(0)[0] ))/60;
+		
+	}
 
 }

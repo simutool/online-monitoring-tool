@@ -56,7 +56,6 @@ public class Parser {
 		List<String[]> rows = null;	 
 		
 			rows = libParser.parseAll(r);
-
 		
 			rows = rows.subList(1, rows.size())
 					.stream().map(item -> Arrays.copyOfRange(item, 0, 3)).collect(Collectors.toList());
