@@ -14,6 +14,7 @@
 
     <div class="introCont col-8 offset-2 secondaryPanel">
             <h1>New experiment:</h1>
+
             <form class="form-group col-12" action="#" th:action="@{/newsimulation}" th:object="${simulation}" method="post">
                 <span style="color: red;" th:text="${error}"></span>
                 <p >Name: <input class="form-control" id="simName" type="text" th:field="*{name}" value="pendingName"  /></p>
@@ -50,7 +51,7 @@
 
         <div id="newPanelModal" class="modal"  tabindex="-1" role="dialog">
              <div class="modal-dialog" role="document">
-               <form class="form-group col-12" action="#" th:action="@{/newpanel}" th:object="${panel}" method="post">
+               <form class="form-group col-12"  th:action="@{/newpanel}" th:object="${panel}" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
                           <h5 class="modal-title">New panel</h5>
@@ -68,11 +69,13 @@
                         <p >Curing cycle: <input class="form-control"  id="modalCur" type="file" th:field="*{curingCyclePath}" /></p>
                     </div>
                     <div class="modal-footer">
-                        <a th:href="@{/newpanel}"><button type="submit" class="btn btn-primary">Save changes</button></a>
+                        <a ><button type="submit" class="btn btn-primary">Save changes</button></a>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
                </form>
+
+           
             </div>
         </div>
 </body>

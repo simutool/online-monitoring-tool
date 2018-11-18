@@ -2,23 +2,44 @@ package simutool.models;
 
 import java.io.File;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import simutool.CSVprocessor.FileDTO;
+import simutool.CSVprocessor.Parser;
+
 public class Panel {
 	
 	private static int nextId = 1;	
 	private int id;
 	private String name;
-	private File sensorPath;
-	private File simulationPath;
+	private String sensorPath;
+	private FileDTO sensorPathDTO;
+	private String simulationPath;
+	private FileDTO simulationPathDTO;
 	private int simulationId;
 	private String simulationName;
-	private File curingCyclePath;
+	private String curingCyclePath;
+	private FileDTO curingCyclePathDTO;
+
+	@Autowired
+	Parser parser;
 	
-	
+
+	public Panel(int id, String name, String sensorPath, String simulationPath, String simulationName,
+			String curingCyclePath) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.sensorPath = sensorPath;
+		this.simulationPath = simulationPath;
+		this.simulationName = simulationName;
+		this.curingCyclePath = curingCyclePath;
+	}
 	public Panel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Panel(int id, String name, File sensorPath, File simulationPath, File curingCyclePath, int simulationId) {
+	public Panel(int id, String name, String sensorPath, String simulationPath, String curingCyclePath, int simulationId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -27,7 +48,7 @@ public class Panel {
 		this.curingCyclePath = curingCyclePath;
 		this.simulationId = simulationId;
 	}
-	public Panel(String name, File sensorPath, File simulationPath) {
+	public Panel(String name, String sensorPath, String simulationPath) {
 		super();
 		this.name = name;
 		this.sensorPath = sensorPath;
@@ -55,45 +76,59 @@ public class Panel {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public File getSensorPath() {
+	public String getSensorPath() {
 		return sensorPath;
 	}
-	public void setSensorPath(File sensorPath) {
+	public void setSensorPath(String sensorPath) {
 		this.sensorPath = sensorPath;
 	}
-	public File getSimulationPath() {
+	
+	public FileDTO getSensorPathDTO() {
+		return sensorPathDTO;
+	}
+	public void setSensorPathDTO(FileDTO sensorPathDTO) {
+		this.sensorPathDTO = sensorPathDTO;
+	}
+	
+	public String getSimulationPath() {
 		return simulationPath;
 	}
-	public void setSimulationPath(File simulationPath) {
+	public void setSimulationPath(String simulationPath) {
 		this.simulationPath = simulationPath;
 	}
-	public File getCuringCyclePath() {
+	public String getCuringCyclePath() {
 		return curingCyclePath;
 	}
-	public void setCuringCyclePath(File curingCyclePath) {
+	public void setCuringCyclePath(String curingCyclePath) {
 		this.curingCyclePath = curingCyclePath;
 	}
+	
+	public FileDTO getSimulationPathDTO() {
+		return simulationPathDTO;
+	}
+	public void setSimulationPathDTO(FileDTO simulationPathDTO) {
+		this.simulationPathDTO = simulationPathDTO;
+	}
+	public FileDTO getCuringCyclePathDTO() {
+		return curingCyclePathDTO;
+	}
+	public void setCuringCyclePathDTO(FileDTO curingCyclePathDTO) {
+		this.curingCyclePathDTO = curingCyclePathDTO;
+	}
 	public boolean filesAreCSV() {
-		boolean simIsValid =  simulationPath == null || simulationPath.getName().length() < 1 || simulationPath.getName().substring(simulationPath.getName().lastIndexOf('.') + 1).equals("csv");
-		boolean curIsValid = curingCyclePath == null || curingCyclePath.getName().length() < 1 || curingCyclePath.getName().substring(curingCyclePath.getName().lastIndexOf('.') + 1).equals("csv");
-		boolean sensIsValid = sensorPath == null || sensorPath.getName().length() < 1 || sensorPath.getName().substring(sensorPath.getName().lastIndexOf('.') + 1).equals("csv");
+		boolean simIsValid =  simulationPath == null || simulationPath.length() < 1 || simulationPath.substring(simulationPath.lastIndexOf('.') + 1).equals("csv");
+		boolean curIsValid = curingCyclePath == null || curingCyclePath.length() < 1 || curingCyclePath.substring(curingCyclePath.lastIndexOf('.') + 1).equals("csv");
+		boolean sensIsValid = sensorPath == null || sensorPath.length() < 1 || sensorPath.substring(sensorPath.lastIndexOf('.') + 1).equals("csv");
 
-		System.out.println(simulationPath + " : " + simIsValid);
-		System.out.println(curingCyclePath + " : " + curIsValid);
-		System.out.println(sensorPath + " : " + sensIsValid);
-		System.out.println(simIsValid && curIsValid && sensIsValid);
+	
 
 		return simIsValid && curIsValid && sensIsValid;
 	}
 	public boolean allPathsEmpty() {
-		boolean simIsEmpty =  simulationPath == null || simulationPath.getName().length() < 1;
-		boolean curIsEmpty =  curingCyclePath == null || curingCyclePath.getName().length() < 1;
-		boolean sensIsEmpty =  sensorPath == null || sensorPath.getName().length() < 1 ;
+		boolean simIsEmpty =  simulationPath == null || simulationPath.length() < 1;
+		boolean curIsEmpty =  curingCyclePath == null || curingCyclePath.length() < 1;
+		boolean sensIsEmpty =  sensorPath == null || sensorPath.length() < 1 ;
 		
-		System.out.println(simulationPath + " : " + simIsEmpty);
-		System.out.println(curingCyclePath + " : " + curIsEmpty);
-		System.out.println(sensorPath + " : " + sensIsEmpty);
-		System.out.println(simIsEmpty && curIsEmpty && sensIsEmpty);
 		
 		return simIsEmpty && curIsEmpty && sensIsEmpty;
 	}
@@ -109,9 +144,11 @@ public class Panel {
 	}
 	@Override
 	public String toString() {
-		return "Panel [id=" + id + ", name=" + name + ", sensorPath=" + sensorPath + ", simulationPath="
-				+ simulationPath + ", simulationId=" + simulationId + ", curingCyclePath=" + curingCyclePath + "]";
+		return "Panel [id=" + id + ", name=" + name + ", sensorPath=" + sensorPath + ", sensorPathDTO=" + sensorPathDTO
+				+ ", simulationPath=" + simulationPath + ", simulationId=" + simulationId + ", simulationName="
+				+ simulationName + ", curingCyclePath=" + curingCyclePath + "]";
 	}
+
 	
 
 }
