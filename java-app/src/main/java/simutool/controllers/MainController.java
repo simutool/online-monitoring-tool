@@ -76,7 +76,6 @@ public class MainController {
 		}
 		m.addAttribute("simulation", pendingSimulation);
 		m.addAttribute("simulationName", pendingSimulation.getName());
-		System.out.println("pendingSimulation.getName(): " + pendingSimulation.getName());
 		m.addAttribute("panel", pendingPanel);
 		m.addAttribute("pendingPanels", pendingPanels);
 		return "new-sim";
@@ -86,13 +85,12 @@ public class MainController {
 	public String getPanelForm(Model m, @PathVariable(value="id") Integer id, @PathVariable(value="simName") String simName) {
 		if(pendingPanels.size() > id) {
 			pendingPanel = pendingPanels.get(id);
+			m.addAttribute("edit", true);
 		}else {
 			pendingPanel = new Panel();
 		}
-		System.out.println("pendingSimulation 1: " + simName);
 
 		pendingSimulation.setName(simName);
-		System.out.println("pendingSimulation after: " + pendingSimulation.getName());
 
 		m.addAttribute("modal", true);
 		m.addAttribute("simulation", pendingSimulation);
@@ -153,11 +151,13 @@ public class MainController {
 	}
 	
 	@PostMapping(value="/newpanel", consumes = "multipart/form-data")
-		public String savePanel(@ModelAttribute Panel panel, HttpServletRequest request, @RequestParam(name="sensorPath", required = false) MultipartFile file, Model m, final RedirectAttributes redirectAttributes) {
+		public String savePanel(@ModelAttribute Panel panel, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {
 		
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		List<String> corruptedFiles = new ArrayList<String>(0);
-		System.out.println(1);
+		boolean edit = edited != null;
+		
+		System.out.println("edit: " + edit);
 			try {
 				panel.setSensorPath(multipartRequest.getPart("sensorPath").getSubmittedFileName());
 					InputStream sensorStream = multipartRequest.getPart("sensorPath").getInputStream();
@@ -210,26 +210,19 @@ public class MainController {
 					redirectAttributes.addFlashAttribute("panelError", "Following datasets could not be parsed: " + String.join(", ", corruptedFiles) );
 				}else if(!panel.filesAreCSV()) {
 					redirectAttributes.addFlashAttribute("panelError", "Only CSV files are allowed");
-				}else if(panel.allPathsEmpty()){
+				}else if(panel.allPathsEmpty() && !edit){
 					redirectAttributes.addFlashAttribute("panelError", "You must pick at least one dataset");
 				}else if(panel.getName() == null || panel.getName().length()<1){
 					redirectAttributes.addFlashAttribute("panelError", "Name shall not be empty");
 				}else {
-						boolean panelWasEdited = false;
 
 						for(Panel p : pendingPanels) {
 							if(p.getId() == panel.getId()) {
-								p.setSensorPath(panel.getSensorPath());
-								p.setSensorPathDTO(panel.getSensorPathDTO());
-								p.setSimulationPathDTO(panel.getSimulationPathDTO());
-								p.setSimulationPathDTO(panel.getSimulationPathDTO());
-								p.setCuringCyclePathDTO(panel.getCuringCyclePathDTO());
-								p.setCuringCyclePathDTO(panel.getCuringCyclePathDTO());
-								panelWasEdited = true;
+								p.editPanel(panel);
 								break;
 							}
 						}
-						if(!panelWasEdited) {
+						if(!edit) {
 							panel.setFinalId();
 							pendingPanels.add(panel);	
 						}

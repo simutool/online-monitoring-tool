@@ -132,6 +132,24 @@ public class Panel {
 		
 		return simIsEmpty && curIsEmpty && sensIsEmpty;
 	}
+	public void editPanel(Panel newPanel) {
+		name = newPanel.getName();
+		
+		if(newPanel.getSensorPath() != null)
+			sensorPath = newPanel.getSensorPath();
+		if(newPanel.getSensorPathDTO() != null)
+			sensorPathDTO = newPanel.getSensorPathDTO();
+
+		if(newPanel.getSimulationPath() != null)
+			simulationPath = newPanel.getSimulationPath();
+		if(newPanel.getSimulationPathDTO() != null)
+			simulationPathDTO = newPanel.getSimulationPathDTO();
+		
+		if(newPanel.getCuringCyclePath() != null)
+			curingCyclePath = newPanel.getCuringCyclePath();
+		if(newPanel.getCuringCyclePathDTO() != null)
+			curingCyclePathDTO = newPanel.getCuringCyclePathDTO();
+	}
 	public static long getNextId() {
 		return nextId;
 	}

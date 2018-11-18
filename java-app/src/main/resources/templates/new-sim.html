@@ -61,12 +61,13 @@
                     </div>
                      <div class="modal-body">
                         <span style="color: red;" th:text="${panelError}"></span>
+                        <input style="display: none;" type="number"  name="edit" value="1" th:if="${edit}" />
                         <input style="display: none;" type="text" id="simulationNameForPanel" th:field="*{simulationName}"  />
                         <input class="form-control" id="modalId" type="text" style="display: none;" th:field="*{id}" />
                         <p >Name: <input class="form-control" id="modalName" type="text" th:field="*{name}" /></p>
-                        <p >Sensor: <input class="form-control" id="modalSens" type="file" th:field="*{sensorPath}" /></p>
-                        <p >Simulation: <input class="form-control"  id="modalSim" type="file" th:field="*{simulationPath}" /></p>
-                        <p >Curing cycle: <input class="form-control"  id="modalCur" type="file" th:field="*{curingCyclePath}" /></p>
+                        <p>Sensor: <span th:if="${panel.getSensorPath()}" th:text="'(current: ' + ${panel.getSensorPath()} + ')'"></span><input class="form-control" id="modalSens" type="file" th:field="*{sensorPath}" /></p>
+                        <p >Simulation: <span th:if="${panel.getSimulationPath()}" th:text="'(current: ' + ${panel.getSimulationPath()} + ')'"></span><input class="form-control"  id="modalSim" type="file" th:field="*{simulationPath}" /></p>
+                        <p >Curing cycle: <span th:if="${panel.getCuringCyclePath()}" th:text="'(current: ' + ${panel.getCuringCyclePath()} + ')'"></span><input class="form-control"  id="modalCur" type="file" th:field="*{curingCyclePath}" /></p>
                     </div>
                     <div class="modal-footer">
                         <a ><button type="submit" class="btn btn-primary">Save changes</button></a>
