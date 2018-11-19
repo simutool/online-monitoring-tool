@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.MultipartFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @ComponentScan
@@ -23,21 +24,22 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @MultipartConfig
 @PropertySource(value = { "classpath:application.properties" })
 public class AppConfig extends WebMvcConfigurerAdapter{
-	 /*// POSTGRES stuff - currently not in use
+	/*// POSTGRES stuff - currently not in use
+
 
     @Autowired
     private Environment env;
-	
+
     @Value("${init-db:false}")
     private String initDatabase;
-  
- 
+
+
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource)
     {
         return new JdbcTemplate(dataSource);
     }
- 
+
     @Bean
     public DataSource dataSource()
     {
@@ -48,7 +50,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
         dataSource.setPassword(env.getProperty("spring.datasource.password"));
         return dataSource;
     }
- 
+
     @Bean
     public DataSourceInitializer dataSourceInitializer(DataSource dataSource)
     {
@@ -60,30 +62,35 @@ public class AppConfig extends WebMvcConfigurerAdapter{
         dataSourceInitializer.setEnabled(Boolean.parseBoolean(initDatabase));
         return dataSourceInitializer;
     }
-    */
+	 */
 	@Bean(name = "multipartResolver")
 	public MultipartResolver multipartResolver() {
-	    CommonsMultipartResolver resolver=new CommonsMultipartResolver();
-	    resolver.setDefaultEncoding("utf-8");
-	    resolver.setMaxUploadSize(5 * 1024 * 1024);
-	    return resolver;
+		CommonsMultipartResolver resolver=new CommonsMultipartResolver();
+		resolver.setDefaultEncoding("utf-8");
+		resolver.setMaxUploadSize(5 * 1024 * 1024);
+		return resolver;
 	}
-	
+
 	@Bean
 	@Order(0)
 	public MultipartFilter multipartFilter() {
-	    MultipartFilter multipartFilter = new MultipartFilter();
-	    multipartFilter.setMultipartResolverBeanName("multipartResolver");
-	    return multipartFilter;
+		MultipartFilter multipartFilter = new MultipartFilter();
+		multipartFilter.setMultipartResolverBeanName("multipartResolver");
+		return multipartFilter;
 	}
-	  @Bean
-	    public MultipartConfigElement multipartConfigElement() {
-	        return new MultipartConfigElement("");
-	    }
-	    @PostMapping(value = "/config", consumes = "multipart/form-data")
-	    public ResponseEntity<?> saveEnvironmentConfig(@RequestParam("password") String password, @RequestParam("file") MultipartFile submissions)
-	            throws ConfigurationException {
-	        return ResponseEntity.ok().body(null);
-	    }
-	
+	@Bean
+	public MultipartConfigElement multipartConfigElement() {
+		return new MultipartConfigElement("");
+	}
+	@PostMapping(value = "/config", consumes = "multipart/form-data")
+	public ResponseEntity<?> saveEnvironmentConfig(@RequestParam("password") String password, @RequestParam("file") MultipartFile submissions)
+			throws ConfigurationException {
+		return ResponseEntity.ok().body(null);
+	}
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**");
+	}
+
 }

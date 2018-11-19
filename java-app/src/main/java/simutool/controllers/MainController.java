@@ -35,7 +35,7 @@ public class MainController {
 	
 	Simulation pendingSimulation;
 	Panel pendingPanel;
-	List<Panel> pendingPanels;
+	static List<Panel> pendingPanels;
 	
 	@Autowired
 	private SavedSimulationsRepo simRepo;
