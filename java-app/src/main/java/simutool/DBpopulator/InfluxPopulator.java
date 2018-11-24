@@ -1,6 +1,5 @@
 package simutool.DBpopulator;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,8 +23,9 @@ import simutool.CSVprocessor.Parser;
 @Service
 public class InfluxPopulator {
 	
-	final String tableName = "test";
+	public final static String tableName = "test";
 	static InfluxDB influxDB;
+	
 	Parser parser;
 	Timer timer;
 	
@@ -38,6 +38,17 @@ public class InfluxPopulator {
 	@Value("${influx.password}")
 	private String influxPassword;
 	
+	
+	public static String getTablename() {
+		return tableName;
+	}
+
+	
+	public static InfluxDB getInfluxDB() {
+		return influxDB;
+	}
+
+
 	public void createConnection() {
 		influxDB = InfluxDBFactory.connect(influxHost, influxUser, influxPassword);
 		influxDB.setDatabase(tableName);

@@ -10,6 +10,7 @@ import 'angular-bindonce';
 import 'react';
 import 'react-dom';
 
+
 import 'vendor/bootstrap/bootstrap';
 import 'vendor/angular-ui/ui-bootstrap-tpls';
 import 'vendor/angular-other/angular-strap';
@@ -32,6 +33,7 @@ import { setupAngularRoutes } from 'app/routes/routes';
 
 import 'app/routes/GrafanaCtrl';
 import 'app/features/all';
+import 'app/custom';
 
 // import symlinked extensions
 const extensionsIndex = (require as any).context('.', true, /extensions\/index.ts/);
@@ -110,7 +112,7 @@ export class GrafanaApp {
       'pasvaz.bindonce',
       'ui.bootstrap',
       'ui.bootstrap.tpls',
-      'react',
+      'react'
     ];
 
     // makes it possible to add dynamic stuff

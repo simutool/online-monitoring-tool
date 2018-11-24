@@ -10,6 +10,7 @@ export class DashboardCtrl {
   dashboardViewState: any;
   loadedFallbackDashboard: boolean;
   editTab: number;
+  customTitle : any;
 
   /** @ngInject */
   constructor(
@@ -166,9 +167,7 @@ export class DashboardCtrl {
       this.dashboard.destroy();
     }
   }
-  
-  setDatasourceVars(){
-  }
+
 
   init(dashboard) {
     this.$scope.onAppEvent('show-json-editor', this.showJsonEditor.bind(this));
@@ -176,7 +175,6 @@ export class DashboardCtrl {
     this.$scope.onAppEvent('panel-remove', this.onRemovingPanel.bind(this));
     this.$scope.$on('$destroy', this.onDestroy.bind(this));
     this.setupDashboard(dashboard);
-	
   }
 }
 

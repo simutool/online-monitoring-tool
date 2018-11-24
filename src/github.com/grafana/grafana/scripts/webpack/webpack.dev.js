@@ -50,6 +50,7 @@ module.exports = merge(common, {
           },
         },
       },
+
       require('./sass.rule.js')({ sourceMap: false, minimize: false, preserveUrl: false }),
       {
         test: /\.(png|jpg|gif|ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,

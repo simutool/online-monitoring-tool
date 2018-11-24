@@ -2,7 +2,6 @@ package simutool.controllers;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.InvalidObjectException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,17 +27,22 @@ import simutool.CSVprocessor.Parser;
 import simutool.DBpopulator.InfluxPopulator;
 import simutool.models.Panel;
 import simutool.models.Simulation;
+import simutool.repos.CommentsRepo;
 import simutool.repos.SavedSimulationsRepo;
 
 @Controller
 public class MainController {
 	
-	Simulation pendingSimulation;
-	Panel pendingPanel;
+	static Simulation pendingSimulation;
+	static Panel pendingPanel;
 	static List<Panel> pendingPanels;
+	String redirectLink; 
 	
 	@Autowired
 	private SavedSimulationsRepo simRepo;
+	
+	@Autowired
+	private CommentsRepo comments;
 	
 	@Autowired
 	private InfluxPopulator influx;
@@ -81,8 +85,8 @@ public class MainController {
 		return "new-sim";
 	}
 	
-	@GetMapping("{simName}/newpanel/{id}")
-	public String getPanelForm(Model m, @PathVariable(value="id") Integer id, @PathVariable(value="simName") String simName) {
+	@GetMapping("/newpanel/{id}")
+	public String getPanelForm(Model m, @PathVariable(value="id") Integer id, @RequestParam(value="simulation") String simName) {
 		if(pendingPanels.size() > id) {
 			pendingPanel = pendingPanels.get(id);
 			m.addAttribute("edit", true);
@@ -139,7 +143,6 @@ public class MainController {
 				influx.addStaticPoints(sims, "simulation");
 				influx.addStaticPoints(cur, "curing_cycle");
 				influx.simulateSensor(1000, sens);
-				String redirectLink; 
 				String refreshingPar = allPanelsAreStatic ? "?from=now-1m&to=now%2B" + (longestDuration+2) + "m" : "?orgId=1&refresh=1s"; 
 				switch(pendingPanels.size()){
 					case 1:{
@@ -256,6 +259,12 @@ public class MainController {
 		}
 		return "redirect:/newsimulation";
 }
+	
+	@PostMapping("/saveComment/")
+	public String sa(@RequestBody String reqBody) {
+		
+		return "redirect:/" + redirectLink;
+	}
 	
 	@RequestMapping("/")
 		public String redirectToHome() {
