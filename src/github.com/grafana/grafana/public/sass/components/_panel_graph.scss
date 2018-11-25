@@ -553,6 +553,10 @@ h3 {
  border-bottom-width:1px;
  padding-bottom:10px;
 }
+.commentsCont{
+	transition: 0.5s;
+	height: 300px;
+}
 .commentsCont textarea{
 	margin-bottom: 20px;
 	resize: none;
@@ -588,6 +592,25 @@ h3 {
 .customTimepicker:focus{
 	opacity: 1;
 }
+.panelButtons {
+	text-align: center;
+}
+.panelButtons a{
+	margin: 10px;
+	display: inline;
+}
+
+
+.commentsCont.hidden{
+	transition: 0.5s;
+	    height: 0px;
+}
+
+
+
+
+
+
 
 
 
