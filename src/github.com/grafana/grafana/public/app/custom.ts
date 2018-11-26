@@ -40,9 +40,7 @@ import $ from 'jquery';
 								console.log($($(".commentsCont")[counter]));
 
 				//Connect comment sections with buttons that toggle them
-				$($(".commentsCont")[counter]).attr("id", "commentsCont" + counter);
-				$($(".commentSectionToggle")[counter]).attr("aria-controls", "commentsCont" + counter);
-				$($(".commentSectionToggle")[counter]).attr("data-target", "#commentsCont" + counter);
+				$($(".saveAsCSV")[counter]).attr("href", springHost + "/savePanel?id=" + counter);
 				
 				$($(".commentSectionToggle")[counter]).on("click", toggleCommentBox.bind(this, counter));
 				function toggleCommentBox(counter){

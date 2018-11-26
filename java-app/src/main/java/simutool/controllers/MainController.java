@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import simutool.CSVprocessor.ExperimentSaver;
 import simutool.CSVprocessor.FileDTO;
 import simutool.CSVprocessor.Parser;
 import simutool.DBpopulator.InfluxPopulator;
@@ -50,6 +51,8 @@ public class MainController {
 	@Autowired
 	private Parser parser;
 
+	@Autowired
+	private ExperimentSaver saver;
 	
 	@Value("${grafana.host}")
 	private String grafanaHost;
@@ -300,6 +303,11 @@ public class MainController {
 	public String sa(@RequestBody String reqBody) {
 		
 		return "redirect:/" + redirectLink;
+	}
+	
+	@GetMapping("/savePanel")
+	public void startSavingPanel(@RequestParam("id") int id) {
+		saver.savePanel(id);
 	}
 	
 	@RequestMapping("/")

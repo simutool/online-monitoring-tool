@@ -6330,3 +6330,57 @@ t=2018-11-25T02:41:12+0100 lvl=info msg="Initializing AlertingService" logger=se
 t=2018-11-25T02:41:12+0100 lvl=info msg="Initializing TracingService" logger=server
 t=2018-11-25T02:41:12+0100 lvl=info msg="Initializing Stream Manager"
 t=2018-11-25T02:41:12+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2018-11-26T02:40:23+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2018-11-26T02:40:23+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2018-11-26T02:40:23+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2018-11-26T02:40:23+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2018-11-26T02:40:23+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2018-11-26T02:40:23+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2018-11-26T02:40:23+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2018-11-26T02:40:23+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2018-11-26T02:40:23+0100 lvl=info msg="App mode production" logger=settings
+t=2018-11-26T02:40:23+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2018-11-26T02:40:23+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2018-11-26T02:40:23+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2018-11-26T02:40:23+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2018-11-26T02:40:24+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2018-11-26T02:40:24+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2018-11-26T02:40:24+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2018-11-26T02:40:24+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2018-11-26T02:40:24+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2018-11-26T02:40:24+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2018-11-26T02:40:24+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2018-11-26T02:40:24+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2018-11-26T02:40:24+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2018-11-26T02:40:24+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2018-11-26T02:40:24+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2018-11-26T02:40:24+0100 lvl=info msg="Initializing Stream Manager"
+t=2018-11-26T02:40:24+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2018-11-26T02:40:35+0100 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/d/ibjZzy-iz/1-panel-monitoring status=302 remote_addr=[::1] time_ms=25 size=29 referer="http://localhost:8090/newsimulation;jsessionid=58AE0CE44D8BC4A5C54FE405BC2A9040"
+t=2018-11-26T02:40:36+0100 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/login status=302 remote_addr=[::1] time_ms=44 size=77 referer="http://localhost:8090/newsimulation;jsessionid=58AE0CE44D8BC4A5C54FE405BC2A9040"
+t=2018-11-26T02:41:37+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2018-11-26T02:41:37+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2018-11-26T02:41:37+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2018-11-26T02:41:37+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2018-11-26T02:41:37+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2018-11-26T02:41:37+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2018-11-26T02:41:37+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2018-11-26T02:41:37+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2018-11-26T02:41:37+0100 lvl=info msg="App mode production" logger=settings
+t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2018-11-26T02:41:37+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2018-11-26T02:41:37+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2018-11-26T02:41:37+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing Stream Manager"
+t=2018-11-26T02:41:37+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
