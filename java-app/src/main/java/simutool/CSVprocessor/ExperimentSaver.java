@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import simutool.DBpopulator.InfluxPopulator;
 import simutool.models.Panel;
+import simutool.models.Simulation;
 
 @Repository
 public class ExperimentSaver {
@@ -24,7 +25,7 @@ public class ExperimentSaver {
 	@Value("${saveCSVfolder}")
 	private String savingFolder;
 	
-	public void savePanel(Panel p, int id) {
+	public void savePanel(Simulation s, Panel p, int id) {
 		 
 		 Query query = new Query("SELECT sensor_" + id + ", simulation_" + id + ", curing_cycle_" + id + " FROM " + influx.getTablename(), influx.getTablename());
 		 List<List<Object>> q = influx.getInfluxDB().query(query).getResults().get(0).getSeries().get(0).getValues();
@@ -34,6 +35,7 @@ public class ExperimentSaver {
 		 List<String[]> sensorPoints = new ArrayList<String[]>();
 		 List<String[]> simulationPoints = new ArrayList<String[]>();
 		 List<String[]> curingCyclePoints = new ArrayList<String[]>();
+		 String simulationName = s.getName();
 
 		 for(List<Object> point : q) {
 			 if(point.get(1) != null) {
@@ -50,28 +52,31 @@ public class ExperimentSaver {
 			 fileSens.setRows(sensorPoints);
 			 fileSens.setType("sensor");
 			 fileSens.setName(p.getName());
-			 writeCSV(fileSens);
+			 writeCSV(fileSens, simulationName);
 		 }
 		 if(simulationPoints.size() > 0) {
 			 FileDTO fileSim = new FileDTO();
 			 fileSim.setRows(simulationPoints);
 			 fileSim.setType("simulation");
 			 fileSim.setName(p.getName());
-			 writeCSV(fileSim);
+			 writeCSV(fileSim, simulationName);
 		 }
 		 if(curingCyclePoints.size() > 0) {		 
 			 FileDTO fileCur = new FileDTO();
 			 fileCur.setRows(curingCyclePoints);
 			 fileCur.setType("curing_cycle");
 			 fileCur.setName(p.getName());
-			 writeCSV(fileCur);
+			 writeCSV(fileCur, simulationName);
 		 }
 		 
 	} 
 	 
-	public void writeCSV(FileDTO file) {
-		String fileName = (savingFolder + "/PANEL_" + file.getName() +  "_" + new Date() + "_" + file.getType().toUpperCase() + ".csv").replaceAll(" ", "_").replace(":", ".");
-	    File fileToWrite = new File(fileName);
+	public void writeCSV(FileDTO file, String simulationName) {
+		
+		String fileName = (savingFolder + "/EXP_" + simulationName.replaceAll("[^A-Za-z0-9]+", "_") + "_PANEL_" + file.getName().replaceAll("[^A-Za-z0-9]+", "_") + "_" + file.getType().toUpperCase() + ".csv");
+	    System.out.println(fileName);
+	    
+		File fileToWrite = new File(fileName);
 	    int index = 1;
 	    if(file.getType().equals("simulation")){
 	    	index = 2;

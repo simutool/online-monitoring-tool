@@ -308,7 +308,7 @@ public class MainController {
 	
 	@GetMapping("/savePanel")
 	public String startSavingPanel(@RequestParam("id") int id) {
-		saver.savePanel(pendingPanels.get(id), id+1);
+		saver.savePanel(pendingSimulation, pendingPanels.get(id), id+1);
 		return "redirect://" + grafanaHost + redirectLink + refreshingPar;
 
 	}
