@@ -48,7 +48,9 @@ public class InfluxPopulator {
 		return influxDB;
 	}
 
-
+	/**
+	 * Sets connection with influx database using credentials from config file
+	 */
 	public void createConnection() {
 		influxDB = InfluxDBFactory.connect(influxHost, influxUser, influxPassword);
 		influxDB.setDatabase(tableName);
@@ -57,6 +59,9 @@ public class InfluxPopulator {
 		influxDB.enableBatch(BatchOptions.DEFAULTS);
 	}
 	
+	/**
+	 * Clears influx tables and stops any active scheduled tasks
+	 */
 	public void tearDownTables() {
 		Query dropQuery = new Query("DROP database " + tableName, tableName);
 		Query createQuery = new Query("create database " + tableName, tableName);
@@ -67,13 +72,12 @@ public class InfluxPopulator {
 			timer.cancel();
 			timer.purge();
 		}
-		
-
 	}
 	
 	/**
-	 * Simultaneously pushes series from all parsed sensor files as corresponding measurements
+	 * Simultaneously pushes series from sensor file 
 	 * @param millis Interval between series
+	 * @param sensorData file to push
 	 */
 	public void simulateSensor(int millis, List<FileDTO> sensorData) {
 		timer = new Timer();
@@ -152,7 +156,7 @@ public class InfluxPopulator {
 	}
 	
 	/**
-	 * Pushes data from all simulation files as corresponding measurements
+	 * Pushes data from simulation or curing cycle file 
 	 */
 	public void addStaticPoints(List<FileDTO> simData, String type) {
 		try {

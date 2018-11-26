@@ -7,5 +7,5 @@ by default it runs on port 8086, otherwise port needs to be specified in config 
 2. Grafana server is started by
 ##### src\github.com\grafana\grafana\bin\grafana-server.exe
 
-3. Then the app itself is launched by
-#### java-app\src\main\java\simutool\app\StartApp.java
+3. Then the app itself is launched by (runs on port 8090)
+##### java-app\src\main\java\simutool\app\StartApp.java

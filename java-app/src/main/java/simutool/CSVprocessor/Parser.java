@@ -14,9 +14,7 @@ import com.univocity.parsers.csv.CsvParserSettings;
 import simutool.models.Panel;
 
 /**
- * This class parses .csv files with simulation and sensor data,
- * creates FileDTO Objects for every processed file and keeps lists of files in local variables.
- * @author vale
+ * This class parses .csv files and creates FileDTO Objects.
  *
  */
 @Service
@@ -24,7 +22,6 @@ public class Parser {
 
 	CsvParserSettings settings = new CsvParserSettings();
 	CsvParser libParser;
-	final String folderSim = "../CSV/";
 	List<FileDTO> sensorFiles;
 	List<FileDTO> simulationFiles;
 
@@ -34,21 +31,12 @@ public class Parser {
 		libParser = new CsvParser(settings);
 	}
 
-	/**
-	 * Launches files parsing 
-	 */
-	public void parse(List<Panel> panels) {
-		//		sensorFiles = listFilesForFolder(folderSens, "sensor");
-		//	simulationFiles = listFilesForFolder(folderSim, "simulation");
-	}
+
 
 	/**
-	 * Reads .csv files in a specified folder, 
-	 * splits files that have data with multiple datasource ids 
-	 * and casts FileDTO objects
-	 * @param folder folder with files
+	 * Reads .csv file in the passed FileReader and casts FileDTO object.
 	 * @param type sensor or simulation
-	 * @return List of FileDTO objects
+	 * @return FileDTO object
 	 */
 	public FileDTO parseFilesForPanels(String type, Reader r) {
 		FileDTO file = new FileDTO();	 

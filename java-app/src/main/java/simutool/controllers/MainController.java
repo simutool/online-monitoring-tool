@@ -54,19 +54,27 @@ public class MainController {
 	@Value("${grafana.host}")
 	private String grafanaHost;
 	
-
+	/**
+	 * Starts index page
+	 * @param m Model for passing attributes to template
+	 * @return index page
+	 */
 	@RequestMapping("/home")
 		public String startMenu(Model m) {
 			m.addAttribute("saved", simRepo.getAllSavedSimulations());
 			return "index";
 	}
 	
+	
 	@RequestMapping("/load")
 	public String loadSavedSimulation(@RequestParam("id") int id) {
-	//	influx.getAllSavedSimulations();
 		return "redirect://" + grafanaHost;
 	}
 	
+	/**
+	 * Adds currently selected simulation data to model and passes it to the template
+	 * @return template for simulation dashboard
+	 */
 	@GetMapping("/newsimulation")
 	public String getSettingsForm(Model m) {
 		if(pendingSimulation == null) {
@@ -85,6 +93,13 @@ public class MainController {
 		return "new-sim";
 	}
 	
+	/**
+	 * Returns new simulation template with a form for submitting new panel
+	 * @param m model for passing arguments to template
+	 * @param id number of "new panel" container that was clicked (0 to 2), needed to preserve consistency 
+	 * @param simName current simulation name, needs to be updated in case if user changes it meanwhile
+	 * @return new simulation template with toggled modal window for adding panel
+	 */
 	@GetMapping("/newpanel/{id}")
 	public String getPanelForm(Model m, @PathVariable(value="id") Integer id, @RequestParam(value="simulation") String simName) {
 		if(pendingPanels.size() > id) {
@@ -104,6 +119,13 @@ public class MainController {
 		return "new-sim";
 	}
 	
+	/**
+	 * Processes submitted simulation form
+	 * @param simulation simulation model with prefilled fields
+	 * @param empty model for passing attributes to the template
+	 * @param redirectAttributes allows pass attributes to another method when redirecting
+	 * @return redirect to grafana dashboard if form is valid, otherwise new simulation template with comments on errors
+	 */
 	@PostMapping("/newsimulation")
 	    public String saveSimulation(@ModelAttribute Simulation simulation, Model m, final RedirectAttributes redirectAttributes) {
 			if(simulation.getName() == null || simulation.getName().length() < 1) {
@@ -162,6 +184,15 @@ public class MainController {
 			return "redirect:/newsimulation";
 	}
 	
+	/**
+	 * Processes submitted form with new panel
+	 * @param panel panel model with prefilled fields
+	 * @param request http request (needed to extract uploaded files)
+	 * @param edited tells whether user is creating a new panel or editing an existing one
+	 * @param m empty model for passing attributes to the template
+	 * @param redirectAttributes allows to pass attributes to another method when redirecting
+	 * @return redirect to updated new simulation template if submitted form is valid, otherwise new panel template with comments on errors 
+	 */
 	@PostMapping(value="/newpanel", consumes = "multipart/form-data")
 		public String savePanel(@ModelAttribute Panel panel, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {
 		
@@ -244,6 +275,11 @@ public class MainController {
 			return "redirect:/newpanel";
 	}
 	
+	/**
+	 * Removes added panel
+	 * @param id id of the panel to be removed
+	 * @return updated new simulation template
+	 */
 	@GetMapping("/removePanel/{id}")
 	public String removePanel(@PathVariable(value="id") Long id) {
 

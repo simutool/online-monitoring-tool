@@ -14,7 +14,10 @@ import org.springframework.context.annotation.ComponentScan;
 
 import simutool.DBpopulator.InfluxPopulator;
 
-
+/**
+ * Entry point
+ *
+ */
 @ComponentScan(basePackages = "simutool")
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class, MultipartAutoConfiguration.class})
 public class StartApp {
@@ -26,6 +29,9 @@ public class StartApp {
 		SpringApplication.run(StartApp.class, args);
 	}
 	
+	/**
+	 * Launches influx database after server has been started
+	 */
 	@PostConstruct
 	public void influxStart() { 
 		influx.startInflux();

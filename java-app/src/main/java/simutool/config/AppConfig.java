@@ -71,6 +71,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
 		return resolver;
 	}
 
+	//Following settings allow
 	@Bean
 	@Order(0)
 	public MultipartFilter multipartFilter() {
@@ -88,6 +89,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
 		return ResponseEntity.ok().body(null);
 	}
 
+	//Allows accepting cross origin requests from angular components
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**");

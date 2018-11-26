@@ -15,9 +15,13 @@ public class ExperimentDataRestController {
 	@Autowired
 	MainController ctrl;
 	
+	/**
+	 * Returns JSON with panels data in current simulation
+	 * @return info on selected panels
+	 */
 	@RequestMapping("/getExperimentData")
-	public List<Panel> startMenu(Model m) {
+	public List<Panel> getExperimentData(Model m) {
 		return MainController.pendingPanels;
-}
+	}
 
 }
