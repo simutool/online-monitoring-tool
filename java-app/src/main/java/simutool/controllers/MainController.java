@@ -38,6 +38,7 @@ public class MainController {
 	static Panel pendingPanel;
 	static List<Panel> pendingPanels;
 	String redirectLink; 
+	String refreshingPar;
 	
 	@Autowired
 	private SavedSimulationsRepo simRepo;
@@ -168,7 +169,7 @@ public class MainController {
 				influx.addStaticPoints(sims, "simulation");
 				influx.addStaticPoints(cur, "curing_cycle");
 				influx.simulateSensor(1000, sens);
-				String refreshingPar = allPanelsAreStatic ? "?from=now-1m&to=now%2B" + (longestDuration+2) + "m" : "?orgId=1&refresh=1s"; 
+				refreshingPar = allPanelsAreStatic ? "?from=now-1m&to=now%2B" + (longestDuration+2) + "m" : "?orgId=1&refresh=1s"; 
 				switch(pendingPanels.size()){
 					case 1:{
 						redirectLink = "d/ibjZzy-iz/1-panel-monitoring";
@@ -306,8 +307,10 @@ public class MainController {
 	}
 	
 	@GetMapping("/savePanel")
-	public void startSavingPanel(@RequestParam("id") int id) {
-		saver.savePanel(id);
+	public String startSavingPanel(@RequestParam("id") int id) {
+		saver.savePanel(pendingPanels.get(id), id+1);
+		return "redirect://" + grafanaHost + redirectLink + refreshingPar;
+
 	}
 	
 	@RequestMapping("/")

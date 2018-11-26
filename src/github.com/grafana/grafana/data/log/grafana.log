@@ -6384,3 +6384,55 @@ t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing AlertingService" logger=se
 t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing TracingService" logger=server
 t=2018-11-26T02:41:37+0100 lvl=info msg="Initializing Stream Manager"
 t=2018-11-26T02:41:37+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2018-11-26T12:32:30+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2018-11-26T12:32:30+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2018-11-26T12:32:30+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2018-11-26T12:32:30+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2018-11-26T12:32:30+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2018-11-26T12:32:30+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2018-11-26T12:32:30+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2018-11-26T12:32:30+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2018-11-26T12:32:30+0100 lvl=info msg="App mode production" logger=settings
+t=2018-11-26T12:32:30+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2018-11-26T12:32:30+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2018-11-26T12:32:30+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2018-11-26T12:32:30+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2018-11-26T12:50:54+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2018-11-26T12:50:54+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2018-11-26T12:50:54+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2018-11-26T12:50:54+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2018-11-26T12:50:54+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2018-11-26T12:50:54+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2018-11-26T12:50:54+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2018-11-26T12:50:54+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2018-11-26T12:50:54+0100 lvl=info msg="App mode production" logger=settings
+t=2018-11-26T12:50:54+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2018-11-26T12:50:54+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2018-11-26T12:50:54+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2018-11-26T12:50:54+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2018-11-26T12:50:54+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2018-11-26T12:50:54+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2018-11-26T12:50:54+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2018-11-26T12:50:54+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2018-11-26T12:50:54+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2018-11-26T12:50:54+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2018-11-26T12:50:54+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2018-11-26T12:50:54+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2018-11-26T12:50:54+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2018-11-26T12:50:54+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2018-11-26T12:50:54+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2018-11-26T12:50:54+0100 lvl=info msg="Initializing Stream Manager"
+t=2018-11-26T12:50:54+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2018-11-26T12:50:56+0100 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/d/ibjZzy-iz/1-panel-monitoring status=302 remote_addr=[::1] time_ms=2 size=29 referer=
+t=2018-11-26T12:50:56+0100 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/login status=302 remote_addr=[::1] time_ms=14 size=84 referer=
+t=2018-11-26T14:10:54+0100 lvl=info msg="Database table locked, sleeping then retrying" logger=sqlstore retry=0
+t=2018-11-26T15:20:54+0100 lvl=info msg="Database table locked, sleeping then retrying" logger=sqlstore retry=0
+t=2018-11-26T18:00:04+0100 lvl=info msg="Request Completed" logger=context userId=1 orgId=1 uname=admin method=GET path=/api/datasources/proxy/1/query status=502 remote_addr=[::1] time_ms=115 size=0 referer="http://localhost:8080/d/hUg4ks-ik/2-panel-monitoring?orgId=1&refresh=1s"
+t=2018-11-26T18:10:26+0100 lvl=eror msg="Failed to get user with id" logger=context userId=1 error="User not found"
+t=2018-11-26T18:10:26+0100 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/api/datasources/proxy/1/query status=401 remote_addr=[::1] time_ms=11 size=26 referer="http://localhost:8080/d/hUg4ks-ik/2-panel-monitoring?orgId=1&refresh=1s"
+t=2018-11-26T18:15:26+0100 lvl=info msg="Database table locked, sleeping then retrying" logger=sqlstore retry=0
+t=2018-11-26T18:52:16+0100 lvl=info msg="Database table locked, sleeping then retrying" logger=sqlstore retry=0
+t=2018-11-26T18:57:16+0100 lvl=info msg="Database table locked, sleeping then retrying" logger=sqlstore retry=0
+t=2018-11-26T19:00:54+0100 lvl=info msg="Database table locked, sleeping then retrying" logger=sqlstore retry=0
+t=2018-11-26T19:07:43+0100 lvl=eror msg="Failed to get user with id" logger=context userId=1 error="User not found"
+t=2018-11-26T19:07:43+0100 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/api/datasources/proxy/1/query status=401 remote_addr=[::1] time_ms=536 size=26 referer="http://localhost:8080/d/ibjZzy-iz/1-panel-monitoring?orgId=1&refresh=1s"
