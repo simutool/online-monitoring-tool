@@ -11,7 +11,7 @@ const template = `
 	<a class="btn navbar-button  commentSectionToggle"  role="button" >
 			Comments
 	</a>
-	<a class="btn navbar-button saveAsCSV"  role="button" >
+	<a class="btn navbar-button saveAsCSV"  href="#" role="button" >
 			Save as CSV
 	</a>
   </div>

@@ -1,9 +1,12 @@
 package simutool.models;
 
+import java.util.List;
+
 public class Simulation {
 	private String name;
 	private int id;
 	private int panelNum;
+	private List<Panel> panelList;
 	
 	
 	public Simulation() {
@@ -42,6 +45,12 @@ public class Simulation {
 	}
 	public void setPanelNum(int panelNum) {
 		this.panelNum = panelNum;
+	}
+	public List<Panel> getPanelList() {
+		return panelList;
+	}
+	public void setPanelList(List<Panel> panelList) {
+		this.panelList = panelList;
 	}
 	
 	
