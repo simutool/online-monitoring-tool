@@ -19,8 +19,8 @@
             <div th:if="${saved}" class="loadSavedCont">
                 <h4>or load a saved one:</h4>
                     <div class="horisontalScroll">
-                        <th:block th:each="sim : ${saved}">
-                        <a class="col-3 pointerCursor" th:href="@{load(id=${sim.id})}">
+                        <th:block th:each="sim,iter : ${saved}">
+                        <a class="col-3 pointerCursor" th:href="@{load(id=${iter.index})}">
                             <img th:src="@{/icn-panel.svg}"  class=""></img>
                             <span th:text="${sim.name}" class="col-12">...</span>
                         </a>

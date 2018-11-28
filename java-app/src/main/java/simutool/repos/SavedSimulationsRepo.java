@@ -82,6 +82,7 @@ public class SavedSimulationsRepo {
 
 			}
 			sim.setPanelList(myPanels);
+			result.add(sim);
 		}
 		
 		return result;
