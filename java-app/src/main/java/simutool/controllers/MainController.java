@@ -33,48 +33,69 @@ import simutool.repos.SavedSimulationsRepo;
 
 @Controller
 public class MainController {
-	
+
 	static Simulation pendingSimulation;
 	static Panel pendingPanel;
 	static List<Panel> pendingPanels;
 	String redirectLink; 
 	String refreshingPar;
-	
+
 	@Autowired
 	private SavedSimulationsRepo simRepo;
-	
+
 	@Autowired
 	private CommentsRepo comments;
-	
+
 	@Autowired
 	private InfluxPopulator influx;
-	
+
 	@Autowired
 	private Parser parser;
 
 	@Autowired
 	private ExperimentSaver saver;
-	
+
 	@Value("${grafana.host}")
 	private String grafanaHost;
-	
+
 	/**
 	 * Starts index page
 	 * @param m Model for passing attributes to template
 	 * @return index page
 	 */
 	@RequestMapping("/home")
-		public String startMenu(Model m) {
-			m.addAttribute("saved", simRepo.getAllSavedSimulations());
-			return "index";
+	public String startMenu(Model m) {
+		simRepo.readSavedSimulations();
+		m.addAttribute("saved", simRepo.getSavedSimulations());
+		return "index";
 	}
-	
-	
+
+
 	@RequestMapping("/load")
 	public String loadSavedSimulation(@RequestParam("id") int id) {
+		List<FileDTO> datasets = new ArrayList<FileDTO>();
+		List<Panel> panels = simRepo.getSavedSimulations().get(id).getPanelList();
+		for(Panel p: panels) {
+
+			influx.addStaticPoints( datasets, "sensor" );
+		}
+		refreshingPar = "?from=now-1m&to=now%2B20m"; 
+		switch(panels.size()){
+		case 1:{
+			redirectLink = "d/ibjZzy-iz/1-panel-monitoring";
+			break;
+		}
+		case 2:{
+			redirectLink = "d/hUg4ks-ik/2-panel-monitoring";
+			break; 
+		}
+		default:{
+			redirectLink = "d/OSF-tramk/3-panels-monitoring";
+		}
+		}
 		return "redirect://" + grafanaHost;
 	}
-	
+
 	/**
 	 * Adds currently selected simulation data to model and passes it to the template
 	 * @return template for simulation dashboard
@@ -96,7 +117,7 @@ public class MainController {
 		m.addAttribute("pendingPanels", pendingPanels);
 		return "new-sim";
 	}
-	
+
 	/**
 	 * Returns new simulation template with a form for submitting new panel
 	 * @param m model for passing arguments to template
@@ -105,24 +126,31 @@ public class MainController {
 	 * @return new simulation template with toggled modal window for adding panel
 	 */
 	@GetMapping("/newpanel/{id}")
-	public String getPanelForm(Model m, @PathVariable(value="id") Integer id, @RequestParam(value="simulation") String simName) {
+	public String getPanelForm(Model m, @PathVariable(value="id") Integer id, @RequestParam(value="simulation", required=false) String simName) {
+		System.out.print("pendingPanels: " + pendingPanels);
+		System.out.print("id: " + id);
+
 		if(pendingPanels.size() > id) {
-			pendingPanel = pendingPanels.get(id);
+			for(Panel p : pendingPanels) {
+				if(p.getId() == id) {
+					pendingPanel = p;
+					break;
+				}
+			}
 			m.addAttribute("edit", true);
-		}else {
-			pendingPanel = new Panel();
 		}
 
 		pendingSimulation.setName(simName);
 
 		m.addAttribute("modal", true);
+		m.addAttribute("panelId", id);
 		m.addAttribute("simulation", pendingSimulation);
 		m.addAttribute("simulationName", pendingSimulation.getName());
 		m.addAttribute("panel", pendingPanel);
 		m.addAttribute("pendingPanels", pendingPanels);
 		return "new-sim";
 	}
-	
+
 	/**
 	 * Processes submitted simulation form
 	 * @param simulation simulation model with prefilled fields
@@ -131,65 +159,45 @@ public class MainController {
 	 * @return redirect to grafana dashboard if form is valid, otherwise new simulation template with comments on errors
 	 */
 	@PostMapping("/newsimulation")
-	    public String saveSimulation(@ModelAttribute Simulation simulation, Model m, final RedirectAttributes redirectAttributes) {
-			if(simulation.getName() == null || simulation.getName().length() < 1) {
-				redirectAttributes.addFlashAttribute("error", "Enter a name");
-			}else if(simRepo.simulationNameExists(simulation.getName())) {
-				redirectAttributes.addFlashAttribute("error", "Simulation with this name already exists");
-			}else if(pendingPanels.size() < 1) {
-				redirectAttributes.addFlashAttribute("error", "You must add at least 1 graph");
-			}
-			else {
-				List<FileDTO> sens  = new ArrayList<FileDTO>();
-				List<FileDTO> sims  = new ArrayList<FileDTO>();
-				List<FileDTO> cur  = new ArrayList<FileDTO>();
-				int counter = 1;
-				boolean allPanelsAreStatic = true;
-				int longestDuration = 0;
-				for(Panel p : pendingPanels) {
-					if(p.getSensorPathDTO() != null) {
-						p.getSensorPathDTO().setNumber(counter);
-						allPanelsAreStatic = false;
-					}
-					sens.add(p.getSensorPathDTO());
-					if(p.getSimulationPathDTO() != null) {
-						p.getSimulationPathDTO().setNumber(counter);
-						longestDuration = Math.max(longestDuration, p.getSimulationPathDTO().getDuration());
-					}
-					sims.add(p.getSimulationPathDTO());
-					if(p.getCuringCyclePathDTO() != null) {
-						p.getCuringCyclePathDTO().setNumber(counter);
-						longestDuration = Math.max(longestDuration, p.getCuringCyclePathDTO().getDuration());
-					}
-					cur.add(p.getCuringCyclePathDTO());
-					counter++;
-				}
-
-				influx.tearDownTables();
-				influx.addStaticPoints(sims, "simulation");
-				influx.addStaticPoints(cur, "curing_cycle");
-				influx.simulateSensor(1000, sens);
-				refreshingPar = allPanelsAreStatic ? "?from=now-1m&to=now%2B" + (longestDuration+2) + "m" : "?orgId=1&refresh=1s"; 
-				switch(pendingPanels.size()){
-					case 1:{
-						redirectLink = "d/ibjZzy-iz/1-panel-monitoring";
-						break;
-					}
-					case 2:{
-						redirectLink = "d/hUg4ks-ik/2-panel-monitoring";
-						break; 
-					}
-					default:{
-						redirectLink = "d/OSF-tramk/3-panels-monitoring";
-					}
-				}
-				return "redirect://" + grafanaHost + redirectLink + refreshingPar;
-			}
-			return "redirect:/newsimulation";
+	public String saveSimulation(@ModelAttribute Simulation simulation, Model m, final RedirectAttributes redirectAttributes) {
+		if(simulation.getName() == null || simulation.getName().length() < 1) {
+			redirectAttributes.addFlashAttribute("error", "Enter a name");
+		}else if(simRepo.simulationNameExists(simulation.getName())) {
+			redirectAttributes.addFlashAttribute("error", "Simulation with this name already exists");
+		}else if(pendingPanels.size() < 1) {
+			redirectAttributes.addFlashAttribute("error", "You must add at least 1 graph");
+		}
+		else {
+			processPendingData();
+			return "redirect://" + grafanaHost + redirectLink + refreshingPar;
+		}
+		return "redirect:/newsimulation";
 	}
 	
 	/**
-	 * Processes submitted form with new panel
+	 * Saves panel
+	 */
+	@PostMapping(value="/newpanel/{panelId}", consumes = "multipart/form-data", params = "new panel")
+		public String savePanel(@ModelAttribute Panel panel,  @PathVariable(value="panelId") Integer id, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {
+		
+		boolean edit = edited != null;
+
+		if(!edit) {
+			panel.setFinalId();
+			pendingPanels.add(panel);	
+		}else {
+			for(Panel p : pendingPanels) {
+				if(p.getId() == panel.getId()) {
+					p.editPanel(panel);
+					break;
+				}
+			}
+		}
+		return  "redirect:/newsimulation/";
+	}
+
+	/**
+	 * Adds file to the panel
 	 * @param panel panel model with prefilled fields
 	 * @param request http request (needed to extract uploaded files)
 	 * @param edited tells whether user is creating a new panel or editing an existing one
@@ -197,88 +205,81 @@ public class MainController {
 	 * @param redirectAttributes allows to pass attributes to another method when redirecting
 	 * @return redirect to updated new simulation template if submitted form is valid, otherwise new panel template with comments on errors 
 	 */
-	@PostMapping(value="/newpanel", consumes = "multipart/form-data")
-		public String savePanel(@ModelAttribute Panel panel, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {
-		
+	@PostMapping(value="/newpanel/{panelId}", consumes = "multipart/form-data", params = "new file")
+	public String saveFile(@ModelAttribute Panel panel,  @PathVariable(value="panelId") Integer id, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {
+
+		redirectAttributes.addFlashAttribute("pendingName", panel.getSimulationName());
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		List<String> corruptedFiles = new ArrayList<String>(0);
 		boolean edit = edited != null;
 		
-		System.out.println("edit: " + edit);
-			try {
-				panel.setSensorPath(multipartRequest.getPart("sensorPath").getSubmittedFileName());
-					InputStream sensorStream = multipartRequest.getPart("sensorPath").getInputStream();
-					Reader r = new InputStreamReader(sensorStream);
-					String extension = multipartRequest.getPart("sensorPath").getSubmittedFileName().substring(multipartRequest.getPart("sensorPath").getSubmittedFileName().lastIndexOf('.') + 1);
-					if(!extension.equals("csv") && panel.getSensorPath().length()>1) {
-						System.out.println("panel.getSensorPath().length(): " + panel.getSensorPath().length());
-						corruptedFiles.add("sensor");
-					}
-					panel.setSensorPathDTO( parser.parseFilesForPanels("sensor", r) );
-
-			}catch (Exception e) {
-				panel.setSensorPath(null);
-				panel.setSensorPathDTO(null);
-			}
-			
-			try {
-				panel.setSimulationPath(multipartRequest.getPart("simulationPath").getSubmittedFileName());
-					InputStream simulationStream = multipartRequest.getPart("simulationPath").getInputStream();
-					Reader r = new InputStreamReader(simulationStream);	
-					String extension = multipartRequest.getPart("simulationPath").getSubmittedFileName().substring(multipartRequest.getPart("simulationPath").getSubmittedFileName().lastIndexOf('.') + 1);
-					if(!extension.equals("csv") && panel.getSimulationPath().length()>1) {
-						corruptedFiles.add("simulation");
-					}
-					panel.setSimulationPathDTO( parser.parseFilesForPanels("simulation", r) );
-
-			}catch (Exception e) {
-				panel.setSimulationPath(null);
-				panel.setSimulationPathDTO(null);
-			}
-			
-			try {
-				panel.setCuringCyclePath(multipartRequest.getPart("curingCyclePath").getSubmittedFileName());
-				InputStream curingCycleStream = multipartRequest.getPart("curingCyclePath").getInputStream();
-				Reader r = new InputStreamReader(curingCycleStream);	
-				String extension = multipartRequest.getPart("curingCyclePath").getSubmittedFileName().substring(multipartRequest.getPart("curingCyclePath").getSubmittedFileName().lastIndexOf('.') + 1);
-				if(!extension.equals("csv") && panel.getCuringCyclePath().length()>1) {
-					corruptedFiles.add("curing cycle");
-				}
-				panel.setCuringCyclePathDTO( parser.parseFilesForPanels("curing_cycle", r) );
-
-			}catch (Exception e) {
-				panel.setCuringCyclePath( null );
-				panel.setCuringCyclePathDTO( null );
-			}
-				
-			redirectAttributes.addFlashAttribute("pendingName", panel.getSimulationName());
-				
-				if(corruptedFiles.size() > 0) {
-					redirectAttributes.addFlashAttribute("panelError", "Following datasets could not be parsed: " + String.join(", ", corruptedFiles) );
-				}else if(!panel.filesAreCSV()) {
-					redirectAttributes.addFlashAttribute("panelError", "Only CSV files are allowed");
-				}else if(panel.allPathsEmpty() && !edit){
-					redirectAttributes.addFlashAttribute("panelError", "You must pick at least one dataset");
-				}else if(panel.getName() == null || panel.getName().length()<1){
-					redirectAttributes.addFlashAttribute("panelError", "Name shall not be empty");
-				}else {
-
-						for(Panel p : pendingPanels) {
-							if(p.getId() == panel.getId()) {
-								p.editPanel(panel);
-								break;
-							}
-						}
-						if(!edit) {
-							panel.setFinalId();
-							pendingPanels.add(panel);	
-						}
-						return "redirect:/newsimulation";
-				}
 		
-			return "redirect:/newpanel";
+		System.out.println("edit: " + edit);
+		try {
+
+			String submittedPath = (multipartRequest.getPart("pendingFile").getSubmittedFileName());
+			System.out.println("submittedPath: " + submittedPath);
+			InputStream sensorStream = multipartRequest.getPart("pendingFile").getInputStream();
+			Reader r = new InputStreamReader(sensorStream);
+			String extension = submittedPath.substring(submittedPath.lastIndexOf('.') + 1);
+			if(!extension.equals("csv") && submittedPath.length() > 1) {
+				System.out.println("here 1--- " + extension);
+				redirectAttributes.addFlashAttribute("panelError", "Submitted file is invalid or missing" );
+			}
+			List<FileDTO> currentFiles = pendingPanel.getFiles();
+			FileDTO fileToAdd = parser.parseFilesForPanels(panel.getPendingFile().getType(), r);
+			fileToAdd.setName(panel.getPendingFile().getName());
+			currentFiles.add( fileToAdd );
+			System.out.println("fileToAdd: " + fileToAdd.getRows());
+			pendingPanel.setFiles(currentFiles);
+
+		}catch (Exception e) {
+			redirectAttributes.addFlashAttribute("panelError", "Submitted file is invalid or missing");
+			e.printStackTrace();
+		}
+
+		return  "redirect:/newpanel/" + id;
 	}
-	
+
+	public void processPendingData() {
+		List<FileDTO> sens  = new ArrayList<FileDTO>();
+		List<FileDTO> stats  = new ArrayList<FileDTO>();
+		int counter = 1;
+		boolean allPanelsAreStatic = true;
+		int longestDuration = 0;
+		for(Panel p : pendingPanels) {
+
+			for(FileDTO file : p.getFiles()) {
+				if(file.getType().equals("Sensor")) {
+					sens.add(file);
+					allPanelsAreStatic = false;
+				}else {
+					stats.add(file);
+				}
+				file.setNumber(counter);
+				longestDuration = Math.max(longestDuration, file.getDuration());
+			}
+			counter++;
+		}
+
+		influx.tearDownTables();
+		influx.addStaticPoints(stats, "simulation".replace(' ', '_'));
+		influx.simulateSensor(1000, sens);
+		refreshingPar = allPanelsAreStatic ? "?from=now-1m&to=now%2B" + (longestDuration+2) + "m" : "?orgId=1&refresh=1s"; 
+		switch(pendingPanels.size()){
+		case 1:{
+			redirectLink = "d/ibjZzy-iz/1-panel-monitoring";
+			break;
+		}
+		case 2:{
+			redirectLink = "d/hUg4ks-ik/2-panel-monitoring";
+			break; 
+		}
+		default:{
+			redirectLink = "d/OSF-tramk/3-panels-monitoring";
+		}
+		}
+	}
+
 	/**
 	 * Removes added panel
 	 * @param id id of the panel to be removed
@@ -298,24 +299,24 @@ public class MainController {
 			pendingPanels.remove(panelToRemove);
 		}
 		return "redirect:/newsimulation";
-}
-	
+	}
+
 	@PostMapping("/saveComment/")
 	public String sa(@RequestBody String reqBody) {
-		
+
 		return "redirect:/" + redirectLink;
 	}
-	
+
 	@GetMapping("/savePanel")
 	public String startSavingPanel(@RequestParam("id") int id) {
 		saver.savePanel(pendingSimulation, pendingPanels.get(id), id+1);
 		return "redirect://" + grafanaHost + redirectLink + refreshingPar;
 
 	}
-	
+
 	@RequestMapping("/")
-		public String redirectToHome() {
-	    	return "redirect:/home";
+	public String redirectToHome() {
+		return "redirect:/home";
 	}
 }
 

@@ -80,6 +80,71 @@ body{
 .modal-body p span{
     color: red;
 }
+.modal-body h5{
+    text-align: center;
+    border-top: 1px solid #e9ecef;
+    padding: 5px;
+}
+.filesInPanels {
+	padding: 15px;
+	justify-content: space-around;
+}
+.filesInPanels div{
+	margin: 5px;
+	padding: 0;
+	padding-top: 15px;
+	border: 1px solid red;
+	min-height:100px;
+	text-align: center;
+   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+    background-color: #e3e8ee;
+    border-color: #e9edf2;
+    color: #767980;
+    border: 1px solid #c7d0d9;
+    cursor: pointer;
+}
+.filesInPanels div i{
+	font-size: 30px;
+}
+.filesInPanels div p{
+	font-size: 12px;
+	margin-bottom: 0;
+}
+
+.radioWrapper label{
+	margin-right: 20px;
+}
+.radioWrapper input{
+	margin-right: 5px;
+}
+.filesInPanels div:hover{
+	background-image: url(../fontawesome/svgs/solid/times.svg); 
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+.filesInPanels div:hover p, .filesInPanels div:hover i{
+	opacity: 0;
+}
+.addFileToPanelBtn{
+	background-color: #e3e8ee;
+	color: #767980;
+}
+.addFileToPanelBtn:hover{
+	background-color: #767980;
+	color: #e3e8ee;
+	transition: 0.3s;
+}
+
+
+
+
+
+
+
+
+
+ 
+
 
 
 

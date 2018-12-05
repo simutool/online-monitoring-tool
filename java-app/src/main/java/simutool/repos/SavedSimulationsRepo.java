@@ -1,15 +1,20 @@
 package simutool.repos;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import simutool.CSVprocessor.FileDTO;
+import simutool.CSVprocessor.Parser;
 import simutool.models.Panel;
 import simutool.models.Simulation;
 
@@ -22,15 +27,17 @@ public class SavedSimulationsRepo {
 	@Value("${saveCSVfolder}")
 	private String savingFolder;
 	
-	public List<Simulation> getAllSavedSimulations() {
+	@Autowired
+	private Parser parser;
+	
+	static List<Simulation> savedSimulations;
+	
+	public void readSavedSimulations() {
 		File folder = new File(savingFolder);
 		List<File> savedFiles = Arrays.asList(folder.listFiles()); 
 		Map<String, List<File>> grouped = savedFiles.stream()
 				.collect(Collectors.groupingBy(file -> file.getName().substring(4, file.getName().indexOf("_PANEL_")) ));
 		List<List<File>> groupedList = new ArrayList<List<File>>(grouped.values());
-		
-		System.out.println("from first list" + groupedList.get(0).get(0).getName());
-		System.out.println("from second list" + groupedList.get(1).get(0).getName());
 
 		List<Simulation> result = new ArrayList<Simulation>();
 		
@@ -53,30 +60,19 @@ public class SavedSimulationsRepo {
 
 				System.out.println("it has panels: " + panelName);
 				Panel p = new Panel();
+				List<FileDTO> newFiles = new ArrayList<FileDTO>();
 				p.setName(panelName);
 				for(File file : files) {
 					String dataType = file.getName().substring(file.getName().indexOf("---")+3, file.getName().length()-4);
 					System.out.println("it has file: " + dataType);
+							try {
+								newFiles.add( parser.parseFilesForPanels(dataType.toLowerCase() , new FileReader(savingFolder + "/" + file.getName())));
 
-					switch(dataType) {
-						case "SENSOR":{
-							p.setSensorPath(savingFolder + "/" + file.getName());
-							break;
-						}
-						case "SIMULATION":{
-							p.setSimulationPath(savingFolder + "/" + file.getName());
-							break;
-						}
-						case "CURING_CYCLE":{
-							p.setCuringCyclePath(savingFolder + "/" + file.getName());
-							break;
-						}
-						default:{
-							break;
-						}
-					}		
+							} catch (FileNotFoundException e) {
+								e.printStackTrace();
+							}	
 				}
-
+				p.setFiles(newFiles);
 				myPanels.add(p);
 				System.out.println(p);
 
@@ -85,7 +81,7 @@ public class SavedSimulationsRepo {
 			result.add(sim);
 		}
 		
-		return result;
+		savedSimulations = result;
 	}
 	
 /*	public RowMapper<Simulation> simulationsRowMapper = new RowMapper<Simulation>() {
@@ -102,6 +98,16 @@ public class SavedSimulationsRepo {
 	//	boolean exists = template.queryForObject("SELECT COUNT(id) FROM simulations where name='" + name + "'", Integer.class) > 0;
 		return false;
 	}
+
+	public static List<Simulation> getSavedSimulations() {
+		return savedSimulations;
+	}
+
+	public static void setSavedSimulations(List<Simulation> savedSimulations) {
+		SavedSimulationsRepo.savedSimulations = savedSimulations;
+	}
+	
+	
 	
 	/* public List<Panel> getAllPanelsForSimulation(int simId) {
 		List<Panel> simList = template.query("SELECT * FROM panels where simulationId=" + simId, panelsForSimulationRowMapper);

@@ -53,5 +53,11 @@ public class FileDTO {
 		return (Integer.parseInt( rows.get(rows.size()-1)[0] ) - Integer.parseInt( rows.get(0)[0] ))/60;
 		
 	}
+	@Override
+	public String toString() {
+		return "FileDTO [number=" + number + ", name=" + name + ", type=" + type + ", datasource_id=" + datasource_id
+				+ ", rows=" + rows + "]";
+	}
+	
 
 }

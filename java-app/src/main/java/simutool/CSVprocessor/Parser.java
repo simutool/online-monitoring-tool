@@ -43,10 +43,15 @@ public class Parser {
 
 		List<String[]> rows = null;	 
 		
-			rows = libParser.parseAll(r);
-		
-			rows = rows.subList(1, rows.size())
-					.stream().map(item -> Arrays.copyOfRange(item, 0, 3)).collect(Collectors.toList());
+			try {
+				rows = libParser.parseAll(r);
+
+				rows = rows.subList(1, rows.size())
+						.stream().map(item -> Arrays.copyOfRange(item, 0, 3)).collect(Collectors.toList());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	
 
 		//	Map<String, List<String[]>> grouped = rows.stream()

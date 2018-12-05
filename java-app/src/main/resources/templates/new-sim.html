@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"></link>
+    <link rel="stylesheet" th:href="@{/fontawesome/css/all.css}"></link>
     <link rel="stylesheet" type="text/css" th:href="@{/index.css}"></link>
     <script th:src="@{/js/jquery.min.js}" ></script>
         <script th:src="@{/js/bootstrap.min.js}" ></script>
@@ -51,7 +52,7 @@
 
         <div id="newPanelModal" class="modal"  tabindex="-1" role="dialog">
              <div class="modal-dialog" role="document">
-               <form class="form-group col-12"  th:action="@{/newpanel}" th:object="${panel}" method="post" enctype="multipart/form-data">
+               <form class="form-group col-12"  th:action="@{'/newpanel/' + ${panelId}}" th:object="${panel}" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
                           <h5 class="modal-title">New panel</h5>
@@ -64,14 +65,33 @@
                         <input style="display: none;" type="number"  name="edit" value="1" th:if="${edit}" />
                         <input style="display: none;" type="text" id="simulationNameForPanel" th:field="*{simulationName}"  />
                         <input class="form-control" id="modalId" type="text" style="display: none;" th:field="*{id}" />
-                        <p >Name: <input class="form-control" id="modalName" type="text" th:field="*{name}" /></p>
-                        <p>Sensor: <span th:if="${panel.getSensorPath()}" th:text="'(current: ' + ${panel.getSensorPath()} + ')'"></span><input class="form-control" id="modalSens" type="file" th:field="*{sensorPath}" /></p>
-                        <p >Simulation: <span th:if="${panel.getSimulationPath()}" th:text="'(current: ' + ${panel.getSimulationPath()} + ')'"></span><input class="form-control"  id="modalSim" type="file" th:field="*{simulationPath}" /></p>
-                        <p >Curing cycle: <span th:if="${panel.getCuringCyclePath()}" th:text="'(current: ' + ${panel.getCuringCyclePath()} + ')'"></span><input class="form-control"  id="modalCur" type="file" th:field="*{curingCyclePath}" /></p>
+                        <p>Name: <input class="form-control" id="modalName" type="text" th:field="*{name}" /></p>
+                        
+                        <div class="row filesInPanels" >
+                        	<div class="col-3" th:each="file,iter : ${panel.getFiles()}">
+                        		<i th:class="${file.type.equals('Sensor') ? 'fas fa-file-medical-alt' :
+                        		 (file.type.equals('Simulation') ? 'fas fa-file-signature' : 'fas fa-file-alt')}"></i>
+                        		<p th:text="${file.type}"></p>
+                        		<p th:text="${file.name.length()>0 ? file.name : file.type + ' ' +iter.index+1}"></p>
+                        	</div>
+                        	                        	
+                        </div>
+                        
+                        <h5>Add new dataset:</h5>
+                        <p>File: <input class="form-control" language="en" id="modalSens" type="file" th:field="*{pendingFile}" /></p>
+                        <p>Dataset name: <input class="form-control" language="en" id="modalSens" type="text" th:field="*{pendingFile.name}" /></p>
+                          <div class="form-group radioWrapper" >
+						    <select class="form-control" id="fileTypeSelect" th:field="*{pendingFile.type}">
+						      <option value="Sensor">Sensor</option>
+						      <option value="Simulation">Simulation</option>
+						      <option value="Curing cycle">Curing cycle</option>
+						    </select>
+						  </div>
+						 <div class="row"><button type="submit" name="new file" class="btn btn-default col-2 offset-5 addFileToPanelBtn">Add</button></div>
+						  
                     </div>
                     <div class="modal-footer">
-                        <a ><button type="submit" class="btn btn-primary">Save changes</button></a>
-                        <a href="/newsimulation"><button type="button" class="btn btn-secondary">Close</button></a>
+                        <a ><button type="submit" name="new panel" class="btn btn-primary">Save changes</button></a>
                     </div>
                 </div>
                </form>
