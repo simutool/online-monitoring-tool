@@ -34,39 +34,43 @@ public class SavedSimulationsRepo {
 	
 	public void readSavedSimulations() {
 		File folder = new File(savingFolder);
-		List<File> savedFiles = Arrays.asList(folder.listFiles()); 
-		Map<String, List<File>> grouped = savedFiles.stream()
-				.collect(Collectors.groupingBy(file -> file.getName().substring(4, file.getName().indexOf("_PANEL_")) ));
-		List<List<File>> groupedList = new ArrayList<List<File>>(grouped.values());
+		String[] directories = folder.list();
+
+		
+		
 
 		List<Simulation> result = new ArrayList<Simulation>();
 		
 		//Iterate through list of experiments
-		for(List<File> exp : groupedList) {
-			String simName = exp.get(0).getName().substring(4, exp.get(0).getName().indexOf("_PANEL_"));
+		for(String path : directories) {
+			File exp = new File(folder + "/" + path);
+			String simName = exp.getName().substring(4, exp.getName().length());
 			Simulation sim = new Simulation();
 			sim.setName(simName);
-			System.out.println("Simulation found: " + simName);
+			System.out.println("Simulation found: " + exp.list());
 			List<Panel> myPanels = new ArrayList<Panel>();
 			
 			//Group experiment by panel name
-			Map<String, List<File>> groupedByPanelMap = exp.stream()
-					.collect(Collectors.groupingBy(file -> file.getName().substring(file.getName().indexOf("_PANEL_")+7, file.getName().indexOf("---")) ));
-			List<List<File>> groupedByPanelList = new ArrayList<List<File>>(groupedByPanelMap.values());
+			List<String> panelPaths =  Arrays.asList(exp.list());
+			
+			Map<String, List<String>> groupedByPanelMap = panelPaths.stream()
+					.collect(Collectors.groupingBy(file -> file.substring(file.indexOf("_PANEL_")+7, file.indexOf("---")) ));
+			List<List<String>> groupedByPanelList = new ArrayList<List<String>>(groupedByPanelMap.values());
 
 			//Iterate through panels of one experiment
-			for(List<File> files : groupedByPanelList) {
-				String panelName = files.get(0).getName().substring(files.get(0).getName().indexOf("_PANEL_")+7, files.get(0).getName().indexOf("---"));
+			for(List<String> files : groupedByPanelList) {
+				String panelName = files.get(0).substring(files.get(0).indexOf("_PANEL_")+7, files.get(0).indexOf("---"));
 
 				System.out.println("it has panels: " + panelName);
 				Panel p = new Panel();
 				List<FileDTO> newFiles = new ArrayList<FileDTO>();
 				p.setName(panelName);
-				for(File file : files) {
-					String dataType = file.getName().substring(file.getName().indexOf("---")+3, file.getName().length()-4);
+				for(String file : files) {
+					String dataType = file.substring(file.indexOf("---")+3, file.length()-4);
 					System.out.println("it has file: " + dataType);
 							try {
-								newFiles.add( parser.parseFilesForPanels(dataType.toLowerCase() , new FileReader(savingFolder + "/" + file.getName())));
+								newFiles.add( parser.parseFilesForPanels(dataType.toLowerCase() , new FileReader(savingFolder +
+										"/EXP_" + simName + "/" + file)));
 
 							} catch (FileNotFoundException e) {
 								e.printStackTrace();

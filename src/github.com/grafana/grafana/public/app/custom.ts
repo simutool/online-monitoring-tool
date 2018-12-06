@@ -5,11 +5,9 @@ import $ from 'jquery';
 	const springHost = 'http://localhost:8090';
 
 
- $(window).on('load',function(){
-
-            });
+ 
 			
-	$(window).on('load',function(){
+	$(function(){
         $.ajax({
 			method: 'GET',
 			url: springHost + '/getExperimentData',
@@ -20,7 +18,10 @@ import $ from 'jquery';
 			console.log(response);
 			
 			var counter = 0;
+							console.log(response);
+
 			for(let panel of response){
+				console.log(panel);
 				//Set panel names
 				$($(".panel-title-text")[counter]).text(panel.name);
 
@@ -31,6 +32,7 @@ import $ from 'jquery';
 				$($(".customTimepicker")[counter]).on("focus", function(event){
 					this.value = new Date().toLocaleTimeString();
 				});
+				 
 			
 				//Set current time every time comment body is in focus
 				$($(".commentBody")[counter]).on("focus", setCustomTime.bind(this, counter));	

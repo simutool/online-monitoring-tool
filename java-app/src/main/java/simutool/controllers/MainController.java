@@ -93,7 +93,7 @@ public class MainController {
 			redirectLink = "d/OSF-tramk/3-panels-monitoring";
 		}
 		}
-		return "redirect://" + grafanaHost;
+		return "redirect://" + grafanaHost + redirectLink + refreshingPar;
 	}
 
 	/**
@@ -125,25 +125,15 @@ public class MainController {
 	 * @param simName current simulation name, needs to be updated in case if user changes it meanwhile
 	 * @return new simulation template with toggled modal window for adding panel
 	 */
-	@GetMapping("/newpanel/{id}")
-	public String getPanelForm(Model m, @PathVariable(value="id") Integer id, @RequestParam(value="simulation", required=false) String simName) {
-		System.out.print("pendingPanels: " + pendingPanels);
-		System.out.print("id: " + id);
+	@GetMapping("/newpanel")
+	public String getPanelForm(Model m, @RequestParam(value="simulation", required=false) String simName, HttpServletRequest request) {
 
-		if(pendingPanels.size() > id) {
-			for(Panel p : pendingPanels) {
-				if(p.getId() == id) {
-					pendingPanel = p;
-					break;
-				}
-			}
-			m.addAttribute("edit", true);
+		if(simName != null && simName.length() > 0) {
+			pendingSimulation.setName(simName);
 		}
-
-		pendingSimulation.setName(simName);
-
+		pendingPanel = new Panel();
+		
 		m.addAttribute("modal", true);
-		m.addAttribute("panelId", id);
 		m.addAttribute("simulation", pendingSimulation);
 		m.addAttribute("simulationName", pendingSimulation.getName());
 		m.addAttribute("panel", pendingPanel);
@@ -182,12 +172,16 @@ public class MainController {
 		
 		boolean edit = edited != null;
 
-		if(!edit) {
-			panel.setFinalId();
-			pendingPanels.add(panel);	
+		if(panel.getName().length() < 1) {
+			redirectAttributes.addFlashAttribute("panelError", "Enter panel name");
+			return  "redirect:/newpanel/" + id;
+		}else if(id == 0) {
+			pendingPanel.setFinalId();
+			pendingPanel.setName(panel.getName());
+			pendingPanels.add(pendingPanel);	
 		}else {
 			for(Panel p : pendingPanels) {
-				if(p.getId() == panel.getId()) {
+				if(p.getFinalId() == id) {
 					p.editPanel(panel);
 					break;
 				}
@@ -196,6 +190,30 @@ public class MainController {
 		return  "redirect:/newsimulation/";
 	}
 
+	/**
+	 * Saves panel
+	 */
+	@GetMapping(value="/editpanel/{panelId}")
+		public String editPanelForm(@ModelAttribute Panel panel,  @RequestParam(value="simulation", required=false) String simName, @PathVariable(value="panelId") Integer id, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {
+		
+			for(Panel p : pendingPanels) {
+				if(p.getFinalId() == id) {
+					pendingPanel = p;
+					break;
+				}
+			}
+			if(simName != null && simName.length() > 0) {
+				pendingSimulation.setName(simName);
+			}
+			m.addAttribute("modal", true);
+			m.addAttribute("simulation", pendingSimulation);
+			m.addAttribute("simulationName", pendingSimulation.getName());
+			m.addAttribute("panel", pendingPanel);
+			m.addAttribute("pendingPanels", pendingPanels);
+			return "new-sim";
+		
+	}
+	
 	/**
 	 * Adds file to the panel
 	 * @param panel panel model with prefilled fields
@@ -211,7 +229,8 @@ public class MainController {
 		redirectAttributes.addFlashAttribute("pendingName", panel.getSimulationName());
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		boolean edit = edited != null;
-		
+		String panelName = panel.getName() == null || panel.getName().length()<1 ? (panel.getPendingFile().getType() + "_" + (panel.getFiles().size()+1)) : panel.getName();
+		pendingPanel.setName(panelName);
 		
 		System.out.println("edit: " + edit);
 		try {
@@ -237,7 +256,7 @@ public class MainController {
 			e.printStackTrace();
 		}
 
-		return  "redirect:/newpanel/" + id;
+		return  "redirect:/editpanel/" + id;
 	}
 
 	public void processPendingData() {
@@ -256,7 +275,8 @@ public class MainController {
 					stats.add(file);
 				}
 				file.setNumber(counter);
-				longestDuration = Math.max(longestDuration, file.getDuration());
+				longestDuration = Math.max(longestDuration, file.findDuration());
+				
 			}
 			counter++;
 		}
@@ -264,7 +284,7 @@ public class MainController {
 		influx.tearDownTables();
 		influx.addStaticPoints(stats, "simulation".replace(' ', '_'));
 		influx.simulateSensor(1000, sens);
-		refreshingPar = allPanelsAreStatic ? "?from=now-1m&to=now%2B" + (longestDuration+2) + "m" : "?orgId=1&refresh=1s"; 
+		refreshingPar = allPanelsAreStatic ? "?from=now-4m&to=now%2B" + (longestDuration+2) + "m" : "?orgId=1&refresh=1s"; 
 		switch(pendingPanels.size()){
 		case 1:{
 			redirectLink = "d/ibjZzy-iz/1-panel-monitoring";
@@ -290,7 +310,7 @@ public class MainController {
 
 		Panel panelToRemove = null;
 		for(Panel p : pendingPanels) {	
-			if(p.getId() == id){
+			if(p.getFinalId() == id){
 				panelToRemove = p;
 				break;
 			}

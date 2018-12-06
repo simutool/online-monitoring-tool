@@ -12,6 +12,7 @@ public class Panel {
 	
 	private static int nextId = 1;	
 	private int id;
+	private int finalId;
 	private String name;
 	private int simulationId;
 	private String simulationName;
@@ -27,6 +28,7 @@ public class Panel {
 		super();
 		this.id = id;
 		this.name = name;
+		this.finalId = 0;
 		this.simulationName = simulationName;
 	}
 	public Panel() {
@@ -56,8 +58,11 @@ public class Panel {
 	public void setId(int id) {
 		this.id = id;
 	}
+	public int getFinalId() {
+		return finalId;
+	}
 	public void setFinalId() {
-		this.id = nextId;
+		this.finalId = nextId;
 		nextId++;
 	}
 	public String getName() {
@@ -89,7 +94,6 @@ public class Panel {
 	
 	public void editPanel(Panel newPanel) {
 		name = newPanel.getName();
-		files = newPanel.getFiles();		
 	}
 	public static long getNextId() {
 		return nextId;

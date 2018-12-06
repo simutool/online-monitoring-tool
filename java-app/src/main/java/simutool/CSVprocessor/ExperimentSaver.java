@@ -73,10 +73,15 @@ public class ExperimentSaver {
 	 
 	public void writeCSV(FileDTO file, String simulationName) {
 		
-		String fileName = (savingFolder + "/EXP_" + simulationName.replaceAll("[^A-Za-z0-9]+", "_") + "_PANEL_" + file.getName().replaceAll("[^A-Za-z0-9]+", "_") + "---" + file.getType().toUpperCase() + ".csv");
+		String fileName = ("/EXP_" + simulationName.replaceAll("[^A-Za-z0-9]+", "_") + "_PANEL_" + file.getName().replaceAll("[^A-Za-z0-9]+", "_") + "---" + file.getType().toUpperCase() + ".csv");
 	    System.out.println(fileName);
+	    File directory = new File(savingFolder + "/" + "EXP_" + simulationName);
+
+	    if (! directory.exists()){
+	        directory.mkdir();
+	    }
 	    
-		File fileToWrite = new File(fileName);
+		File fileToWrite = new File(directory + fileName);
 	    int index = 1;
 	    if(file.getType().equals("simulation")){
 	    	index = 2;

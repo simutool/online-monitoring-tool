@@ -73,6 +73,9 @@ body{
 
 .noPanel{
      border: 2px dashed grey;
+     height: 100px;
+     margin-top:15px;
+     width:100px;
 }
 #newPanelModal{
     color: black;

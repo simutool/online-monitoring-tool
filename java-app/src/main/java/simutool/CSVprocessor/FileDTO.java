@@ -48,15 +48,25 @@ public class FileDTO {
 	 * Calculate the duration of the dataset 
 	 * @return duration of the sequence
 	 */
-	public int getDuration() {
-		int result = 0;
-		return (Integer.parseInt( rows.get(rows.size()-1)[0] ) - Integer.parseInt( rows.get(0)[0] ))/60;
+	public int findDuration() {
+		int result;
+		try {
+			System.out.println("1: " + rows.get(rows.size()-1)[0]);
+			System.out.println("2: " + rows.get(0)[0]);
+
+			result = (Integer.parseInt( rows.get(rows.size()-1)[0] ) - Integer.parseInt( rows.get(0)[0] ))/60;
+			return result;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 100;
 		
 	}
 	@Override
 	public String toString() {
 		return "FileDTO [number=" + number + ", name=" + name + ", type=" + type + ", datasource_id=" + datasource_id
-				+ ", rows=" + rows + "]";
+				+ ", rows=" + rows.size() + "]";
 	}
 	
 
