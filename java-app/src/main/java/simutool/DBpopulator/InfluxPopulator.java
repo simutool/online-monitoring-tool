@@ -14,20 +14,25 @@ import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.BatchPoints.Builder;
 import org.influxdb.dto.Point;
 import org.influxdb.dto.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import simutool.CSVprocessor.FileDTO;
 import simutool.CSVprocessor.Parser;
+import simutool.controllers.MainController;
 
 @Service
 public class InfluxPopulator {
 	
 	public final static String tableName = "test";
-	static InfluxDB influxDB;
+	public final static String commentsTableName = "comments";
+
+	public static InfluxDB influxDB;
 	
 	Parser parser;
 	Timer timer;
+	
 	
 	@Value("${influx.host}")
 	private String influxHost;
@@ -57,6 +62,7 @@ public class InfluxPopulator {
 		// String rpName = "aRetentionPolicy";
 		// influxDB.setRetentionPolicy(rpName);
 		influxDB.enableBatch(BatchOptions.DEFAULTS);
+		 tearDownTables();
 	}
 	
 	/**
@@ -65,8 +71,15 @@ public class InfluxPopulator {
 	public void tearDownTables() {
 		Query dropQuery = new Query("DROP database " + tableName, tableName);
 		Query createQuery = new Query("create database " + tableName, tableName);
+		Query dropCommentsQuery = new Query("drop database " + commentsTableName, commentsTableName);
+		Query createCommentsQuery = new Query("create database " + commentsTableName, commentsTableName);
+		influxDB.setDatabase(tableName);
+System.out.println("teared down");
+
 		influxDB.query(dropQuery);
 		influxDB.query(createQuery);
+		influxDB.query(dropCommentsQuery);
+		influxDB.query(createCommentsQuery);
 		//tear down sensor threads
 		if(timer != null ) {
 			timer.cancel();
@@ -91,7 +104,7 @@ public class InfluxPopulator {
 					public void run() {
 						try {
 							gate.await();
-							timer.schedule(new AddPoint(file.getDatasource_id(), millis, file, timer, file.getNumber()), 0, 1 * millis);
+							timer.schedule(new AddPoint(file.getDatasource_id(), millis, file, timer, file.getPanelNumber(), file.getInternalNumber()), 0, 1 * millis);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						} catch (BrokenBarrierException e) {
@@ -121,18 +134,20 @@ public class InfluxPopulator {
 		Timer timer;
 		int millis;
 		int counter;
-		int threadNum;
+		int panelNum;
 		List<String[]> rows;
 		int datasource_id;
 		long shift;
+		int internalNum;
 
-		public AddPoint(int datasource_id, int millis, FileDTO file, Timer timer, int threadNum) {
+		public AddPoint(int datasource_id, int millis, FileDTO file, Timer timer, int panelNum, int internalNum) {
 			
 			this.timer = timer;
 			this.millis = millis;
 			this.datasource_id = datasource_id;
 			rows = file.getRows();
-			this.threadNum = threadNum;
+			this.panelNum = panelNum;
+			this.internalNum = internalNum;
 			counter = 0;
 			shift =  System.currentTimeMillis() - Long.valueOf( rows.get(0)[0] ) - 1;
 			System.out.println("Start adding sensor");
@@ -142,9 +157,8 @@ public class InfluxPopulator {
 			String[] data = rows.get(counter);
 
 			Point point = Point.measurement(tableName).time( Long.parseLong(data[0])*1000 + shift, TimeUnit.MILLISECONDS)
-					.addField("sensor_" + threadNum, Double.parseDouble((data[1]))).build();
-			influxDB.write(point);
-
+					.addField("P" + panelNum + "_sensor_" + internalNum, Double.parseDouble((data[1]))).build();
+			influxDB.write(tableName, "autogen", point);
 			influxDB.close();
 			counter++;
 			if(counter == rows.size()) {
@@ -168,15 +182,22 @@ public class InfluxPopulator {
 				long shift = System.currentTimeMillis() - Long.valueOf(rows.get(0)[0]) - 1;
 				
 				for (String[] data : rows) {
+					long time = 0;
+					System.out.println("file.getEarliestTime()" + file.getEarliestTime());
+					if(file.getEarliestTime() != 0) {
+						time = Long.valueOf(data[0]);
+					}else{
+						time = Long.valueOf(data[0]) * 1000 + shift;
+					}
+					
 					Point batchPoint = Point.measurement(tableName)
-							.time(Long.valueOf(data[0]) * 1000 + shift, TimeUnit.MILLISECONDS)
-							.addField(type + "_" + file.getNumber(), Double.parseDouble((data[1]))).build();
+							.time(time, TimeUnit.MILLISECONDS)
+							.addField("P" + file.getPanelNumber() + "_" + type + "_" + file.getInternalNumber(), Double.parseDouble((data[1]))).build();
 					builder.points(batchPoint);
 
 				}
-				System.out.println(" adding " + type);
-
-				influxDB.write(builder.build());
+				influxDB.setDatabase(tableName);
+				influxDB.write(builder.build()); 
 				influxDB.close();
 			}
 		} catch (NumberFormatException e) {
@@ -184,6 +205,8 @@ public class InfluxPopulator {
 			e.printStackTrace();
 		}
 	}
+	
+
 	
 	
 	public void startInflux() {

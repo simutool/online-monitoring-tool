@@ -18,11 +18,25 @@ public class Panel {
 	private String simulationName;
 	private List<FileDTO> files;
 	private FileDTO pendingFile;
+	boolean isLoaded;
+	List<Comment> comments;
 
 	@Autowired
 	Parser parser;
 	
 
+	public List<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+	public boolean isLoaded() {
+		return isLoaded;
+	}
+	public void setLoaded(boolean isLoaded) {
+		this.isLoaded = isLoaded;
+	}
 	public Panel(int id, String name, String sensorPath, String simulationPath, String simulationName,
 			String curingCyclePath) {
 		super();
@@ -105,8 +119,6 @@ public class Panel {
 	public void setSimulationName(String simulationName) {
 		this.simulationName = simulationName;
 	}
-	
-	
 	
 	public List<FileDTO> getFiles() {
 		return files;

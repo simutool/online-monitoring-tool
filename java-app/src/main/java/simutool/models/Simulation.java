@@ -1,12 +1,26 @@
 package simutool.models;
 
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class Simulation {
 	private String name;
 	private int id;
 	private int panelNum;
 	private List<Panel> panelList;
+	long earliestTime;
+	long latestTime;
+	String projectId;
+	
+	String date;
+	String time;
+	String description;
+	String operators;
+	String oven;
+	String material;
+	String tool;
 	
 	
 	public Simulation() {
@@ -51,6 +65,73 @@ public class Simulation {
 	}
 	public void setPanelList(List<Panel> panelList) {
 		this.panelList = panelList;
+	}
+	public long getEarliestTime() {
+		return earliestTime;
+	}
+	public void setEarliestTime(long earliestTime) {
+		this.earliestTime = earliestTime;
+	}
+	public long getLatestTime() {
+		return latestTime;
+	}
+	public void setLatestTime(long latestTime) {
+		this.latestTime = latestTime;
+	}
+	public String getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getOperators() {
+		return operators;
+	}
+	public void setOperators(String operators) {
+		this.operators = operators;
+	}
+	public String getOven() {
+		return oven;
+	}
+	public void setOven(String oven) {
+		this.oven = oven;
+	}
+	public String getMaterial() {
+		return material;
+	}
+	public void setMaterial(String material) {
+		this.material = material;
+	}
+	public String getTool() {
+		return tool;
+	}
+	public void setTool(String tool) {
+		this.tool = tool;
+	}
+	@Override
+	public String toString() {
+		return "Simulation [name=" + name + ", id=" + id + ", panelNum=" + panelNum + ", panelList=" + panelList
+				+ ", earliestTime=" + earliestTime + ", latestTime=" + latestTime + ", projectId=" + projectId
+				+ ", date=" + date + ", time=" + time + ", description=" + description + ", operators=" + operators
+				+ ", oven=" + oven + ", material=" + material + ", tool=" + tool + "]";
 	}
 	
 	

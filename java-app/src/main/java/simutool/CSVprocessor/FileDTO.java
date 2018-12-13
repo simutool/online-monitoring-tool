@@ -7,18 +7,40 @@ import java.util.List;
  *
  */
 public class FileDTO {
-	private int number;
+	private int panelNumber;
+	private int internalNumber;
 	private String name;
 	private String type;
 	private int datasource_id;
 	private List<String[]> rows;
+	long earliestTime;
+	long latestTime;
 	
-	
-	public int getNumber() {
-		return number;
+	public long getEarliestTime() {
+		return earliestTime;
 	}
-	public void setNumber(int number) {
-		this.number = number;
+	public void setEarliestTime(long earliestTime) {
+		this.earliestTime = earliestTime;
+	}
+	
+	public long getLatestTime() {
+		return latestTime;
+	}
+	public void setLatestTime(long latestTime) {
+		this.latestTime = latestTime;
+	}
+	public int getPanelNumber() {
+		return panelNumber;
+	}
+	public void setPanelNumber(int panelNumber) {
+		this.panelNumber = panelNumber;
+	}
+	
+	public int getInternalNumber() {
+		return internalNumber;
+	}
+	public void setInternalNumber(int internalNumber) {
+		this.internalNumber = internalNumber;
 	}
 	public String getName() {
 		return name;
@@ -61,11 +83,12 @@ public class FileDTO {
 			e.printStackTrace();
 		}
 		return 100;
-		
 	}
+	
+	
 	@Override
 	public String toString() {
-		return "FileDTO [number=" + number + ", name=" + name + ", type=" + type + ", datasource_id=" + datasource_id
+		return "FileDTO [panel number=" + panelNumber + ", name=" + name + ", type=" + type + ", datasource_id=" + datasource_id
 				+ ", rows=" + rows.size() + "]";
 	}
 	

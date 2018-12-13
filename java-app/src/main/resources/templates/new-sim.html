@@ -19,6 +19,27 @@
             <form class="form-group col-12" action="#" th:action="@{/newsimulation}" th:object="${simulation}" method="post">
                 <span style="color: red;" th:text="${error}"></span>
                 <p >Name: <input class="form-control" id="simName" type="text" th:field="*{name}" value="pendingName"  /></p>
+                <div class="row">
+               		 <p class="col-6" style="">Date: <input class="form-control" id="simDate" type="date" th:field="*{date}" value="pendingDate"  /></p>
+                	 <p class="col-6" style="">Time: <input class="form-control" id="simTime" type="time" th:field="*{time}" value="pendingTime"  /></p>
+                </div>
+
+<p>
+
+  <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Advanced
+  </button>
+</p>
+<div class="row collapse" id="collapseExample">
+       <div class="row">
+                       <p class="col-12" style="padding:0">Description: <input class="form-control" id="simDesc" type="text" th:field="*{description}" value="pendingName"  /></p>
+		 <p class="col-6" style="">Operators: <input class="form-control" id="simOps" type="text" th:field="*{operators}" value="pendingOps"  /></p>
+         <p class="col-6" style="">Oven: <input class="form-control" id="simOven" type="text" th:field="*{oven}" value="pendingOven"  /></p>
+      		 <p class="col-6" style="">Material: <input class="form-control" id="simMat" type="text" th:field="*{material}" value="pendingMat"  /></p>
+      		 <p class="col-6" style="">Tool: <input class="form-control" id="simTool" type="text" th:field="*{tool}" value="pendingTool"  /></p>
+      
+       </div>
+</div>
 
                  <div class="addPanelCont">
                     <h4>Panels:</h4>
@@ -114,6 +135,25 @@
         var name =  $("#simName").val();
         window.location.href = "/newpanel?simulation=" + name;
     }
+    
+    $("#simName, #simDate, #simTime, #simDesc, #simOps, #simOven, #simTool").on("change", function(e, t){
+    	const name = e.target.name;
+    	const value = e.target.value;
+    	$.ajax({
+				method: 'POST',
+				url: '/setSimulationData',
+				data: JSON.stringify({ [name]: value }),
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Content-Type': 'application/json'
+		},
+		}).then(function successCallback(response) {
+			console.log(response);		
+		}, function errorCallback(response) {
+				console.log(response);
+		});	
+    	
+    })
 
 </script>
 

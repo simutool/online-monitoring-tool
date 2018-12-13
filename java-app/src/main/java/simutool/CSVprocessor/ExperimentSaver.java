@@ -3,16 +3,20 @@ package simutool.CSVprocessor;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.influxdb.dto.Query;
+import org.influxdb.dto.QueryResult.Series;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import simutool.DBpopulator.InfluxPopulator;
+import simutool.controllers.MainController;
 import simutool.models.Panel;
 import simutool.models.Simulation;
 
@@ -25,55 +29,52 @@ public class ExperimentSaver {
 	@Value("${saveCSVfolder}")
 	private String savingFolder;
 	
-	public void savePanel(Simulation s, Panel p, int id) {
+	public void savePanels(Simulation s) {
 		 
-		 Query query = new Query("SELECT sensor_" + id + ", simulation_" + id + ", curing_cycle_" + id + " FROM " + influx.getTablename(), influx.getTablename());
+		 Query query = new Query("SELECT * FROM " + influx.getTablename(), influx.getTablename());
+		 Query commentsQuery = new Query("SELECT * FROM " + InfluxPopulator.commentsTableName, InfluxPopulator.commentsTableName);
+		 List<Series> seriesData = InfluxPopulator.influxDB.query(commentsQuery).getResults().get(0).getSeries();
+		 if(seriesData != null) {
+			 commentCsvWriter(seriesData.get(0).getValues());
+		 }
+		 List<String> columns = influx.getInfluxDB().query(query).getResults().get(0).getSeries().get(0).getColumns();
 		 List<List<Object>> q = influx.getInfluxDB().query(query).getResults().get(0).getSeries().get(0).getValues();
 		 
-		 System.out.println(q);
+		 System.out.println("columns: " + columns);
+		
 		 
-		 List<String[]> sensorPoints = new ArrayList<String[]>();
-		 List<String[]> simulationPoints = new ArrayList<String[]>();
-		 List<String[]> curingCyclePoints = new ArrayList<String[]>();
+		 List<List<String[]>> collectedFiles = new ArrayList<List<String[]>>();
+		 for(int i = 1; i < columns.size(); i++) {
+			 collectedFiles.add( new ArrayList<String[]>() );
+		 }
+	
 		 String simulationName = s.getName();
 
 		 for(List<Object> point : q) {
-			 if(point.get(1) != null) {
-				 sensorPoints.add(point.toString().split(", "));
-			 }else if(point.get(2) != null) {
-				 simulationPoints.add(point.toString().split(", "));
-			 }else if(point.get(3) != null) {
-				 curingCyclePoints.add(point.toString().split(", "));
+			 for(int i = 1; i < point.size(); i++) {
+				 if(point.get(i) != null) {
+					 collectedFiles.get(i-1).add( new String[]{point.get(0).toString(), point.get(i).toString(), "0"} );
+				 }
 			 }
 		 }
+		 
+		 for(int i = 0; i < collectedFiles.size(); i++) {
+			 FileDTO file = new FileDTO();
+			 file.setRows(collectedFiles.get(i));
+			 file.setType(columns.get(i+1).substring(3, columns.get(i+1).length()-2));
+			 file.setInternalNumber(Integer.parseInt(columns.get(i+1).substring(columns.get(i+1).length()-1, columns.get(i+1).length())));
+			 file.setPanelNumber(Integer.parseInt(columns.get(i+1).substring(1, 2)));
+			 writeCSV(file, simulationName);
+		 }
 
-		 if(sensorPoints.size() > 0) {
-			 FileDTO fileSens = new FileDTO();
-			 fileSens.setRows(sensorPoints);
-			 fileSens.setType("sensor");
-			 fileSens.setName(p.getName());
-			 writeCSV(fileSens, simulationName);
-		 }
-		 if(simulationPoints.size() > 0) {
-			 FileDTO fileSim = new FileDTO();
-			 fileSim.setRows(simulationPoints);
-			 fileSim.setType("simulation");
-			 fileSim.setName(p.getName());
-			 writeCSV(fileSim, simulationName);
-		 }
-		 if(curingCyclePoints.size() > 0) {		 
-			 FileDTO fileCur = new FileDTO();
-			 fileCur.setRows(curingCyclePoints);
-			 fileCur.setType("curing_cycle");
-			 fileCur.setName(p.getName());
-			 writeCSV(fileCur, simulationName);
-		 }
 		 
 	} 
 	 
 	public void writeCSV(FileDTO file, String simulationName) {
 		
-		String fileName = ("/EXP_" + simulationName.replaceAll("[^A-Za-z0-9]+", "_") + "_PANEL_" + file.getName().replaceAll("[^A-Za-z0-9]+", "_") + "---" + file.getType().toUpperCase() + ".csv");
+		String fileName = ("/EXP_" + simulationName.replaceAll("[^A-Za-z0-9]+", "_") + "_PANEL_" + 
+				file.getPanelNumber() + "---" + file.getType().toUpperCase() + "-" + file.getInternalNumber() + ".csv");
+		
 	    System.out.println(fileName);
 	    File directory = new File(savingFolder + "/" + "EXP_" + simulationName);
 
@@ -83,11 +84,7 @@ public class ExperimentSaver {
 	    
 		File fileToWrite = new File(directory + fileName);
 	    int index = 1;
-	    if(file.getType().equals("simulation")){
-	    	index = 2;
-	    }else if(file.getType().equals("curing_cycle")) {
-	    	index = 3;
-	    }
+
 	    
 	    try {
 	    	FileWriter writer = new FileWriter(fileToWrite);
@@ -95,7 +92,8 @@ public class ExperimentSaver {
 
 	    	for(int i=0; i < file.getRows().size(); i++) {
 	    		String[] entry = file.getRows().get(i);
-	    		writer.write(entry[0] + ',' + entry[index] + ',' + 0 + "\r\n");
+
+	    		writer.write( normalizeTimeStamp(entry[0]) + "," + entry[index] + ",0" + "\r\n");
 	    	}
 			
 			writer.close();
@@ -105,6 +103,79 @@ public class ExperimentSaver {
 		}
 	}
 	
+	public long normalizeTimeStamp(String inputTime) {
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+		String cleanedTime = inputTime.replaceAll("\\[", "");
+		System.out.println(cleanedTime);
+		long date;
+		try {
+			date = dateFormat.parse(cleanedTime).getTime();
+			System.out.println(date);
+			return date;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public void commentCsvWriter(List<List<Object>> comments) {
+		String fileName = ("/comments.csv");
+		
+	    System.out.println(fileName);
+	    File directory = new File(savingFolder + "/" + "EXP_" + MainController.pendingSimulation.getName());
+
+	    if (! directory.exists()){
+	        directory.mkdir();
+	    }
+	    
+		File fileToWrite = new File(directory + fileName);
+		File metaFile = new File(directory + "/metadata.csv");
+	    int index = 1;
+
+	    
+	    try {
+	    	FileWriter writer = new FileWriter(fileToWrite);
+    		writer.write("time,comment\r\n");
+
+	    	for(int i=0; i < comments.size(); i++) {
+	    		List<Object> entry = comments.get(i);
+	    		writer.write( normalizeTimeStamp(entry.get(0).toString()) + "," + entry.get(1).toString() + ",0" + "\r\n");
+	    	}
+			
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    try {
+	    	FileWriter writer = new FileWriter(metaFile);
+    		writer.write("name,date,time,description,operators,oven,material,tool\r\n");
+    		Simulation s = MainController.pendingSimulation;
+
+	    	for(int i=0; i < comments.size(); i++) {
+	    		List<Object> entry = comments.get(i);
+	    		writer.write( s.getName() + "," + s.getDate() + "," + s.getTime() + "," + s.getDescription() + 
+	    				"," + s.getOperators() + ", " + s.getOven() + "," + s.getMaterial() + "," + s.getTool() + "\r\n");
+	    	}
+			
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    String date;
+		String time;
+		String description;
+		String operators;
+		String oven;
+		String material;
+		String tool;
+	}
+	
+
 }
 
 
