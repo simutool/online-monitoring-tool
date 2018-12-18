@@ -92,7 +92,7 @@ body{
 	padding: 15px;
 	justify-content: space-around;
 }
-.filesInPanels div{
+.filesInPanels a{
 	margin: 5px;
 	padding: 0;
 	padding-top: 15px;
@@ -102,14 +102,14 @@ body{
    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
     background-color: #e3e8ee;
     border-color: #e9edf2;
-    color: #767980;
+    color: #767980 !important;
     border: 1px solid #c7d0d9;
     cursor: pointer;
 }
-.filesInPanels div i{
+.filesInPanels a i{
 	font-size: 30px;
 }
-.filesInPanels div p{
+.filesInPanels a p{
 	font-size: 12px;
 	margin-bottom: 0;
 }
@@ -120,12 +120,12 @@ body{
 .radioWrapper input{
 	margin-right: 5px;
 }
-.filesInPanels div:hover{
+.filesInPanels a:hover{
 	background-image: url(../fontawesome/svgs/solid/times.svg); 
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 }
-.filesInPanels div:hover p, .filesInPanels div:hover i{
+.filesInPanels a:hover p, .filesInPanels a:hover i{
 	opacity: 0;
 }
 .addFileToPanelBtn{

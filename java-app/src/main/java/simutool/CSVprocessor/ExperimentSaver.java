@@ -137,7 +137,7 @@ public class ExperimentSaver {
 	    
 	    try {
 	    	FileWriter writer = new FileWriter(fileToWrite);
-    		writer.write("time,comment\r\n");
+    		writer.write("time,comment,dataset_id\r\n");
 
 	    	for(int i=0; i < comments.size(); i++) {
 	    		List<Object> entry = comments.get(i);

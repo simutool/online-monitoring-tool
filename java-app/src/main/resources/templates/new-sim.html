@@ -82,12 +82,12 @@
                         <p>Name: <input class="form-control" id="modalName" type="text" th:field="*{name}" /></p>
                         
                         <div class="row filesInPanels" >
-                        	<div class="col-3" th:each="file,iter : ${panel.getFiles()}">
+                        	<a th:href="${'/removeFile/' + panel.finalId + '/' + iter.index}" class="col-3" th:each="file,iter : ${panel.getFiles()}">
                         		<i th:class="${file.type.equals('Sensor') ? 'fas fa-file-medical-alt' :
                         		 (file.type.equals('Simulation') ? 'fas fa-file-signature' : 'fas fa-file-alt')}"></i>
                         		<p th:text="${file.type}"></p>
                         		<p th:text="${file.name}"></p>
-                        	</div>
+                        	</a>
                         	                        	
                         </div>
                         

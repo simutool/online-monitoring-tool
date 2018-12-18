@@ -89,6 +89,7 @@ public class MainController {
 			p.setLoaded(true);
 			counter++;
 		}
+		influx.tearDownTables();
 		pendingSimulation = s;
 		pendingPanels = s.getPanelList();
 		refreshingPar = "?from=" + s.getEarliestTime() + "&to=" + s.getLatestTime(); 
@@ -243,8 +244,9 @@ public class MainController {
 		redirectAttributes.addFlashAttribute("pendingName", panel.getSimulationName());
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		boolean edit = edited != null;
-		String panelName = panel.getName() == null || panel.getName().length()<1 ? (panel.getPendingFile().getType() + "_" + (panel.getFiles().size()+1)) : panel.getName();
-		pendingPanel.setName(panelName);
+		if(panel.getName() != null) {
+			pendingPanel.setName( panel.getName() );
+		}
 		
 		System.out.println("edit: " + edit);
 		try {
@@ -260,7 +262,11 @@ public class MainController {
 			}
 			List<FileDTO> currentFiles = pendingPanel.getFiles();
 			FileDTO fileToAdd = parser.parseFilesForPanels(panel.getPendingFile().getType(), r);
-			fileToAdd.setName(panel.getPendingFile().getName());
+			if(panel.getPendingFile().getName() == null || panel.getPendingFile().getName().length()<1) {
+				fileToAdd.setName( panel.getPendingFile().getType() + "_" + (pendingPanel.getFiles().size()+1) );
+			}else {
+				fileToAdd.setName(panel.getPendingFile().getName());
+			}
 			currentFiles.add( fileToAdd );
 			System.out.println("fileToAdd: " + fileToAdd.getRows());
 			pendingPanel.setFiles(currentFiles);
@@ -350,6 +356,15 @@ public class MainController {
 		}
 		return "redirect:/newsimulation";
 	}
+	
+	@GetMapping("/removeFile/{panelId}/{fileId}")
+	public String removeFile(@PathVariable(value="panelId") Long panelId, @PathVariable(value="fileId") int fileId) {
+
+		pendingPanel.getFiles().remove(pendingPanel.getFiles().get(fileId));
+		
+		return  "redirect:/editpanel/" + panelId;
+	}
+	
 
 	@PostMapping("/saveComment/")
 	public String sa(@RequestBody String reqBody) {
