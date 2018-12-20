@@ -3,6 +3,7 @@ package simutool.controllers;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -14,12 +15,14 @@ import org.influxdb.dto.QueryResult.Series;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import simutool.CSVprocessor.ExperimentSaver;
+import simutool.CSVprocessor.FileDTO;
 import simutool.DBpopulator.InfluxPopulator;
 import simutool.models.Comment;
 import simutool.models.Panel;
@@ -30,7 +33,9 @@ public class ExperimentDataRestController {
 
 	@Autowired
 	ExperimentSaver saver;
-	
+
+	@Autowired
+	private InfluxPopulator influx;
 	
 	/**
 	 * Returns JSON with panels data in current simulation
@@ -95,13 +100,12 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 	
 
 	@PostMapping("/setSimulationData")
-	public void sendComment(@RequestBody Simulation simData) {
+	public void setSimulationData(@RequestBody Simulation simData) {
 		if(simData.getName() != null) {
 			MainController.pendingSimulation.setName(simData.getName());
 		}
-		if(simData.getDate() != null) {
-			MainController.pendingSimulation.setDate(simData.getDate());
-		}
+		MainController.pendingSimulation.setDate( Calendar.getInstance().getTime().toString() );
+
 		if(simData.getTime() != null) {
 			MainController.pendingSimulation.setTime(simData.getTime());
 		}
@@ -123,6 +127,43 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 		System.out.println(MainController.pendingSimulation);
 	}
 	
+	
+	@GetMapping("/launchStatics")
+	public boolean launchStatics() {
+		int panelCounter = 1;
+		int simCounter = 1;
+		int curCounter = 1;
+		List<FileDTO> sims  = new ArrayList<FileDTO>();
+		List<FileDTO> curs  = new ArrayList<FileDTO>();
+		long longestDuration = 0;
+
+		if (!MainController.staticsAreLaunched) {
+			for (Panel p : MainController.pendingPanels) {
+
+				for (FileDTO file : p.getFiles()) {
+					if (file.getType().equals("Simulation")) {
+						sims.add(file);
+						file.setInternalNumber(simCounter);
+						file.setPanelNumber(panelCounter);
+						simCounter++;
+					} else if (file.getType().equals("Curing cycle")) {
+						curs.add(file);
+						file.setInternalNumber(curCounter);
+						file.setPanelNumber(panelCounter);
+						curCounter++;
+					}
+					longestDuration = Math.max(longestDuration, file.findDuration());
+
+				}
+				p.setLoaded(false);
+				panelCounter++;
+			}
+			influx.addStaticPoints(sims, "simulation");
+			influx.addStaticPoints(curs, "curing_cycle");
+			MainController.staticsAreLaunched = true;
+		}
+		return !MainController.staticsAreLaunched;
+	}
 
 }
 

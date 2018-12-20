@@ -20,6 +20,7 @@ public class Panel {
 	private FileDTO pendingFile;
 	boolean isLoaded;
 	List<Comment> comments;
+	
 
 	@Autowired
 	Parser parser;

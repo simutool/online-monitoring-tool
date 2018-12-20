@@ -18,15 +18,33 @@ import $ from 'jquery';
 			console.log(response);
 			appendCommentsCont();
 			processExperimentData(response);
+			let staticsLaunched = false;
+			
+		//	for(let panel of response){
+			//	for(let file of panel.files){
+				//	if(file.type == "Simulation" || file.type == "Curing cycle"){
+					//	staticsLaunched = true;
+						//console.log("is already launched!");
+						//$("#launchStatics").addClass("disabled");
+					//}
+				//}
+			//}
 			
 			$($(".sendCommentBtn a")[0]).on("click", function(event){
 				const comment = $(".commentBody")[0].value;
 				const time = $(".customTimepicker")[0].value;
 				
 				console.log(comment + "---" + time);
-				
-				sendComment(comment, time);
+				if(comment.length > 0){
+					sendComment(comment, time);
+				}
 				console.log("submit comment was clicked");
+			});
+			
+			$("#launchStatics").on("click", function(event){
+				if(!$("#launchStatics").hasClass("disabled")){
+					launchStatics();
+				}
 			});
 
 			
@@ -67,7 +85,34 @@ import $ from 'jquery';
 		});	
 	}
 	
+		function launchStatics(){
+	    $.ajax({
+				method: 'GET',
+				url: springHost + '/launchStatics',
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+		},
+		}).then(function successCallback(response) {
+			console.log(response);
+			$("#launchStatics").addClass("disabled");
+		
+		}, function errorCallback(response) {
+				console.log(response);
+		});	
+	}
 	
+	function setTitle(names, timerId){
+		//		$($(".panel-title-text")[counter]).text(name);
+				let labelsFound = false;
+		for(let i=0; i < $(".panel-title-text").length; i++){
+				$($(".panel-title-text")[i]).text(names[i].name);
+		labelsFound = true;
+		}		
+		if(labelsFound){
+			clearInterval(timerId);
+		}
+
+	}
 	
 	function processExperimentData(response){
 			var counter = 0;
@@ -75,9 +120,13 @@ import $ from 'jquery';
 
 			for(let panel of response){
 				console.log(panel);
+				console.log($(".panel-title-text"));
+
 				//Set panel names
-				$($(".panel-title-text")[counter]).text(panel.name);				
-				
+					//$($(".panel-title-text")[counter]).text(panel.name);
+					let timerId = setInterval(() => setTitle(response, timerId), 500);
+
+			
 				counter++;
 			}
 			
@@ -89,7 +138,7 @@ import $ from 'jquery';
 			
 			if(response[0].loaded){
 				console.log($(".timepickerCont, .sendCommentBtn, .saveAsCSV, .commentBody"));
-					$(".timepickerCont, .sendCommentBtn, .saveAsCSV, .commentBody").addClass("hiddenSection");
+					$(".timepickerCont, .sendCommentBtn, .saveAsCSV, .commentBody, #launchStatics").addClass("hiddenSection");
 			}	
 			for(let i=response[0].comments.length-1; i>=0; i--){
 
@@ -107,7 +156,7 @@ import $ from 'jquery';
 	}
 	
 	function appendCommentsCont(){
-			const dashboardCont = $(".dashboard-container .react-grid-item");
+			const dashboardCont = $(".dashboard-container ");
 			console.log($(".dashboard-container .react-grid-item"));
 			dashboardCont.append(bigCommentCont);
 			
@@ -143,7 +192,20 @@ import $ from 'jquery';
 			}
 	}
 	
-	const bigCommentCont = `	<div class="row commentsCont collapse" >
+	const bigCommentCont = `	
+	
+	  <div class="row panelButtons">
+	  	<a class="btn btn-success  " id="launchStatics"  role="button" >
+			Run experiment
+	</a>
+	<a class="btn navbar-button  commentSectionToggle"  role="button" >
+			Comments
+	</a>
+	<a class="btn navbar-button saveAsCSV"  href="#" role="button" >
+			Save as CSV
+	</a>
+  </div>
+  <div class="row commentsCont collapse" >
 	
 		
 		<div class="col-sm-12 text-center commentsToHide">

@@ -19,10 +19,7 @@
             <form class="form-group col-12" action="#" th:action="@{/newsimulation}" th:object="${simulation}" method="post">
                 <span style="color: red;" th:text="${error}"></span>
                 <p >Name: <input class="form-control" id="simName" type="text" th:field="*{name}" value="pendingName"  /></p>
-                <div class="row">
-               		 <p class="col-6" style="">Date: <input class="form-control" id="simDate" type="date" th:field="*{date}" value="pendingDate"  /></p>
-                	 <p class="col-6" style="">Time: <input class="form-control" id="simTime" type="time" th:field="*{time}" value="pendingTime"  /></p>
-                </div>
+
 
 <p>
 

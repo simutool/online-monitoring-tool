@@ -37,6 +37,7 @@ public class ExperimentSaver {
 		 if(seriesData != null) {
 			 commentCsvWriter(seriesData.get(0).getValues());
 		 }
+		 metadatdaCsvWriter();
 		 List<String> columns = influx.getInfluxDB().query(query).getResults().get(0).getSeries().get(0).getColumns();
 		 List<List<Object>> q = influx.getInfluxDB().query(query).getResults().get(0).getSeries().get(0).getValues();
 		 
@@ -73,7 +74,7 @@ public class ExperimentSaver {
 	public void writeCSV(FileDTO file, String simulationName) {
 		
 		String fileName = ("/EXP_" + simulationName.replaceAll("[^A-Za-z0-9]+", "_") + "_PANEL_" + 
-				file.getPanelNumber() + "---" + file.getType().toUpperCase() + "-" + file.getInternalNumber() + ".csv");
+				+ file.getPanelNumber() + "-"  + MainController.pendingPanels.get(file.getPanelNumber()-1).getName() + "---" + file.getType().toUpperCase() + "-" + file.getInternalNumber() + ".csv");
 		
 	    System.out.println(fileName);
 	    File directory = new File(savingFolder + "/" + "EXP_" + simulationName);
@@ -107,7 +108,6 @@ public class ExperimentSaver {
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 		String cleanedTime = inputTime.replaceAll("\\[", "");
-		System.out.println(cleanedTime);
 		long date;
 		try {
 			date = dateFormat.parse(cleanedTime).getTime();
@@ -118,6 +118,32 @@ public class ExperimentSaver {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	public void metadatdaCsvWriter() {
+	    File directory = new File(savingFolder + "/" + "EXP_" + MainController.pendingSimulation.getName());
+	    if (! directory.exists()){
+	        directory.mkdir();
+	    }
+		File metaFile = new File(directory + "/metadata.csv");
+	    try {
+	    	System.out.println("writing metadata");
+	    	FileWriter writer = new FileWriter(metaFile);
+    		writer.write("name,date,time,description,operators,oven,material,tool\r\n");
+    		Simulation s = MainController.pendingSimulation;
+	    	System.out.println(s);
+	    	String entry = (s.getName() + "," + s.getDate() + "," + s.getTime() + "," + s.getDescription() + 
+    				"," + s.getOperators() + ", " + s.getOven() + "," +
+	    			s.getMaterial() + "," + s.getTool() + "\r\n").replaceAll("null", "");
+
+	    	writer.write(entry);
+			
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 	
 	public void commentCsvWriter(List<List<Object>> comments) {
@@ -131,7 +157,6 @@ public class ExperimentSaver {
 	    }
 	    
 		File fileToWrite = new File(directory + fileName);
-		File metaFile = new File(directory + "/metadata.csv");
 	    int index = 1;
 
 	    
@@ -150,29 +175,8 @@ public class ExperimentSaver {
 			e.printStackTrace();
 		}
 	    
-	    try {
-	    	FileWriter writer = new FileWriter(metaFile);
-    		writer.write("name,date,time,description,operators,oven,material,tool\r\n");
-    		Simulation s = MainController.pendingSimulation;
 
-	    	for(int i=0; i < comments.size(); i++) {
-	    		List<Object> entry = comments.get(i);
-	    		writer.write( s.getName() + "," + s.getDate() + "," + s.getTime() + "," + s.getDescription() + 
-	    				"," + s.getOperators() + ", " + s.getOven() + "," + s.getMaterial() + "," + s.getTool() + "\r\n");
-	    	}
-			
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    String date;
-		String time;
-		String description;
-		String operators;
-		String oven;
-		String material;
-		String tool;
+
 	}
 	
 

@@ -36,8 +36,9 @@ public class MainController {
 
 	public static Simulation pendingSimulation;
 	static Panel pendingPanel;
-	static List<Panel> pendingPanels;
-	public static boolean currentExperimentIsLoaded;
+	public static List<Panel> pendingPanels;
+	public static boolean staticsAreLaunched = false;
+	boolean allPanelsAreStatic = true;
 	String redirectLink; 
 	String refreshingPar;
 
@@ -77,6 +78,7 @@ public class MainController {
 		Simulation s = simRepo.getSavedSimulations().get(id);
 		List<Panel> panels = s.getPanelList();
 		int counter = 1;
+		influx.tearDownTables();
 		for(Panel p: panels) {
 			for(FileDTO f : p.getFiles()) {
 			//	f.setNumber(counter);
@@ -89,11 +91,9 @@ public class MainController {
 			p.setLoaded(true);
 			counter++;
 		}
-		influx.tearDownTables();
 		pendingSimulation = s;
 		pendingPanels = s.getPanelList();
 		refreshingPar = "?from=" + s.getEarliestTime() + "&to=" + s.getLatestTime(); 
-		currentExperimentIsLoaded = true;
 		switch(panels.size()){
 		case 1:{
 			redirectLink = "d/ibjZzy-iz/1-panel-monitoring";
@@ -116,8 +116,14 @@ public class MainController {
 	 */
 	@GetMapping("/newsimulation")
 	public String getSettingsForm(Model m) {
+		System.out.println("pendingSimulation 1: "+pendingSimulation);
 		if(pendingSimulation == null) {
 			pendingSimulation = new Simulation();
+			System.out.println("pendingSimulation 2: "+pendingSimulation);
+
+			parser.parseDefaultMetadata();
+			System.out.println("pendingSimulation 3: "+pendingSimulation);
+
 		}
 		if(pendingPanels == null) {
 			pendingPanels = new ArrayList<Panel>();
@@ -175,7 +181,6 @@ public class MainController {
 			processPendingData();
 			return "redirect://" + grafanaHost + redirectLink + refreshingPar;
 		}
-		currentExperimentIsLoaded = false;
 		return "redirect:/newsimulation";
 	}
 	
@@ -281,15 +286,9 @@ public class MainController {
 
 	public void processPendingData() {
 		List<FileDTO> sens  = new ArrayList<FileDTO>();
-		List<FileDTO> sims  = new ArrayList<FileDTO>();
-		List<FileDTO> curs  = new ArrayList<FileDTO>();
 		int panelCounter = 1;
 		int sensorCounter = 1;
-		int simCounter = 1;
-		int curCounter = 1;
 
-		boolean allPanelsAreStatic = true;
-		int longestDuration = 0;
 		for(Panel p : pendingPanels) {
 
 			for(FileDTO file : p.getFiles()) {
@@ -297,28 +296,18 @@ public class MainController {
 					sens.add(file);
 					allPanelsAreStatic = false;
 					file.setInternalNumber(sensorCounter);
+					file.setPanelNumber(panelCounter);
 					sensorCounter++;
-				}else if(file.getType().equals("Simulation")) {
-					sims.add(file);
-					file.setInternalNumber(simCounter);
-					simCounter++;
-				}else {
-					curs.add(file);
-					file.setInternalNumber(curCounter);
-					curCounter++;
 				}
-				file.setPanelNumber(panelCounter);
-				longestDuration = Math.max(longestDuration, file.findDuration());
 			}
 			p.setLoaded(false);
 			panelCounter++;
 		}
 
 		influx.tearDownTables();
-		influx.addStaticPoints(sims, "simulation");
-		influx.addStaticPoints(curs, "curing_cycle");
 		influx.simulateSensor(1000, sens);
-		refreshingPar = allPanelsAreStatic ? "?from=now-4m&to=now%2B" + (longestDuration+2) + "m" : "?orgId=1&refresh=1s"; 
+		staticsAreLaunched = false;
+		refreshingPar = "?orgId=1&refresh=1s"; 
 		switch(pendingPanels.size()){
 		case 1:{
 			redirectLink = "d/ibjZzy-iz/1-panel-monitoring";
@@ -378,6 +367,7 @@ public class MainController {
 		return "redirect://" + grafanaHost + redirectLink + refreshingPar;
 
 	}
+	
 
 	@RequestMapping("/")
 	public String redirectToHome() {

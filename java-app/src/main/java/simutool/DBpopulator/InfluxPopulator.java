@@ -175,15 +175,17 @@ System.out.println("teared down");
 	public void addStaticPoints(List<FileDTO> simData, String type) {
 		try {
 			simData.removeIf(i -> i == null);
+System.out.println("static points triggered");
 
 			for (FileDTO file : simData) {
+				System.out.println("file: " + file);
+
 				List<String[]> rows = file.getRows();
 				Builder builder = BatchPoints.database(tableName);
 				long shift = System.currentTimeMillis() - Long.valueOf(rows.get(0)[0]) - 1;
 				
 				for (String[] data : rows) {
 					long time = 0;
-					System.out.println("file.getEarliestTime()" + file.getEarliestTime());
 					if(file.getEarliestTime() != 0) {
 						time = Long.valueOf(data[0]);
 					}else{

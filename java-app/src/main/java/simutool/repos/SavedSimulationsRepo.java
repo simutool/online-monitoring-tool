@@ -33,6 +33,9 @@ public class SavedSimulationsRepo {
 	@Value("${saveCSVfolder}")
 	private String savingFolder;
 	
+	@Value("${metadataFolder}")
+	private String metadataFolder;
+	
 	@Autowired
 	private Parser parser;
 	
@@ -85,6 +88,7 @@ public class SavedSimulationsRepo {
 			//Iterate through panels of one experiment
 			for(List<String> files : groupedByPanelList) {
 				String panelName = files.get(0).substring(files.get(0).indexOf("_PANEL_")+7, files.get(0).indexOf("---"));
+				String panelNum = panelName.substring(0,1);
 
 				System.out.println("it has panels: " + panelName);
 				Panel p = new Panel();
@@ -97,7 +101,7 @@ public class SavedSimulationsRepo {
 								FileDTO fileToAdd = parser.parseFilesForPanels(dataType.toLowerCase() , new FileReader(savingFolder +
 										"/EXP_" + simName + "/" + file));
 								fileToAdd.setInternalNumber( Integer.parseInt( file.substring(file.length()-5, file.length()-4) ));
-								fileToAdd.setPanelNumber( Integer.parseInt( panelName ) );
+								fileToAdd.setPanelNumber( Integer.parseInt( panelNum ) );
 
 								String fileStartTimeStr = fileToAdd.getRows().get(0)[0];
 								String fileEndTimeStr = fileToAdd.getRows().get(fileToAdd.getRows().size()-1)[0];
@@ -194,23 +198,5 @@ public class SavedSimulationsRepo {
 		SavedSimulationsRepo.savedSimulations = savedSimulations;
 	}
 	
-	
-	
-	/* public List<Panel> getAllPanelsForSimulation(int simId) {
-		List<Panel> simList = template.query("SELECT * FROM panels where simulationId=" + simId, panelsForSimulationRowMapper);
-		return simList;
-	}
-	
-	public RowMapper<Panel> panelsForSimulationRowMapper = new RowMapper<Panel>() {
-		@Override
-		public Panel mapRow(ResultSet rs, int i) throws SQLException {
-			int id = rs.getInt("id");
-			String name = rs.getString("name");
-			 String sensorPath = rs.getString("sensorPath");
-			 String simulationPath = rs.getString("simulationPath");
-			 String curingCyclePath = rs.getString("curingCyclePath");
-			 int simulationId = rs.getInt("simulationId");
-			return new Panel(id, name, new File(sensorPath), new File(simulationPath), new File(curingCyclePath), simulationId);
-		}
-	}; */
+
 }

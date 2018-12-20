@@ -70,13 +70,13 @@ public class FileDTO {
 	 * Calculate the duration of the dataset 
 	 * @return duration of the sequence
 	 */
-	public int findDuration() {
-		int result;
+	public long findDuration() {
+		long result;
 		try {
 			System.out.println("1: " + rows.get(rows.size()-1)[0]);
 			System.out.println("2: " + rows.get(0)[0]);
 
-			result = (Integer.parseInt( rows.get(rows.size()-1)[0] ) - Integer.parseInt( rows.get(0)[0] ))/60;
+			result = (Long.parseLong( rows.get(rows.size()-1)[0] ) - Long.parseLong( rows.get(0)[0] ))/60;
 			return result;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

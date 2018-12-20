@@ -7,14 +7,7 @@ const template = `
     <div class="graph-legend-content" graph-legend></div>
   </div>
   
-  <div class="row panelButtons">
-	<a class="btn navbar-button  commentSectionToggle"  role="button" >
-			Comments
-	</a>
-	<a class="btn navbar-button saveAsCSV"  href="#" role="button" >
-			Save as CSV
-	</a>
-  </div>
+
   
 
 </div>

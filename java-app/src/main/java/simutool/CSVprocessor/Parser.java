@@ -1,17 +1,19 @@
 package simutool.CSVprocessor;
 
-import java.io.InvalidObjectException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 
-import simutool.models.Panel;
+import simutool.controllers.MainController;
 
 /**
  * This class parses .csv files and creates FileDTO Objects.
@@ -24,7 +26,9 @@ public class Parser {
 	CsvParser libParser;
 	List<FileDTO> sensorFiles;
 	List<FileDTO> simulationFiles;
-
+	
+	@Value("${metadataFolder}")
+	private String metadataFolder;
 
 	public Parser(){
 		settings.detectFormatAutomatically();
@@ -64,6 +68,22 @@ public class Parser {
 		file.setDatasource_id(Integer.parseInt(rows.get(0)[2]));
 
 		return file;
+	}
+	
+	public void parseDefaultMetadata() {
+		try {
+			FileReader r = new FileReader(metadataFolder + "/default.csv");
+			List<String[]>rows = libParser.parseAll(r);
+			MainController.pendingSimulation.setOperators(rows.get(1)[0]);
+			MainController.pendingSimulation.setOven(rows.get(1)[1]);
+			MainController.pendingSimulation.setMaterial(rows.get(1)[2]);
+			MainController.pendingSimulation.setTool(rows.get(1)[3]);
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 
