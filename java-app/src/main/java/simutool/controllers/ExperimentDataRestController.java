@@ -82,7 +82,7 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 	@PostMapping("/sendComment")
 	public void sendComment(@RequestBody Comment commentData) {
 		LocalDateTime today = LocalDateTime.now();
-		System.out.println(commentData);
+		
 		String formattedDate = today.getYear() + "-" + today.getMonth().getValue() + "-" + today.getDayOfMonth() + "T" + 
 				commentData.getTimeAsString() + ".111Z"; 
 		
@@ -161,6 +161,8 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 			influx.addStaticPoints(sims, "simulation");
 			influx.addStaticPoints(curs, "curing_cycle");
 			MainController.staticsAreLaunched = true;
+			 MainController.pendingPanels.get(0).setStaticsLoaded(true);
+
 		}
 		return !MainController.staticsAreLaunched;
 	}

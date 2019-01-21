@@ -106,7 +106,7 @@ public class ExperimentSaver {
 	
 	public long normalizeTimeStamp(String inputTime) {
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+	 //   dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 		String cleanedTime = inputTime.replaceAll("\\[", "");
 		long date;
 		try {

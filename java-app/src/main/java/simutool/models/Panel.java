@@ -19,6 +19,7 @@ public class Panel {
 	private List<FileDTO> files;
 	private FileDTO pendingFile;
 	boolean isLoaded;
+	boolean staticsLoaded;
 	List<Comment> comments;
 	
 
@@ -133,6 +134,13 @@ public class Panel {
 	}
 	public void setPendingFile(FileDTO pendingFile) {
 		this.pendingFile = pendingFile;
+	}
+	
+	public boolean isStaticsLoaded() {
+		return staticsLoaded;
+	}
+	public void setStaticsLoaded(boolean staticsLoaded) {
+		this.staticsLoaded = staticsLoaded;
 	}
 	@Override
 	public String toString() {

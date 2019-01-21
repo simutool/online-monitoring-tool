@@ -45,8 +45,6 @@ public class SavedSimulationsRepo {
 		File folder = new File(savingFolder);
 		String[] directories = folder.list();
 
-		
-
 		List<Simulation> result = new ArrayList<Simulation>();
 		
 		//Iterate through list of experiments

@@ -94,7 +94,20 @@ import $ from 'jquery';
 		},
 		}).then(function successCallback(response) {
 			console.log(response);
-			$("#launchStatics").addClass("disabled");
+			
+			$.ajax({
+				method: 'GET',
+				url: springHost + '/getExperimentData',
+				headers: {
+				'Access-Control-Allow-Origin': '*'
+			},
+			}).then(function successCallback(response) {
+				console.log(response);
+				processExperimentData(response);
+				
+			}, function errorCallback(response) {
+				console.log(response);
+			});
 		
 		}, function errorCallback(response) {
 				console.log(response);
@@ -115,7 +128,7 @@ import $ from 'jquery';
 	}
 	
 	function processExperimentData(response){
-			var counter = 0;
+			let counter = 0;
 
 
 			for(let panel of response){
@@ -131,6 +144,16 @@ import $ from 'jquery';
 			}
 			
 
+			if(response[0].staticsLoaded){
+					let myButton = $("#launchStatics");
+					myButton.removeClass("btn-success");
+					myButton.addClass("btn-warning");
+					myButton.text("Finish");
+					myButton.removeAttr("onclick");
+					myButton.attr("href", springHost + "/savePanel");
+					console.log("statics were added");
+			}
+				
 			
 			const commentCont = $("#sortable");
 			console.log(commentCont);
@@ -182,7 +205,7 @@ import $ from 'jquery';
 				
 			$(".commentSectionToggle").on("click", toggleCommentBox.bind(this));
 			function toggleCommentBox(){
-				var cont = $(".commentsCont");
+				let cont = $(".commentsCont");
 				console.log(cont.hasClass("hidden"));
 				if(cont.hasClass("hidden")){
 					cont.removeClass("hidden");
@@ -195,15 +218,11 @@ import $ from 'jquery';
 	const bigCommentCont = `	
 	
 	  <div class="row panelButtons">
-	  	<a class="btn btn-success  " id="launchStatics"  role="button" >
+	  	<a class="btn btn-success btn-lg col-xs-4 col-offset-4" id="launchStatics"  role="button" >
 			Run experiment
 	</a>
-	<a class="btn navbar-button  commentSectionToggle"  role="button" >
-			Comments
-	</a>
-	<a class="btn navbar-button saveAsCSV"  href="#" role="button" >
-			Save as CSV
-	</a>
+
+	
   </div>
   <div class="row commentsCont collapse" >
 	

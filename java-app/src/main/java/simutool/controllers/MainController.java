@@ -38,6 +38,7 @@ public class MainController {
 	static Panel pendingPanel;
 	public static List<Panel> pendingPanels;
 	public static boolean staticsAreLaunched = false;
+	public static boolean experimentStarted = false;
 	boolean allPanelsAreStatic = true;
 	String redirectLink; 
 	String refreshingPar;
@@ -117,13 +118,15 @@ public class MainController {
 	@GetMapping("/newsimulation")
 	public String getSettingsForm(Model m) {
 		System.out.println("pendingSimulation 1: "+pendingSimulation);
-		if(pendingSimulation == null) {
+		if(experimentStarted || pendingSimulation == null) {
 			pendingSimulation = new Simulation();
 			System.out.println("pendingSimulation 2: "+pendingSimulation);
 
 			parser.parseDefaultMetadata();
 			System.out.println("pendingSimulation 3: "+pendingSimulation);
-
+			pendingPanels = null;
+			pendingPanel = null;
+			experimentStarted = false;
 		}
 		if(pendingPanels == null) {
 			pendingPanels = new ArrayList<Panel>();
@@ -179,6 +182,7 @@ public class MainController {
 		}
 		else {
 			processPendingData();
+			experimentStarted = true;
 			return "redirect://" + grafanaHost + redirectLink + refreshingPar;
 		}
 		return "redirect:/newsimulation";
@@ -309,17 +313,17 @@ public class MainController {
 		staticsAreLaunched = false;
 		refreshingPar = "?orgId=1&refresh=1s"; 
 		switch(pendingPanels.size()){
-		case 1:{
-			redirectLink = "d/ibjZzy-iz/1-panel-monitoring";
-			break;
-		}
-		case 2:{
-			redirectLink = "d/hUg4ks-ik/2-panel-monitoring";
-			break; 
-		}
-		default:{
-			redirectLink = "d/OSF-tramk/3-panels-monitoring";
-		}
+			case 1:{
+				redirectLink = "d/ibjZzy-iz/1-panel-monitoring";
+				break;
+			}
+			case 2:{
+				redirectLink = "d/hUg4ks-ik/2-panel-monitoring";
+				break; 
+			}
+			default:{
+				redirectLink = "d/OSF-tramk/3-panels-monitoring";
+			}
 		}
 	}
 
