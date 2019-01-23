@@ -1,9 +1,8 @@
 package simutool.models;
 
-import java.util.Date;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import simutool.CSVprocessor.FileDTO;
 
 public class Simulation {
 	private String name;
@@ -13,6 +12,7 @@ public class Simulation {
 	long earliestTime;
 	long latestTime;
 	String projectId;
+	FileDTO commentsFile;
 	
 	String date;
 	String time;
@@ -125,6 +125,13 @@ public class Simulation {
 	}
 	public void setTool(String tool) {
 		this.tool = tool;
+	}
+	
+	public FileDTO getCommentsFile() {
+		return commentsFile;
+	}
+	public void setCommentsFile(FileDTO commentsFile) {
+		this.commentsFile = commentsFile;
 	}
 	@Override
 	public String toString() {

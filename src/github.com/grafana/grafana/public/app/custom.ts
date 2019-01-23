@@ -219,21 +219,19 @@ import $ from 'jquery';
 	
 	  <div class="row panelButtons">
 	  	<a class="btn btn-success btn-lg col-xs-4 col-offset-4" id="launchStatics"  role="button" >
-			Run experiment
-	</a>
-
-	
-  </div>
+			Start
+		</a>
+	   </div>
+  
   <div class="row commentsCont collapse" >
-	
-		
 		<div class="col-sm-12 text-center commentsToHide">
 			<div class="input-group">
-				<textarea  type="text"  rows="3" class="col-xs-12 form-control input-sm chat-input commentBody" placeholder="Write your message here..." ></textarea>
-				<div class="row">
+				<div class="row" >
+				<textarea  type="text"  rows="3" class="col-xs-6 form-control input-sm chat-input commentBody" placeholder="Write your message here..." ></textarea>
+				
 					
-					<div class=" col-xs-8 timepickerCont">
-						<div class="row">
+					<div class=" col-xs-3 timepickerCont" >
+						<div class="row" style="vertical-align: middle">
 	
 							<div class='col-sm-12'>
 								<label for="timestamp" name="timestamp" >Set comment time manually</label>
@@ -245,7 +243,7 @@ import $ from 'jquery';
 
 					
 				
-					<span class="input-group-btn col-xs-4 sendCommentBtn" > 
+					<span class="input-group-btn col-xs-3 sendCommentBtn" > 
 						<a href="#" class="btn btn-secondary btn-sm"><span class="glyphicon glyphicon-comment"></span> Add Comment</a>
 					</span>
 				</div>

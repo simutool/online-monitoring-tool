@@ -67,7 +67,8 @@ public class SavedSimulationsRepo {
 				for(String filePath : panelPaths) {
 					if(filePath.equals("comments.csv")) {
 						commentsFile = parser.parseFilesForPanels("comments", new FileReader(folder + "/" + path + "/comments.csv"));
-						writeCommentsToDB(commentsFile);
+						sim.setCommentsFile(commentsFile);
+					//	writeCommentsToDB(commentsFile);
 					}
 				}
 			} catch (FileNotFoundException e1) {
@@ -150,7 +151,9 @@ public class SavedSimulationsRepo {
 				
 				for (String[] data : rows) {
 					long time = 0;
-					System.out.println("file.getEarliestTime()" + commentsFile.getEarliestTime());
+					System.out.println("Long.parseLong( data[0]  " + Long.parseLong( data[0]));
+					System.out.println("Long.parseLong( data[1]  " + data[1]);
+
 					if(commentsFile.getEarliestTime() != 0) {
 						time = Long.valueOf(data[0]);
 					}else{

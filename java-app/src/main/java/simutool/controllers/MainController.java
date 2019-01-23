@@ -76,10 +76,11 @@ public class MainController {
 
 	@RequestMapping("/load")
 	public String loadSavedSimulation(@RequestParam("id") int id) {
+		influx.tearDownTables();
 		Simulation s = simRepo.getSavedSimulations().get(id);
+		simRepo.writeCommentsToDB(s.getCommentsFile());
 		List<Panel> panels = s.getPanelList();
 		int counter = 1;
-		influx.tearDownTables();
 		for(Panel p: panels) {
 			for(FileDTO f : p.getFiles()) {
 			//	f.setNumber(counter);
@@ -95,6 +96,7 @@ public class MainController {
 		pendingSimulation = s;
 		pendingPanels = s.getPanelList();
 		refreshingPar = "?from=" + s.getEarliestTime() + "&to=" + s.getLatestTime(); 
+		experimentStarted = true;
 		switch(panels.size()){
 		case 1:{
 			redirectLink = "d/ibjZzy-iz/1-panel-monitoring";
