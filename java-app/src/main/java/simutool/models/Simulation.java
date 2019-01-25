@@ -12,7 +12,9 @@ public class Simulation {
 	long earliestTime;
 	long latestTime;
 	String projectId;
+	List<Comment> comments;
 	FileDTO commentsFile;
+	long timeZone;
 	
 	String date;
 	String time;
@@ -132,6 +134,20 @@ public class Simulation {
 	}
 	public void setCommentsFile(FileDTO commentsFile) {
 		this.commentsFile = commentsFile;
+	}
+	
+	public long getTimeZone() {
+		return timeZone;
+	}
+	public void setTimeZone(long timeZone) {
+		this.timeZone = timeZone;
+	}
+	
+	public List<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 	@Override
 	public String toString() {

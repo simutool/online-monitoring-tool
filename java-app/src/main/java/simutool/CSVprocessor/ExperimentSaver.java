@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -17,7 +19,6 @@ import org.springframework.stereotype.Repository;
 
 import simutool.DBpopulator.InfluxPopulator;
 import simutool.controllers.MainController;
-import simutool.models.Panel;
 import simutool.models.Simulation;
 
 @Repository
@@ -37,6 +38,9 @@ public class ExperimentSaver {
 		 if(seriesData != null) {
 			 commentCsvWriter(seriesData.get(0).getValues());
 		 }
+		 s.setDate( Calendar.getInstance().getTime().toString() );
+		 Date now = new Date();
+		 s.setTimeZone(now.getTimezoneOffset());
 		 metadatdaCsvWriter();
 		 List<String> columns = influx.getInfluxDB().query(query).getResults().get(0).getSeries().get(0).getColumns();
 		 List<List<Object>> q = influx.getInfluxDB().query(query).getResults().get(0).getSeries().get(0).getValues();
@@ -106,7 +110,7 @@ public class ExperimentSaver {
 	
 	public long normalizeTimeStamp(String inputTime) {
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-	 //   dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 		String cleanedTime = inputTime.replaceAll("\\[", "");
 		long date;
 		try {
@@ -129,12 +133,12 @@ public class ExperimentSaver {
 	    try {
 	    	System.out.println("writing metadata");
 	    	FileWriter writer = new FileWriter(metaFile);
-    		writer.write("name,date,time,description,operators,oven,material,tool\r\n");
+    		writer.write("name,date,timezone,description,operators,oven,material,tool\r\n");
     		Simulation s = MainController.pendingSimulation;
 	    	System.out.println(s);
-	    	String entry = (s.getName() + "," + s.getDate() + "," + s.getTime() + "," + s.getDescription() + 
+	    	String entry = (s.getName() + "," + s.getDate() + "," + s.getTimeZone() + "," + s.getDescription() + 
     				"," + s.getOperators() + ", " + s.getOven() + "," +
-	    			s.getMaterial() + "," + s.getTool() + "\r\n").replaceAll("null", "");
+	    			s.getMaterial() + "," + s.getTool()  + "\r\n").replaceAll("null", "");
 
 	    	writer.write(entry);
 			

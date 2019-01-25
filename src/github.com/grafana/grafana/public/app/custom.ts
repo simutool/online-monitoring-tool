@@ -118,7 +118,7 @@ import $ from 'jquery';
 		//		$($(".panel-title-text")[counter]).text(name);
 				let labelsFound = false;
 		for(let i=0; i < $(".panel-title-text").length; i++){
-				$($(".panel-title-text")[i]).text(names[i].name);
+				$($(".panel-title-text")[i]).text(names.panelList[i].name);
 		labelsFound = true;
 		}		
 		if(labelsFound){
@@ -131,20 +131,28 @@ import $ from 'jquery';
 			let counter = 0;
 
 
-			for(let panel of response){
+			let staticDataFound = false;
+			
+			for(let panel of response.panelList){
 				console.log(panel);
 				console.log($(".panel-title-text"));
 
-				//Set panel names
-					//$($(".panel-title-text")[counter]).text(panel.name);
-					let timerId = setInterval(() => setTitle(response, timerId), 500);
-
+				for(let file of panel){
+					if(file.type != "sensor"){
+						staticDataFound = true;
+						break;
+					}
+				}
+				if(!staticDataFound){
+					$("#launchStatics").addClass("hiddenSection");
+				}
 			
 				counter++;
 			}
-			
+			let timerId = setInterval(() => setTitle(response, timerId), 500);
 
-			if(response[0].staticsLoaded){
+
+			if(response.panelList[0].staticsLoaded){
 					let myButton = $("#launchStatics");
 					myButton.removeClass("btn-success");
 					myButton.addClass("btn-warning");
@@ -159,17 +167,17 @@ import $ from 'jquery';
 			console.log(commentCont);
 			commentCont.empty();
 			
-			if(response[0].loaded){
+			if(response.panelList[0].loaded){
 				console.log($(".timepickerCont, .sendCommentBtn, .saveAsCSV, .commentBody"));
 					$(".timepickerCont, .sendCommentBtn, .saveAsCSV, .commentBody, #launchStatics").addClass("hiddenSection");
 			}	
-			for(let i=response[0].comments.length-1; i>=0; i--){
+			for(let i=response.comments.length-1; i>=0; i--){
 
 				let commentHtml = `<div>
 					<small class="pull-right text-muted">
-					<span class="glyphicon glyphicon-time"></span>${response[0].comments[i].timeAsString}</small>
+					<span class="glyphicon glyphicon-time"></span>${response.comments[i].timeAsString}</small>
 					</br>
-					<li class="ui-state-default"> ${response[0].comments[i].commentText}</li>
+					<li class="ui-state-default"> ${response.comments[i].commentText}</li>
 					</br>
 				</div>`;
 				commentCont.append(commentHtml);

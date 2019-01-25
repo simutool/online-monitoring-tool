@@ -42,7 +42,7 @@ public class ExperimentDataRestController {
 	 * @return info on selected panels
 	 */
 	@RequestMapping("/getExperimentData")
-	public List<Panel> getExperimentData(Model m) {
+	public Simulation getExperimentData(Model m) {
 		 Query commentsQuery = new Query("SELECT * FROM " + InfluxPopulator.commentsTableName, InfluxPopulator.commentsTableName);
 		 List<Series> seriesData = InfluxPopulator.influxDB.query(commentsQuery).getResults().get(0).getSeries();
 		 List<Comment> comments = new ArrayList<Comment>();
@@ -57,25 +57,34 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 			 for(List<Object> val : vals) {
 
 				 PrettyTime pretty = new PrettyTime();
-				 pretty.setLocale(Locale.ENGLISH);
+				 
 				 
 				 long time = saver.normalizeTimeStamp( val.get(0).toString() );
-				LocalDateTime asDate = LocalDateTime.ofEpochSecond(time, 0, ZoneOffset.UTC);
+				 System.out.println("here: " + val.get(0).toString());
+				 Date now = new Date();
+				 Date dateWithTimezone = new Date(time + (now.getTimezoneOffset() * 60000));
+
+				 System.out.println("now.getTimezoneOffset(): " + now.getTimezoneOffset());
+
 
 				 String text = val.get(1).toString();
 				 Comment c = new Comment();
-				 System.out.println("time: " + asDate);
-				 System.out.println("text: " + text);
-				 System.out.println("pretty: " + pretty.format( new Date(asDate.toEpochSecond(ZoneOffset.UTC)) ));
+				 System.out.println("time: " + time);
+				 System.out.println("pretty: " + dateWithTimezone.getHours() + ":" + dateWithTimezone.getMinutes() + ":" + dateWithTimezone.getSeconds());
 
 				 c.setCommentText(text);
-				 c.setTimeAsString( pretty.format( new Date(asDate.toEpochSecond(ZoneOffset.UTC)) ));
+				 c.setTimeAsString( dateWithTimezone.getHours() + ":" + dateWithTimezone.getMinutes() + ":" + dateWithTimezone.getSeconds() );
 				 comments.add(c);
 			 }
 		 }
-		 MainController.pendingPanels.get(0).setComments(comments);
+		 try {
+			MainController.pendingSimulation.setComments(comments);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		return MainController.pendingPanels;
+		return MainController.pendingSimulation;
 	}
 	
 
@@ -104,7 +113,6 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 		if(simData.getName() != null) {
 			MainController.pendingSimulation.setName(simData.getName());
 		}
-		MainController.pendingSimulation.setDate( Calendar.getInstance().getTime().toString() );
 
 		if(simData.getTime() != null) {
 			MainController.pendingSimulation.setTime(simData.getTime());
@@ -161,7 +169,7 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 			influx.addStaticPoints(sims, "simulation");
 			influx.addStaticPoints(curs, "curing_cycle");
 			MainController.staticsAreLaunched = true;
-			 MainController.pendingPanels.get(0).setStaticsLoaded(true);
+			 MainController.pendingSimulation.getPanelList().get(0).setStaticsLoaded(true);
 
 		}
 		return !MainController.staticsAreLaunched;

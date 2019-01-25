@@ -1662,3 +1662,622 @@ t=2019-01-23T21:34:26+0100 lvl=info msg="HTTP Server Listen" logger=http.server 
 t=2019-01-23T21:40:33+0100 lvl=info msg="Database table locked, sleeping then retrying" logger=sqlstore retry=0
 t=2019-01-23T22:26:52+0100 lvl=eror msg="Failed to get user with id" logger=context userId=1 error="User not found"
 t=2019-01-23T22:26:52+0100 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/api/datasources/proxy/1/query status=401 remote_addr=[::1] time_ms=3 size=26 referer="http://localhost:8080/d/ibjZzy-iz/1-panel-monitoring?orgId=1&refresh=1s"
+t=2019-01-23T23:47:07+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-23T23:47:07+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-23T23:47:07+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-23T23:47:07+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-23T23:47:07+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-23T23:47:07+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-23T23:47:07+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-23T23:47:07+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-23T23:47:07+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-23T23:47:07+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-23T23:47:07+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-23T23:47:07+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-23T23:47:07+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-23T23:47:07+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-23T23:47:07+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-23T23:47:07+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-23T23:47:07+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-23T23:47:07+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-23T23:47:07+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-23T23:47:07+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-23T23:47:07+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-23T23:47:07+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-23T23:47:07+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-23T23:47:07+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-23T23:47:07+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-23T23:47:07+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-23T23:47:07+0100 lvl=eror msg="Stopped HTTPServer" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-23T23:47:07+0100 lvl=info msg="Stopped RenderingService" logger=server reason=nil
+t=2019-01-23T23:47:07+0100 lvl=info msg="Stopped Stream Manager"
+t=2019-01-23T23:47:07+0100 lvl=info msg="Stopped AlertingService" logger=server reason="context canceled"
+t=2019-01-23T23:47:07+0100 lvl=info msg="Stopped NotificationService" logger=server reason="context canceled"
+t=2019-01-23T23:47:07+0100 lvl=info msg="Stopped InternalMetricsService" logger=server reason="context canceled"
+t=2019-01-23T23:47:07+0100 lvl=info msg="Stopped TracingService" logger=server reason=nil
+t=2019-01-23T23:47:07+0100 lvl=info msg="Stopped ProvisioningService" logger=server reason="context canceled"
+t=2019-01-23T23:47:07+0100 lvl=info msg="Stopped CleanUpService" logger=server reason="context canceled"
+t=2019-01-23T23:47:08+0100 lvl=info msg="Stopped PluginManager" logger=server reason="context canceled"
+t=2019-01-23T23:47:08+0100 lvl=eror msg="Server shutdown" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-23T23:55:33+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-23T23:55:33+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-23T23:55:33+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-23T23:55:33+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-23T23:55:33+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-23T23:55:33+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-23T23:55:33+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-23T23:55:33+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-23T23:55:33+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-23T23:55:33+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-23T23:55:33+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-23T23:55:33+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-23T23:55:33+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-23T23:55:33+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-23T23:55:33+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-23T23:55:33+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-23T23:55:33+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-23T23:55:33+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-23T23:55:33+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-23T23:55:33+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-23T23:55:33+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-23T23:55:33+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-23T23:55:33+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-23T23:55:33+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-23T23:55:33+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-23T23:55:33+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-23T23:55:33+0100 lvl=eror msg="Stopped HTTPServer" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-23T23:55:33+0100 lvl=info msg="Stopped NotificationService" logger=server reason="context canceled"
+t=2019-01-23T23:55:33+0100 lvl=info msg="Stopped CleanUpService" logger=server reason="context canceled"
+t=2019-01-23T23:55:33+0100 lvl=info msg="Stopped ProvisioningService" logger=server reason="context canceled"
+t=2019-01-23T23:55:33+0100 lvl=info msg="Stopped TracingService" logger=server reason=nil
+t=2019-01-23T23:55:33+0100 lvl=info msg="Stopped Stream Manager"
+t=2019-01-23T23:55:33+0100 lvl=info msg="Stopped AlertingService" logger=server reason="context canceled"
+t=2019-01-23T23:55:33+0100 lvl=info msg="Stopped InternalMetricsService" logger=server reason="context canceled"
+t=2019-01-23T23:55:33+0100 lvl=info msg="Stopped RenderingService" logger=server reason=nil
+t=2019-01-23T23:55:34+0100 lvl=info msg="Stopped PluginManager" logger=server reason="context canceled"
+t=2019-01-23T23:55:34+0100 lvl=eror msg="Server shutdown" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-23T23:57:31+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-23T23:57:31+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-23T23:57:31+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-23T23:57:31+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-23T23:57:31+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-23T23:57:31+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-23T23:57:31+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-23T23:57:31+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-23T23:57:31+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-23T23:57:31+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-23T23:57:31+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-23T23:57:31+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-23T23:57:31+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-23T23:57:31+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-23T23:57:31+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-23T23:57:31+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-23T23:57:31+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-23T23:57:31+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-23T23:57:31+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-23T23:57:31+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-23T23:57:31+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-23T23:57:31+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-23T23:57:31+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-23T23:57:31+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-23T23:57:31+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-23T23:57:31+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-23T23:57:31+0100 lvl=eror msg="Stopped HTTPServer" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-23T23:57:31+0100 lvl=info msg="Stopped Stream Manager"
+t=2019-01-23T23:57:31+0100 lvl=info msg="Stopped InternalMetricsService" logger=server reason="context canceled"
+t=2019-01-23T23:57:31+0100 lvl=info msg="Stopped ProvisioningService" logger=server reason="context canceled"
+t=2019-01-23T23:57:31+0100 lvl=info msg="Stopped CleanUpService" logger=server reason="context canceled"
+t=2019-01-23T23:57:31+0100 lvl=info msg="Stopped NotificationService" logger=server reason="context canceled"
+t=2019-01-23T23:57:31+0100 lvl=info msg="Stopped AlertingService" logger=server reason="context canceled"
+t=2019-01-23T23:57:31+0100 lvl=info msg="Stopped RenderingService" logger=server reason=nil
+t=2019-01-23T23:57:31+0100 lvl=info msg="Stopped TracingService" logger=server reason=nil
+t=2019-01-23T23:57:31+0100 lvl=info msg="Stopped PluginManager" logger=server reason="context canceled"
+t=2019-01-23T23:57:31+0100 lvl=eror msg="Server shutdown" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-23T23:59:41+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-23T23:59:41+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-23T23:59:41+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-23T23:59:41+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-23T23:59:41+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-23T23:59:41+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-23T23:59:41+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-23T23:59:41+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-23T23:59:41+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-23T23:59:41+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-23T23:59:41+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-23T23:59:41+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-23T23:59:41+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-23T23:59:41+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-23T23:59:41+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-23T23:59:41+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-23T23:59:41+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-23T23:59:41+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-23T23:59:41+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-23T23:59:41+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-23T23:59:41+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-23T23:59:41+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-23T23:59:41+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-23T23:59:41+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-23T23:59:41+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-23T23:59:41+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-23T23:59:41+0100 lvl=eror msg="Stopped HTTPServer" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-23T23:59:41+0100 lvl=info msg="Stopped RenderingService" logger=server reason=nil
+t=2019-01-23T23:59:41+0100 lvl=info msg="Stopped NotificationService" logger=server reason="context canceled"
+t=2019-01-23T23:59:41+0100 lvl=info msg="Stopped TracingService" logger=server reason=nil
+t=2019-01-23T23:59:41+0100 lvl=info msg="Stopped CleanUpService" logger=server reason="context canceled"
+t=2019-01-23T23:59:41+0100 lvl=info msg="Stopped AlertingService" logger=server reason="context canceled"
+t=2019-01-23T23:59:41+0100 lvl=info msg="Stopped Stream Manager"
+t=2019-01-23T23:59:41+0100 lvl=info msg="Stopped InternalMetricsService" logger=server reason="context canceled"
+t=2019-01-23T23:59:41+0100 lvl=info msg="Stopped ProvisioningService" logger=server reason="context canceled"
+t=2019-01-23T23:59:41+0100 lvl=info msg="Stopped PluginManager" logger=server reason="context canceled"
+t=2019-01-23T23:59:41+0100 lvl=eror msg="Server shutdown" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T00:03:46+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-24T00:03:46+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-24T00:03:46+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-24T00:03:46+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-24T00:03:46+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-24T00:03:46+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-24T00:03:46+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-24T00:03:46+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-24T00:03:46+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-24T00:03:46+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-24T00:03:46+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-24T00:03:46+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-24T00:03:46+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-24T00:03:46+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-24T00:03:46+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-24T00:03:46+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-24T00:03:46+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-24T00:03:46+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-24T00:03:46+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-24T00:03:46+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-24T00:03:46+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-24T00:03:46+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-24T00:03:46+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-24T00:03:46+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-24T00:03:46+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-24T00:03:46+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-24T00:03:46+0100 lvl=eror msg="Stopped HTTPServer" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T00:03:46+0100 lvl=info msg="Stopped Stream Manager"
+t=2019-01-24T00:03:46+0100 lvl=info msg="Stopped InternalMetricsService" logger=server reason="context canceled"
+t=2019-01-24T00:03:46+0100 lvl=info msg="Stopped RenderingService" logger=server reason=nil
+t=2019-01-24T00:03:46+0100 lvl=info msg="Stopped NotificationService" logger=server reason="context canceled"
+t=2019-01-24T00:03:46+0100 lvl=info msg="Stopped ProvisioningService" logger=server reason="context canceled"
+t=2019-01-24T00:03:46+0100 lvl=info msg="Stopped CleanUpService" logger=server reason="context canceled"
+t=2019-01-24T00:03:46+0100 lvl=info msg="Stopped TracingService" logger=server reason=nil
+t=2019-01-24T00:03:46+0100 lvl=info msg="Stopped AlertingService" logger=server reason="context canceled"
+t=2019-01-24T00:03:46+0100 lvl=info msg="Stopped PluginManager" logger=server reason="context canceled"
+t=2019-01-24T00:03:46+0100 lvl=eror msg="Server shutdown" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T00:25:03+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-24T00:25:03+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-24T00:25:03+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-24T00:25:03+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-24T00:25:03+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-24T00:25:03+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-24T00:25:03+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-24T00:25:03+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-24T00:25:03+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-24T00:25:03+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-24T00:25:03+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-24T00:25:03+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-24T00:25:03+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-24T00:25:03+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-24T00:25:03+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-24T00:25:03+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-24T00:25:03+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-24T00:25:03+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-24T00:25:03+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-24T00:25:03+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-24T00:25:03+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-24T00:25:03+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-24T00:25:03+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-24T00:25:03+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-24T00:25:03+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-24T00:25:03+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-24T00:25:03+0100 lvl=eror msg="Stopped HTTPServer" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T00:25:03+0100 lvl=info msg="Stopped ProvisioningService" logger=server reason="context canceled"
+t=2019-01-24T00:25:03+0100 lvl=info msg="Stopped Stream Manager"
+t=2019-01-24T00:25:03+0100 lvl=info msg="Stopped InternalMetricsService" logger=server reason="context canceled"
+t=2019-01-24T00:25:03+0100 lvl=info msg="Stopped AlertingService" logger=server reason="context canceled"
+t=2019-01-24T00:25:03+0100 lvl=info msg="Stopped CleanUpService" logger=server reason="context canceled"
+t=2019-01-24T00:25:03+0100 lvl=info msg="Stopped RenderingService" logger=server reason=nil
+t=2019-01-24T00:25:03+0100 lvl=info msg="Stopped NotificationService" logger=server reason="context canceled"
+t=2019-01-24T00:25:03+0100 lvl=info msg="Stopped TracingService" logger=server reason=nil
+t=2019-01-24T00:25:03+0100 lvl=info msg="Stopped PluginManager" logger=server reason="context canceled"
+t=2019-01-24T00:25:03+0100 lvl=eror msg="Server shutdown" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T13:19:30+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-24T13:19:30+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-24T13:19:30+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-24T13:19:30+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-24T13:19:30+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-24T13:19:30+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-24T13:19:30+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-24T13:19:30+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-24T13:19:30+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-24T13:19:30+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-24T13:19:30+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-24T13:19:30+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-24T13:19:30+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-24T13:19:30+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-24T13:19:30+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-24T13:19:30+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-24T13:19:30+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-24T13:19:30+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-24T13:19:30+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-24T13:19:30+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-24T13:19:30+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-24T13:19:30+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-24T13:19:30+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-24T13:19:30+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-24T13:19:30+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-24T13:19:30+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-24T13:19:39+0100 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/ status=302 remote_addr=[::1] time_ms=2 size=29 referer=
+t=2019-01-24T13:19:39+0100 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/login status=302 remote_addr=[::1] time_ms=12 size=24 referer=
+t=2019-01-24T14:06:20+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-24T14:06:20+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-24T14:06:20+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-24T14:06:20+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-24T14:06:20+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-24T14:06:20+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-24T14:06:20+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-24T14:06:20+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-24T14:06:20+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-24T14:06:20+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-24T14:06:20+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-24T14:06:20+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-24T14:06:20+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-24T14:06:20+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-24T14:06:20+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-24T14:06:20+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-24T14:06:20+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-24T14:06:20+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-24T14:06:20+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-24T14:06:20+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-24T14:06:20+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-24T14:06:20+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-24T14:06:20+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-24T14:06:20+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-24T14:06:20+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-24T14:06:20+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-24T14:06:20+0100 lvl=eror msg="Stopped HTTPServer" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T14:06:20+0100 lvl=info msg="Stopped TracingService" logger=server reason=nil
+t=2019-01-24T14:06:20+0100 lvl=info msg="Stopped Stream Manager"
+t=2019-01-24T14:06:20+0100 lvl=info msg="Stopped CleanUpService" logger=server reason="context canceled"
+t=2019-01-24T14:06:20+0100 lvl=eror msg="Server shutdown" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T14:10:46+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-24T14:10:46+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-24T14:10:46+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-24T14:10:46+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-24T14:10:46+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-24T14:10:46+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-24T14:10:46+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-24T14:10:46+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-24T14:10:46+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-24T14:10:46+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-24T14:10:46+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-24T14:10:46+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-24T14:10:46+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-24T14:10:46+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-24T14:10:46+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-24T14:10:46+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-24T14:10:46+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-24T14:10:46+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-24T14:10:46+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-24T14:10:46+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-24T14:10:46+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-24T14:10:46+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-24T14:10:46+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-24T14:10:46+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-24T14:10:46+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-24T14:10:46+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-24T14:10:46+0100 lvl=eror msg="Stopped HTTPServer" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T14:10:46+0100 lvl=info msg="Stopped Stream Manager"
+t=2019-01-24T14:10:46+0100 lvl=info msg="Stopped CleanUpService" logger=server reason="context canceled"
+t=2019-01-24T14:10:46+0100 lvl=info msg="Stopped InternalMetricsService" logger=server reason="context canceled"
+t=2019-01-24T14:10:46+0100 lvl=info msg="Stopped ProvisioningService" logger=server reason="context canceled"
+t=2019-01-24T14:10:46+0100 lvl=info msg="Stopped RenderingService" logger=server reason=nil
+t=2019-01-24T14:10:46+0100 lvl=info msg="Stopped TracingService" logger=server reason=nil
+t=2019-01-24T14:10:46+0100 lvl=info msg="Stopped AlertingService" logger=server reason="context canceled"
+t=2019-01-24T14:10:46+0100 lvl=info msg="Stopped NotificationService" logger=server reason="context canceled"
+t=2019-01-24T14:10:47+0100 lvl=info msg="Stopped PluginManager" logger=server reason="context canceled"
+t=2019-01-24T14:10:47+0100 lvl=eror msg="Server shutdown" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T14:11:37+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-24T14:11:37+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-24T14:11:37+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-24T14:11:37+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-24T14:11:37+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-24T14:11:37+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-24T14:11:37+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-24T14:11:37+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-24T14:11:37+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-24T14:11:37+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-24T14:11:37+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-24T14:11:37+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-24T14:11:37+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-24T14:11:37+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-24T14:11:37+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-24T14:11:37+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-24T14:11:37+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-24T14:11:37+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-24T14:11:37+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-24T14:11:37+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-24T14:11:37+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-24T14:11:37+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-24T14:11:37+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-24T14:11:37+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-24T14:11:37+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-24T14:11:37+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-24T14:11:37+0100 lvl=eror msg="Stopped HTTPServer" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T14:11:37+0100 lvl=info msg="Stopped CleanUpService" logger=server reason="context canceled"
+t=2019-01-24T14:11:37+0100 lvl=info msg="Stopped ProvisioningService" logger=server reason="context canceled"
+t=2019-01-24T14:11:37+0100 lvl=info msg="Stopped NotificationService" logger=server reason="context canceled"
+t=2019-01-24T14:11:37+0100 lvl=info msg="Stopped TracingService" logger=server reason=nil
+t=2019-01-24T14:11:37+0100 lvl=info msg="Stopped Stream Manager"
+t=2019-01-24T14:11:37+0100 lvl=info msg="Stopped InternalMetricsService" logger=server reason="context canceled"
+t=2019-01-24T14:11:37+0100 lvl=info msg="Stopped RenderingService" logger=server reason=nil
+t=2019-01-24T14:11:37+0100 lvl=info msg="Stopped AlertingService" logger=server reason="context canceled"
+t=2019-01-24T14:11:37+0100 lvl=info msg="Stopped PluginManager" logger=server reason="context canceled"
+t=2019-01-24T14:11:37+0100 lvl=eror msg="Server shutdown" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T14:12:19+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-24T14:12:19+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-24T14:12:19+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-24T14:12:19+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-24T14:12:19+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-24T14:12:19+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-24T14:12:19+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-24T14:12:19+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-24T14:12:19+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-24T14:12:19+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-24T14:12:19+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-24T14:12:19+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-24T14:12:19+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-24T14:12:19+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-24T14:12:19+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-24T14:12:19+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-24T14:12:19+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-24T14:12:19+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-24T14:12:19+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-24T14:12:19+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-24T14:12:19+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-24T14:12:19+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-24T14:12:19+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-24T14:12:19+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-24T14:12:19+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-24T14:12:19+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-24T14:12:19+0100 lvl=eror msg="Stopped HTTPServer" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T14:12:19+0100 lvl=info msg="Stopped CleanUpService" logger=server reason="context canceled"
+t=2019-01-24T14:12:19+0100 lvl=info msg="Stopped NotificationService" logger=server reason="context canceled"
+t=2019-01-24T14:12:19+0100 lvl=info msg="Stopped TracingService" logger=server reason=nil
+t=2019-01-24T14:12:19+0100 lvl=info msg="Stopped RenderingService" logger=server reason=nil
+t=2019-01-24T14:12:19+0100 lvl=info msg="Stopped AlertingService" logger=server reason="context canceled"
+t=2019-01-24T14:12:19+0100 lvl=info msg="Stopped Stream Manager"
+t=2019-01-24T14:12:19+0100 lvl=info msg="Stopped InternalMetricsService" logger=server reason="context canceled"
+t=2019-01-24T14:12:19+0100 lvl=info msg="Stopped ProvisioningService" logger=server reason="context canceled"
+t=2019-01-24T14:12:20+0100 lvl=info msg="Stopped PluginManager" logger=server reason="context canceled"
+t=2019-01-24T14:12:20+0100 lvl=eror msg="Server shutdown" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T16:31:07+0300 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T16:55:11+0300
+t=2019-01-24T16:31:07+0300 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-24T16:31:07+0300 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-24T16:31:07+0300 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-24T16:31:07+0300 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-24T16:31:07+0300 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-24T16:31:07+0300 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-24T16:31:07+0300 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-24T16:31:07+0300 lvl=info msg="App mode production" logger=settings
+t=2019-01-24T16:31:07+0300 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-24T16:31:07+0300 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-24T16:31:07+0300 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-24T16:31:07+0300 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-24T16:31:07+0300 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-24T16:31:07+0300 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-24T16:31:07+0300 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-24T16:31:07+0300 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-24T16:31:07+0300 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-24T16:31:07+0300 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-24T16:31:07+0300 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-24T16:31:07+0300 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-24T16:31:07+0300 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-24T16:31:07+0300 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-24T16:31:07+0300 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-24T16:31:07+0300 lvl=info msg="Initializing Stream Manager"
+t=2019-01-24T16:31:07+0300 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-24T16:31:07+0300 lvl=eror msg="Stopped HTTPServer" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T16:31:07+0300 lvl=info msg="Stopped RenderingService" logger=server reason=nil
+t=2019-01-24T16:31:07+0300 lvl=info msg="Stopped CleanUpService" logger=server reason="context canceled"
+t=2019-01-24T16:31:07+0300 lvl=info msg="Stopped Stream Manager"
+t=2019-01-24T16:31:07+0300 lvl=info msg="Stopped NotificationService" logger=server reason="context canceled"
+t=2019-01-24T16:31:07+0300 lvl=info msg="Stopped TracingService" logger=server reason=nil
+t=2019-01-24T16:31:07+0300 lvl=info msg="Stopped AlertingService" logger=server reason="context canceled"
+t=2019-01-24T16:31:07+0300 lvl=info msg="Stopped InternalMetricsService" logger=server reason="context canceled"
+t=2019-01-24T16:31:07+0300 lvl=info msg="Stopped ProvisioningService" logger=server reason="context canceled"
+t=2019-01-24T16:31:07+0300 lvl=info msg="Stopped PluginManager" logger=server reason="context canceled"
+t=2019-01-24T16:31:07+0300 lvl=eror msg="Server shutdown" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T19:55:35+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-24T19:55:35+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-24T19:55:35+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-24T19:55:35+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-24T19:55:35+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-24T19:55:35+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-24T19:55:35+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-24T19:55:35+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-24T19:55:35+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-24T19:55:35+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-24T19:55:35+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-24T19:55:35+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-24T19:55:35+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-24T19:55:35+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-24T19:55:35+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-24T19:55:35+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-24T19:55:35+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-24T19:55:35+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-24T19:55:35+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-24T19:55:35+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-24T19:55:35+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-24T19:55:35+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-24T19:55:35+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-24T19:55:35+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-24T19:55:35+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-24T19:55:35+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-24T19:55:35+0100 lvl=eror msg="Stopped HTTPServer" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T19:55:35+0100 lvl=info msg="Stopped TracingService" logger=server reason=nil
+t=2019-01-24T19:55:35+0100 lvl=eror msg="Server shutdown" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-01-24T20:58:46+0100 lvl=info msg="Request Completed" logger=context userId=1 orgId=1 uname=admin method=GET path=/public/build/app.f983a770a207d3bf5dfa.js status=404 remote_addr=[::1] time_ms=4 size=26762 referer="http://localhost:8080/d/ibjZzy-iz/1-panel-monitoring?orgId=1&refresh=1s"
+t=2019-01-24T20:58:47+0100 lvl=info msg="Request Completed" logger=context userId=1 orgId=1 uname=admin method=GET path=/public/build/app.f983a770a207d3bf5dfa.js status=404 remote_addr=[::1] time_ms=109 size=26762 referer="http://localhost:8080/d/ibjZzy-iz/1-panel-monitoring?orgId=1&refresh=1s"
+t=2019-01-24T21:00:22+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-24T21:00:22+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-24T21:00:22+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-24T21:00:22+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-24T21:00:22+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-24T21:00:22+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-24T21:00:22+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-24T21:00:22+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-24T21:00:22+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-24T21:00:22+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-24T21:00:22+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-24T21:00:22+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-24T21:00:22+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-24T21:00:22+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-24T21:00:22+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-24T21:00:22+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-24T21:00:22+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-24T21:00:22+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-24T21:00:22+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-24T21:00:22+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-24T21:00:22+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-24T21:00:22+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-24T21:00:22+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-24T21:00:22+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-24T21:00:22+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-24T21:00:22+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-24T21:01:50+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-24T21:01:50+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-24T21:01:50+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-24T21:01:50+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-24T21:01:50+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-24T21:01:50+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-24T21:01:50+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-24T21:01:50+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-24T21:01:50+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-24T21:01:50+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-24T21:01:50+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-24T21:01:50+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-24T21:01:50+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-24T21:01:50+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-24T21:01:50+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-24T21:01:50+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-24T21:01:50+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-24T21:01:50+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-24T21:01:50+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-24T21:01:50+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-24T21:01:50+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-24T21:01:50+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-24T21:01:50+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-24T21:01:50+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-24T21:01:50+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-24T21:01:50+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-24T21:33:25+0100 lvl=info msg="Database table locked, sleeping then retrying" logger=sqlstore retry=0
+t=2019-01-24T21:34:26+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-24T21:34:26+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-24T21:34:26+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-24T21:34:26+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-24T21:34:26+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-24T21:34:26+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-24T21:34:26+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-24T21:34:26+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-24T21:34:26+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-24T21:34:26+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-24T21:34:26+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-24T21:34:26+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-24T21:34:26+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-24T21:34:26+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-24T21:34:26+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-24T21:34:26+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-24T21:34:26+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-24T21:34:26+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-24T21:34:26+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-24T21:34:26+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-24T21:34:26+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-24T21:34:26+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-24T21:34:26+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-24T21:34:26+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-24T21:34:26+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-24T21:34:26+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-24T21:36:35+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-24T21:36:35+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-24T21:36:35+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-24T21:36:35+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-24T21:36:35+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-24T21:36:35+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-24T21:36:35+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-24T21:36:35+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-24T21:36:35+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-24T21:36:35+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-24T21:36:35+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-24T21:36:35+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-24T21:36:35+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-24T21:36:35+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-24T21:36:35+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-24T21:36:35+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-24T21:36:35+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-24T21:36:35+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-24T21:36:35+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-24T21:36:35+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-24T21:36:35+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-24T21:36:35+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-24T21:36:35+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-24T21:36:35+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-24T21:36:35+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-24T21:36:35+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-24T21:46:35+0100 lvl=info msg="Database table locked, sleeping then retrying" logger=sqlstore retry=0
+t=2019-01-24T22:26:35+0100 lvl=info msg="Database table locked, sleeping then retrying" logger=sqlstore retry=0
+t=2019-01-24T23:40:45+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-24T23:40:45+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-24T23:40:45+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-24T23:40:45+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-24T23:40:45+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-24T23:40:45+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-24T23:40:45+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-24T23:40:45+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-24T23:40:45+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-24T23:40:45+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-24T23:40:45+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-24T23:40:45+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-24T23:40:45+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-24T23:40:45+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-24T23:40:45+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-24T23:40:45+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-24T23:40:45+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-24T23:40:45+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-24T23:40:45+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-24T23:40:45+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-24T23:40:45+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-24T23:40:45+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-24T23:40:45+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-24T23:40:45+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-24T23:40:45+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-24T23:40:45+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-01-25T11:46:36+0100 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-01-25T11:46:36+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-01-25T11:46:36+0100 lvl=info msg="Config loaded from" logger=settings file=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-01-25T11:46:36+0100 lvl=info msg="Path Home" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-01-25T11:46:36+0100 lvl=info msg="Path Data" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-01-25T11:46:36+0100 lvl=info msg="Path Logs" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-01-25T11:46:36+0100 lvl=info msg="Path Plugins" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-01-25T11:46:36+0100 lvl=info msg="Path Provisioning" logger=settings path=C:\\dev\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-01-25T11:46:36+0100 lvl=info msg="App mode production" logger=settings
+t=2019-01-25T11:46:36+0100 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-01-25T11:46:36+0100 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-01-25T11:46:36+0100 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-01-25T11:46:36+0100 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-01-25T11:46:36+0100 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-01-25T11:46:36+0100 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-01-25T11:46:37+0100 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-01-25T11:46:37+0100 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-01-25T11:46:37+0100 lvl=info msg="Initializing HooksService" logger=server
+t=2019-01-25T11:46:37+0100 lvl=info msg="Initializing SearchService" logger=server
+t=2019-01-25T11:46:37+0100 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-01-25T11:46:37+0100 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-01-25T11:46:37+0100 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-01-25T11:46:37+0100 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-01-25T11:46:37+0100 lvl=info msg="Initializing TracingService" logger=server
+t=2019-01-25T11:46:37+0100 lvl=info msg="Initializing Stream Manager"
+t=2019-01-25T11:46:37+0100 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=

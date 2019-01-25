@@ -20,19 +20,12 @@ public class Panel {
 	private FileDTO pendingFile;
 	boolean isLoaded;
 	boolean staticsLoaded;
-	List<Comment> comments;
 	
 
 	@Autowired
 	Parser parser;
 	
 
-	public List<Comment> getComments() {
-		return comments;
-	}
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}
 	public boolean isLoaded() {
 		return isLoaded;
 	}

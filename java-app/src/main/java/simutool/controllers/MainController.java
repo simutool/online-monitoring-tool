@@ -295,6 +295,7 @@ public class MainController {
 		int panelCounter = 1;
 		int sensorCounter = 1;
 
+		pendingSimulation.setPanelList(pendingPanels);
 		for(Panel p : pendingPanels) {
 
 			for(FileDTO file : p.getFiles()) {
