@@ -16,11 +16,11 @@
             <a th:href="@{/newsimulation/}"><img th:src="@{/icon_add_panel.svg}" class="pointerCursor addImgButton" ></img>
             <h3 class="pointerCursor">Start new experiment</h3></a>
 
-            <div th:if="${saved}" class="loadSavedCont">
+            <div th:if="${saved.size()>0}" class="loadSavedCont">
                 <h4>or load a saved one:</h4>
                     <div class="horisontalScroll">
                         <th:block th:each="sim,iter : ${saved}">
-                        <a class="col-3 pointerCursor" th:href="@{load(id=${iter.index})}">
+                        <a class="col-3 pointerCursor" th:href="@{load(id=${sim.id})}">
                             <img th:src="@{/icn-panel.svg}"  class=""></img>
                             <span th:text="${sim.name}" class="col-12">...</span>
                         </a>

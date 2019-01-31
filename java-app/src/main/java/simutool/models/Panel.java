@@ -18,20 +18,13 @@ public class Panel {
 	private String simulationName;
 	private List<FileDTO> files;
 	private FileDTO pendingFile;
-	boolean isLoaded;
-	boolean staticsLoaded;
+
 	
 
 	@Autowired
 	Parser parser;
 	
 
-	public boolean isLoaded() {
-		return isLoaded;
-	}
-	public void setLoaded(boolean isLoaded) {
-		this.isLoaded = isLoaded;
-	}
 	public Panel(int id, String name, String sensorPath, String simulationPath, String simulationName,
 			String curingCyclePath) {
 		super();
@@ -129,12 +122,7 @@ public class Panel {
 		this.pendingFile = pendingFile;
 	}
 	
-	public boolean isStaticsLoaded() {
-		return staticsLoaded;
-	}
-	public void setStaticsLoaded(boolean staticsLoaded) {
-		this.staticsLoaded = staticsLoaded;
-	}
+
 	@Override
 	public String toString() {
 		return "Panel [id=" + id + ", name=" + name + ", simulationId=" + simulationId + ", simulationName="

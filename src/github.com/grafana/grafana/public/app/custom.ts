@@ -16,6 +16,8 @@ import $ from 'jquery';
 		},
 		}).then(function successCallback(response) {
 			console.log(response);
+			console.log(window.location.host);
+			
 			appendCommentsCont();
 			processExperimentData(response);
 			let staticsLaunched = false;
@@ -46,6 +48,22 @@ import $ from 'jquery';
 					launchStatics();
 				}
 			});
+			
+			$(".sidemenu, .navbar").addClass("hiddenSection");
+		
+			$(window).keyup(function(event){
+					const key = event.keyCode; //find the key that was pressed
+					if(key===68){ 
+						if($(".sidemenu").hasClass("hiddenSection")){
+							$(".sidemenu, .navbar").removeClass("hiddenSection");
+							console.log("show developer tools");
+						}else{
+							$(".sidemenu, .navbar").addClass("hiddenSection");
+							console.log("hide developer tools");
+						}
+					}
+			});
+			
 
 			
 		}, function errorCallback(response) {
@@ -65,7 +83,8 @@ import $ from 'jquery';
 		},
 		}).then(function successCallback(response) {
 			console.log(response);
-			
+			$(".commentBody")[0].value = "";
+
 			$.ajax({
 				method: 'GET',
 				url: springHost + '/getExperimentData',
@@ -130,21 +149,32 @@ import $ from 'jquery';
 	function processExperimentData(response){
 			let counter = 0;
 
+			$("#resetButton").attr("href", springHost + "/reset");
 
 			let staticDataFound = false;
 			
 			for(let panel of response.panelList){
 				console.log(panel);
 				console.log($(".panel-title-text"));
+										console.log("panel: " + panel);
 
-				for(let file of panel){
-					if(file.type != "sensor"){
+				for(let file of panel.files){
+
+					if(file.type != "Sensor"){
+											console.log("file.type" + file.type != "sensor");
+
 						staticDataFound = true;
 						break;
 					}
 				}
 				if(!staticDataFound){
-					$("#launchStatics").addClass("hiddenSection");
+					console.log();
+					let myButton = $("#launchStatics");
+					myButton.removeClass("btn-success");
+					myButton.addClass("btn-warning");
+					myButton.text("Finish");
+					myButton.removeAttr("onclick");
+					myButton.attr("href", springHost + "/savePanel");
 				}
 			
 				counter++;
@@ -152,7 +182,7 @@ import $ from 'jquery';
 			let timerId = setInterval(() => setTitle(response, timerId), 500);
 
 
-			if(response.panelList[0].staticsLoaded){
+			if(response.staticsLoaded){
 					let myButton = $("#launchStatics");
 					myButton.removeClass("btn-success");
 					myButton.addClass("btn-warning");
@@ -167,10 +197,11 @@ import $ from 'jquery';
 			console.log(commentCont);
 			commentCont.empty();
 			
-			if(response.panelList[0].loaded){
+			if(response.loaded){
 				console.log($(".timepickerCont, .sendCommentBtn, .saveAsCSV, .commentBody"));
 					$(".timepickerCont, .sendCommentBtn, .saveAsCSV, .commentBody, #launchStatics").addClass("hiddenSection");
 			}	
+
 			for(let i=response.comments.length-1; i>=0; i--){
 
 				let commentHtml = `<div>
@@ -210,6 +241,7 @@ import $ from 'jquery';
 						
 			//Connect comment sections with buttons that toggle them
 			$(".saveAsCSV").attr("href", springHost + "/savePanel");
+
 				
 			$(".commentSectionToggle").on("click", toggleCommentBox.bind(this));
 			function toggleCommentBox(){
@@ -223,11 +255,16 @@ import $ from 'jquery';
 			}
 	}
 	
+
+	
 	const bigCommentCont = `	
 	
-	  <div class="row panelButtons">
-	  	<a class="btn btn-success btn-lg col-xs-4 col-offset-4" id="launchStatics"  role="button" >
+	  <div class="row panelButtons" style="justify-content: space-around;">
+	  	<a class="btn btn-success btn-lg col-xs-4 " id="launchStatics"  title="" role="button" >
 			Start
+		</a>
+		<a class="btn btn-secondary btn-lg col-xs-4 " id="resetButton"  href="" title="" role="button" >
+			Reset
 		</a>
 	   </div>
   
@@ -257,7 +294,7 @@ import $ from 'jquery';
 				</div>
 			</div>
 			<hr data-brackets-id="12673">
-			<ul data-brackets-id="12674" id="sortable" class="list-unstyled ui-sortable" style="height: 100px;overflow: auto">
+			<ul data-brackets-id="12674" id="sortable" class="list-unstyled ui-sortable" style="overflow: auto">
 				
 			</ul>
 		</div>

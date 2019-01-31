@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
 import simutool.CSVprocessor.FileDTO;
 import simutool.CSVprocessor.Parser;
 import simutool.DBpopulator.InfluxPopulator;
+import simutool.controllers.MainController;
 import simutool.models.Panel;
 import simutool.models.Simulation;
 
@@ -70,6 +71,10 @@ public class SavedSimulationsRepo {
 						sim.setCommentsFile(commentsFile);
 					//	writeCommentsToDB(commentsFile);
 					}
+					if(filePath.equals("metadata.csv")) {
+						parser.parseMetadata(sim, new FileReader(folder + "/" + path + "/metadata.csv"));
+
+					}
 				}
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
@@ -95,7 +100,7 @@ public class SavedSimulationsRepo {
 				p.setName(panelName);
 				for(String file : files) {
 					String dataType = file.substring(file.indexOf("---")+3, file.length()-6);
-					System.out.println("it has file: " + dataType);
+					System.out.println("datatype: " + dataType);
 							try {
 								FileDTO fileToAdd = parser.parseFilesForPanels(dataType.toLowerCase() , new FileReader(savingFolder +
 										"/EXP_" + simName + "/" + file));
@@ -199,5 +204,13 @@ public class SavedSimulationsRepo {
 		SavedSimulationsRepo.savedSimulations = savedSimulations;
 	}
 	
+	public Simulation getSimulationById(String id) {
+		for(Simulation s : savedSimulations) {
+			if(s.getId().equals(id)) {
+				return s;
+			}
+		}
+		return null;
+	}
 
 }

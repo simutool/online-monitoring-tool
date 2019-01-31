@@ -8854,7 +8854,10 @@ h3 {
 
 .commentsCont {
   transition: 0.5s;
-  height: 300px; }
+  min-height: 300px;
+  margin-top: 30px;
+  margin-left: 15px;
+  margin-right: 15px; }
 
 .commentsCont textarea {
   margin-bottom: 20px;

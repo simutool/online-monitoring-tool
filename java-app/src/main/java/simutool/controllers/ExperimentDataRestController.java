@@ -147,7 +147,8 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 
 		if (!MainController.staticsAreLaunched) {
 			for (Panel p : MainController.pendingPanels) {
-
+				 simCounter = 1;
+				 curCounter = 1;
 				for (FileDTO file : p.getFiles()) {
 					if (file.getType().equals("Simulation")) {
 						sims.add(file);
@@ -163,13 +164,13 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 					longestDuration = Math.max(longestDuration, file.findDuration());
 
 				}
-				p.setLoaded(false);
+				MainController.pendingSimulation.setLoaded(false);
 				panelCounter++;
 			}
 			influx.addStaticPoints(sims, "simulation");
 			influx.addStaticPoints(curs, "curing_cycle");
 			MainController.staticsAreLaunched = true;
-			 MainController.pendingSimulation.getPanelList().get(0).setStaticsLoaded(true);
+			 MainController.pendingSimulation.setStaticsLoaded(true);
 
 		}
 		return !MainController.staticsAreLaunched;

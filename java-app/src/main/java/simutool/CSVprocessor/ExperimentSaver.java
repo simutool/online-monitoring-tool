@@ -41,7 +41,7 @@ public class ExperimentSaver {
 		 s.setDate( Calendar.getInstance().getTime().toString() );
 		 Date now = new Date();
 		 s.setTimeZone(now.getTimezoneOffset());
-		 metadatdaCsvWriter();
+		 metadataCsvWriter();
 		 List<String> columns = influx.getInfluxDB().query(query).getResults().get(0).getSeries().get(0).getColumns();
 		 List<List<Object>> q = influx.getInfluxDB().query(query).getResults().get(0).getSeries().get(0).getValues();
 		 
@@ -124,7 +124,7 @@ public class ExperimentSaver {
 		return 0;
 	}
 	
-	public void metadatdaCsvWriter() {
+	public void metadataCsvWriter() {
 	    File directory = new File(savingFolder + "/" + "EXP_" + MainController.pendingSimulation.getName());
 	    if (! directory.exists()){
 	        directory.mkdir();
@@ -133,12 +133,12 @@ public class ExperimentSaver {
 	    try {
 	    	System.out.println("writing metadata");
 	    	FileWriter writer = new FileWriter(metaFile);
-    		writer.write("name,date,timezone,description,operators,oven,material,tool\r\n");
+    		writer.write("operators,oven,material,tool,name,date,timezone,description,id\r\n");
     		Simulation s = MainController.pendingSimulation;
 	    	System.out.println(s);
-	    	String entry = (s.getName() + "," + s.getDate() + "," + s.getTimeZone() + "," + s.getDescription() + 
-    				"," + s.getOperators() + ", " + s.getOven() + "," +
-	    			s.getMaterial() + "," + s.getTool()  + "\r\n").replaceAll("null", "");
+	    	String entry = (s.getOperators() + ", " + s.getOven() + "," +
+	    			s.getMaterial() + "," + s.getTool()  + "," + s.getName() + "," + s.getDate() + "," + s.getTimeZone() + "," + s.getDescription() + 
+    				"," + s.getId() + "\r\n").replaceAll("null", " ");
 
 	    	writer.write(entry);
 			

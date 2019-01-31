@@ -6,15 +6,18 @@ import simutool.CSVprocessor.FileDTO;
 
 public class Simulation {
 	private String name;
-	private int id;
+	private String id;
 	private int panelNum;
 	private List<Panel> panelList;
 	long earliestTime;
 	long latestTime;
 	String projectId;
+	String grafanaURL;
 	List<Comment> comments;
 	FileDTO commentsFile;
 	long timeZone;
+	boolean isLoaded;
+	boolean staticsLoaded;
 	
 	String date;
 	String time;
@@ -29,7 +32,7 @@ public class Simulation {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Simulation(int id, String name, int panelNum) {
+	public Simulation(String id, String name, int panelNum) {
 		super();
 		this.name = name;
 		this.id = id;
@@ -50,11 +53,31 @@ public class Simulation {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getId() {
+	
+	public boolean isLoaded() {
+		return isLoaded;
+	}
+	public void setLoaded(boolean isLoaded) {
+		this.isLoaded = isLoaded;
+	}
+	public boolean isStaticsLoaded() {
+		return staticsLoaded;
+	}
+	public void setStaticsLoaded(boolean staticsLoaded) {
+		this.staticsLoaded = staticsLoaded;
+	}
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getGrafanaURL() {
+		return grafanaURL;
+	}
+	public void setGrafanaURL(String grafanaURL) {
+		this.grafanaURL = grafanaURL;
 	}
 	public int getPanelNum() {
 		return panelNum;

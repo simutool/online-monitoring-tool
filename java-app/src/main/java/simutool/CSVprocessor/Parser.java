@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 
-import simutool.controllers.MainController;
+import simutool.models.Simulation;
 
 /**
  * This class parses .csv files and creates FileDTO Objects.
@@ -70,14 +70,18 @@ public class Parser {
 		return file;
 	}
 	
-	public void parseDefaultMetadata() {
+	public void parseMetadata(Simulation s, FileReader path) {
 		try {
-			FileReader r = new FileReader(metadataFolder + "/default.csv");
-			List<String[]>rows = libParser.parseAll(r);
-			MainController.pendingSimulation.setOperators(rows.get(1)[0]);
-			MainController.pendingSimulation.setOven(rows.get(1)[1]);
-			MainController.pendingSimulation.setMaterial(rows.get(1)[2]);
-			MainController.pendingSimulation.setTool(rows.get(1)[3]);
+			if(path == null) {
+				path = new FileReader(metadataFolder + "/default.csv");
+			}
+			List<String[]>rows = libParser.parseAll(path);
+			System.out.println("metadata rows: " + rows.get(1).length);
+			s.setOperators(rows.get(1)[0]);
+			s.setOven(rows.get(1)[1]);
+			s.setMaterial(rows.get(1)[2]);
+			s.setTool(rows.get(1)[3]);
+			s.setId(rows.get(1)[8]);
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

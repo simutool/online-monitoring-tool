@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -75,10 +76,12 @@ public class MainController {
 
 
 	@RequestMapping("/load")
-	public String loadSavedSimulation(@RequestParam("id") int id) {
+	public String loadSavedSimulation(@RequestParam("id") String id) {
 		influx.tearDownTables();
-		Simulation s = simRepo.getSavedSimulations().get(id);
-		simRepo.writeCommentsToDB(s.getCommentsFile());
+		Simulation s = simRepo.getSimulationById(id);
+		if(s.getCommentsFile() != null) {
+			simRepo.writeCommentsToDB(s.getCommentsFile());
+		}
 		List<Panel> panels = s.getPanelList();
 		int counter = 1;
 		for(Panel p: panels) {
@@ -90,7 +93,7 @@ public class MainController {
 				dataset.add(f);
 				influx.addStaticPoints( dataset, f.getType() );
 			}
-			p.setLoaded(true);
+			s.setLoaded(true);
 			counter++;
 		}
 		pendingSimulation = s;
@@ -110,7 +113,8 @@ public class MainController {
 			redirectLink = "d/OSF-tramk/3-panels-monitoring";
 		}
 		}
-		return "redirect://" + grafanaHost + redirectLink + refreshingPar;
+		pendingSimulation.setGrafanaURL(grafanaHost + redirectLink + refreshingPar);
+		return "redirect://" + pendingSimulation.getGrafanaURL();
 	}
 
 	/**
@@ -123,8 +127,7 @@ public class MainController {
 		if(experimentStarted || pendingSimulation == null) {
 			pendingSimulation = new Simulation();
 			System.out.println("pendingSimulation 2: "+pendingSimulation);
-
-			parser.parseDefaultMetadata();
+			parser.parseMetadata(pendingSimulation, null);
 			System.out.println("pendingSimulation 3: "+pendingSimulation);
 			pendingPanels = null;
 			pendingPanel = null;
@@ -185,7 +188,8 @@ public class MainController {
 		else {
 			processPendingData();
 			experimentStarted = true;
-			return "redirect://" + grafanaHost + redirectLink + refreshingPar;
+			pendingSimulation.setGrafanaURL(grafanaHost + redirectLink + refreshingPar);
+			return "redirect://" + pendingSimulation.getGrafanaURL();
 		}
 		return "redirect:/newsimulation";
 	}
@@ -297,7 +301,7 @@ public class MainController {
 
 		pendingSimulation.setPanelList(pendingPanels);
 		for(Panel p : pendingPanels) {
-
+			sensorCounter = 1;
 			for(FileDTO file : p.getFiles()) {
 				if(file.getType().equals("Sensor")) {
 					sens.add(file);
@@ -307,7 +311,7 @@ public class MainController {
 					sensorCounter++;
 				}
 			}
-			p.setLoaded(false);
+			pendingSimulation.setLoaded(false);
 			panelCounter++;
 		}
 
@@ -330,6 +334,11 @@ public class MainController {
 		}
 	}
 
+	
+	@RequestMapping("/reset")
+	public String resetGrafanaLink() {
+		return "redirect://" + pendingSimulation.getGrafanaURL();
+	}
 	
 	
 	/**
@@ -363,15 +372,18 @@ public class MainController {
 	
 
 	@PostMapping("/saveComment/")
-	public String sa(@RequestBody String reqBody) {
+	public String saveComment(@RequestBody String reqBody) {
 
 		return "redirect:/" + redirectLink;
 	}
 
 	@GetMapping("/savePanel")
 	public String startSavingPanel() {
+		String id = UUID.randomUUID().toString();
+		pendingSimulation.setId(id);
 		saver.savePanels(pendingSimulation);
-		return "redirect://" + grafanaHost + redirectLink + refreshingPar;
+		simRepo.readSavedSimulations();
+		return "redirect:/load?id=" + id;
 
 	}
 	
