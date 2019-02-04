@@ -22,15 +22,6 @@ import $ from 'jquery';
 			processExperimentData(response);
 			let staticsLaunched = false;
 			
-		//	for(let panel of response){
-			//	for(let file of panel.files){
-				//	if(file.type == "Simulation" || file.type == "Curing cycle"){
-					//	staticsLaunched = true;
-						//console.log("is already launched!");
-						//$("#launchStatics").addClass("disabled");
-					//}
-				//}
-			//}
 			
 			$($(".sendCommentBtn a")[0]).on("click", function(event){
 				const comment = $(".commentBody")[0].value;
@@ -49,6 +40,8 @@ import $ from 'jquery';
 				}
 			});
 			
+			console.log($(".scroll-canvas"));
+		$($(".scroll-canvas")[1]).prepend(`<h3 class="custom-header">Experiment ${response.name + (response.loaded ? " (SAVED)" : "")}</h3>`);
 			$(".sidemenu, .navbar").addClass("hiddenSection");
 		
 			$(window).keyup(function(event){
@@ -133,14 +126,56 @@ import $ from 'jquery';
 		});	
 	}
 	
-	function setTitle(names, timerId){
+	function setTitle(response, timerId){
 		//		$($(".panel-title-text")[counter]).text(name);
 				let labelsFound = false;
+				let fileNamesFound = false;
+				let numOfFiles = 0;
+				let fileNames = new Array();
+				for(let panel of response.panelList){
+					numOfFiles += panel.files.length;
+					for(let file of panel.files){
+						fileNames.push(file.name);
+					}
+				}
+							console.log($(".panel-title-text"));
+														console.log(response.panelList);
+
+	if($(".panel-title-text").length == response.panelList.length){
+			labelsFound = true;
+
 		for(let i=0; i < $(".panel-title-text").length; i++){
-				$($(".panel-title-text")[i]).text(names.panelList[i].name);
-		labelsFound = true;
-		}		
-		if(labelsFound){
+				
+			let title = $($(".panel-title-text")[i]);
+			console.log($(".panel-title-text").length);
+			if(response.loaded){
+				$($(".panel-title-text")[i]).text( $.grep($(response.panelList), function(item) { return item.name.charAt(0) == i+1 })[0].name );				
+			}else{
+				if(title.text() == '0' || title.text() == '1' || title.text() == '2'){
+					title.text( response.panelList[title.text()].name );
+				}
+			}
+		
+				
+			//$.grep($(".graph-legend-alias pointer"), function(item) { return item.id === '5678' })[0].url;
+			}
+		}	
+		console.log("num of files": numOfFiles);
+				console.log("$('.graph-legend-alias ).length": $(".graph-legend-alias ").length);
+
+		if($(".graph-legend-alias ").length == numOfFiles){
+			let counter = 0;
+			fileNamesFound = true;
+			for(let label of $(".graph-legend-alias ")){
+				const type = "Sensor";
+				console.log(label.text);
+				
+					$(label).text( fileNames[counter] );
+				counter++;
+			}
+		}
+		
+		if(labelsFound && fileNamesFound){
 			clearInterval(timerId);
 		}
 
@@ -167,7 +202,10 @@ import $ from 'jquery';
 						break;
 					}
 				}
-				if(!staticDataFound){
+	
+				counter++;
+			}
+			if(!staticDataFound){
 					console.log();
 					let myButton = $("#launchStatics");
 					myButton.removeClass("btn-success");
@@ -176,9 +214,6 @@ import $ from 'jquery';
 					myButton.removeAttr("onclick");
 					myButton.attr("href", springHost + "/savePanel");
 				}
-			
-				counter++;
-			}
 			let timerId = setInterval(() => setTitle(response, timerId), 500);
 
 

@@ -8908,6 +8908,11 @@ h3 {
 .hiddenSection {
   display: none !important; }
 
+.custom-header {
+  text-align: center;
+  border: 0 !important;
+  margin-top: 20px; }
+
 .submenu-controls {
   display: -ms-flexbox;
   display: flex;

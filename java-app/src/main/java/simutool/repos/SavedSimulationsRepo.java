@@ -104,6 +104,7 @@ public class SavedSimulationsRepo {
 							try {
 								FileDTO fileToAdd = parser.parseFilesForPanels(dataType.toLowerCase() , new FileReader(savingFolder +
 										"/EXP_" + simName + "/" + file));
+								fileToAdd.setName( file.substring(0, file.indexOf("_PANEL_")) );
 								fileToAdd.setInternalNumber( Integer.parseInt( file.substring(file.length()-5, file.length()-4) ));
 								fileToAdd.setPanelNumber( Integer.parseInt( panelNum ) );
 

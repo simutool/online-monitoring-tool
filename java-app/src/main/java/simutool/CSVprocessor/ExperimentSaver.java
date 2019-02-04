@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import simutool.DBpopulator.InfluxPopulator;
 import simutool.controllers.MainController;
+import simutool.models.Panel;
 import simutool.models.Simulation;
 
 @Repository
@@ -31,6 +32,13 @@ public class ExperimentSaver {
 	private String savingFolder;
 	
 	public void savePanels(Simulation s) {
+		
+		 List<String> fileNames = new ArrayList<>();
+		 for(Panel p : MainController.pendingSimulation.getPanelList()) {
+			 for(FileDTO f : p.getFiles()) {
+				 fileNames.add(f.getName());
+			 }
+		 }
 		 
 		 Query query = new Query("SELECT * FROM " + influx.getTablename(), influx.getTablename());
 		 Query commentsQuery = new Query("SELECT * FROM " + InfluxPopulator.commentsTableName, InfluxPopulator.commentsTableName);
@@ -69,6 +77,7 @@ public class ExperimentSaver {
 			 file.setType(columns.get(i+1).substring(3, columns.get(i+1).length()-2));
 			 file.setInternalNumber(Integer.parseInt(columns.get(i+1).substring(columns.get(i+1).length()-1, columns.get(i+1).length())));
 			 file.setPanelNumber(Integer.parseInt(columns.get(i+1).substring(1, 2)));
+			 file.setName(fileNames.get(i));
 			 writeCSV(file, simulationName);
 		 }
 
@@ -77,7 +86,7 @@ public class ExperimentSaver {
 	 
 	public void writeCSV(FileDTO file, String simulationName) {
 		
-		String fileName = ("/EXP_" + simulationName.replaceAll("[^A-Za-z0-9]+", "_") + "_PANEL_" + 
+		String fileName = ("/" + file.getName().replaceAll("[^A-Za-z0-9]+", "_") + "_PANEL_" + 
 				+ file.getPanelNumber() + "-"  + MainController.pendingPanels.get(file.getPanelNumber()-1).getName() + "---" + file.getType().toUpperCase() + "-" + file.getInternalNumber() + ".csv");
 		
 	    System.out.println(fileName);

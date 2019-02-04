@@ -73,7 +73,10 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 				 System.out.println("pretty: " + dateWithTimezone.getHours() + ":" + dateWithTimezone.getMinutes() + ":" + dateWithTimezone.getSeconds());
 
 				 c.setCommentText(text);
-				 c.setTimeAsString( dateWithTimezone.getHours() + ":" + dateWithTimezone.getMinutes() + ":" + dateWithTimezone.getSeconds() );
+				 String hours = dateWithTimezone.getHours() < 10 ? "0" + dateWithTimezone.getHours() : "" + dateWithTimezone.getHours();
+				 String minutes = dateWithTimezone.getMinutes() < 10 ? "0" + dateWithTimezone.getMinutes() : "" + dateWithTimezone.getMinutes();
+				 String seconds = dateWithTimezone.getSeconds() < 10 ? "0" + dateWithTimezone.getSeconds() : "" + dateWithTimezone.getSeconds();
+				 c.setTimeAsString( hours + ":" + minutes + ":" + seconds );
 				 comments.add(c);
 			 }
 		 }

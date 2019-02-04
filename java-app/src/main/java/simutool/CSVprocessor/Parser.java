@@ -82,6 +82,7 @@ public class Parser {
 			s.setMaterial(rows.get(1)[2]);
 			s.setTool(rows.get(1)[3]);
 			s.setId(rows.get(1)[8]);
+			
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
