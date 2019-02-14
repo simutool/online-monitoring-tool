@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,12 @@ import org.influxdb.dto.QueryResult.Series;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.squareup.moshi.Json;
 
 import simutool.DBpopulator.InfluxPopulator;
 import simutool.controllers.MainController;
@@ -46,10 +53,11 @@ public class ExperimentSaver {
 		 if(seriesData != null) {
 			 commentCsvWriter(seriesData.get(0).getValues());
 		 }
-		 s.setDate( Calendar.getInstance().getTime().toString() );
+		 s.setEndTime( Calendar.getInstance().getTime().toLocaleString() );
 		 Date now = new Date();
 		 s.setTimeZone(now.getTimezoneOffset());
 		 metadataCsvWriter();
+		 jsonMetadataWriter();
 		 List<String> columns = influx.getInfluxDB().query(query).getResults().get(0).getSeries().get(0).getColumns();
 		 List<List<Object>> q = influx.getInfluxDB().query(query).getResults().get(0).getSeries().get(0).getValues();
 		 
@@ -106,8 +114,9 @@ public class ExperimentSaver {
 
 	    	for(int i=0; i < file.getRows().size(); i++) {
 	    		String[] entry = file.getRows().get(i);
+	    		String escaped = "\"" + entry[index] + "\"";
 
-	    		writer.write( normalizeTimeStamp(entry[0]) + "," + entry[index] + ",0" + "\r\n");
+	    		writer.write( normalizeTimeStamp(entry[0]) + "," + escaped + ",0" + "\r\n");
 	    	}
 			
 			writer.close();
@@ -142,14 +151,52 @@ public class ExperimentSaver {
 	    try {
 	    	System.out.println("writing metadata");
 	    	FileWriter writer = new FileWriter(metaFile);
-    		writer.write("operators,oven,material,tool,name,date,timezone,description,id\r\n");
+    		writer.write("operators,oven,material,tool,name,start_time,end_time,timezone,description,id\r\n");
     		Simulation s = MainController.pendingSimulation;
 	    	System.out.println(s);
 	    	String entry = (s.getOperators() + ", " + s.getOven() + "," +
-	    			s.getMaterial() + "," + s.getTool()  + "," + s.getName() + "," + s.getDate() + "," + s.getTimeZone() + "," + s.getDescription() + 
+	    			s.getMaterial() + "," + s.getTool()  + "," + s.getName() + "," + s.getStartTime() + "," +
+	    			s.getEndTime() + "," + s.getTimeZone() + "," + s.getDescription() + 
     				"," + s.getId() + "\r\n").replaceAll("null", " ");
 
 	    	writer.write(entry);
+			
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void jsonMetadataWriter() {
+	    File directory = new File(savingFolder + "/" + "EXP_" + MainController.pendingSimulation.getName());
+	    if (! directory.exists()){
+	        directory.mkdir();
+	    }
+		File metaFile = new File(directory + "/upload.json");
+	    try {
+	    	FileWriter writer = new FileWriter(metaFile);
+	    	
+	    	Gson gson = new GsonBuilder()
+	                .addSerializationExclusionStrategy(new ExclusionStrategy() {
+	                    @Override
+	                    public boolean shouldSkipField(FieldAttributes field) {
+	                    	String f = field.getName().toLowerCase();
+	                        return !Arrays.asList(Simulation.metaForUpload).contains(f);
+	                    }
+
+	                    @Override
+	                    public boolean shouldSkipClass(Class<?> aClass) {
+	                        return false;
+	                    }
+	                })
+	                .create();
+	    	
+	    	String j = gson.toJson(MainController.pendingSimulation);
+	    	System.out.println(j);
+
+	    	writer.write(j);
 			
 			writer.close();
 		} catch (IOException e) {

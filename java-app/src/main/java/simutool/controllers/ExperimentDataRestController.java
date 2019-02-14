@@ -102,7 +102,7 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 		System.out.println(timeStamp);
 
 		Point point = Point.measurement(InfluxPopulator.commentsTableName).time( timeStamp, TimeUnit.MILLISECONDS)
-				.addField("comment", commentData.getCommentText()).build();
+				.addField("comment", "\"" + commentData.getCommentText() + "\"").build();
 		System.out.println("point: " + point);
 
 		InfluxPopulator.influxDB.write(InfluxPopulator.commentsTableName, "autogen", point); 
@@ -116,11 +116,12 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 		if(simData.getName() != null) {
 			MainController.pendingSimulation.setName(simData.getName());
 		}
-
-		if(simData.getTime() != null) {
-			MainController.pendingSimulation.setTime(simData.getTime());
+		
+		if(simData.getEndTime() != null) {
+			MainController.pendingSimulation.setEndTime(simData.getEndTime());
 		}
 		if(simData.getDescription() != null) {
+			System.out.println("new description: " + simData.getDescription());
 			MainController.pendingSimulation.setDescription(simData.getDescription());
 		}
 		if(simData.getOperators() != null) {

@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +28,7 @@ import simutool.CSVprocessor.ExperimentSaver;
 import simutool.CSVprocessor.FileDTO;
 import simutool.CSVprocessor.Parser;
 import simutool.DBpopulator.InfluxPopulator;
+import simutool.models.Comment;
 import simutool.models.Panel;
 import simutool.models.Simulation;
 import simutool.repos.CommentsRepo;
@@ -139,6 +141,7 @@ public class MainController {
 		if(pendingPanel == null) {
 			pendingPanel = new Panel();
 		}
+		pendingSimulation.setStartTime( Calendar.getInstance().getTime().toLocaleString() );
 		m.addAttribute("simulation", pendingSimulation);
 		m.addAttribute("simulationName", pendingSimulation.getName());
 		m.addAttribute("panel", pendingPanel);
@@ -377,14 +380,19 @@ public class MainController {
 		return "redirect:/" + redirectLink;
 	}
 
-	@GetMapping("/savePanel")
-	public String startSavingPanel() {
+	@GetMapping("/savePanel/{exit}")
+	public String startSavingPanel(@PathVariable(value="exit") boolean exit) {
 		String id = UUID.randomUUID().toString();
 		pendingSimulation.setId(id);
 		saver.savePanels(pendingSimulation);
-		simRepo.readSavedSimulations();
-		return "redirect:/load?id=" + id;
-
+		if(exit) {
+			simRepo.readSavedSimulations();
+			System.out.println("Saved and exited");
+			return "redirect:/load?id=" + id;
+		}else {
+			System.out.println("Saved and resumed");
+			return "redirect:/reset";
+		}
 	}
 	
 

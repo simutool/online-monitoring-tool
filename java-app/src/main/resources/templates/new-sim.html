@@ -4,9 +4,13 @@
     <title>New experiment</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"></link>
+	<link rel="shortcut icon" type="image/png" th:href="@{/fav32.png}"/>
+	<link rel="shortcut icon" type="image/png" th:href="@{/fav16.png}"/>
+	   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"></link>
     <link rel="stylesheet" th:href="@{/fontawesome/css/all.css}"></link>
     <link rel="stylesheet" type="text/css" th:href="@{/index.css}"></link>
+    	   <script th:src="@{/js/popper.min.js}"></script>
+    
     <script th:src="@{/js/jquery.min.js}" ></script>
         <script th:src="@{/js/bootstrap.min.js}" ></script>
 
@@ -14,11 +18,13 @@
 <body>
 
     <div class="introCont col-8 offset-2 secondaryPanel">
-            <h1>New experiment:</h1>
+            <h1>New experiment:  </h1>
 
             <form class="form-group col-12" action="#" th:action="@{/newsimulation}" th:object="${simulation}" method="post">
                 <span style="color: red;" th:text="${error}"></span>
-                <p >Name: <input class="form-control" id="simName" type="text" th:field="*{name}" value="pendingName"  /></p>
+                <p >Name: 
+                <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Give a name to your experiment under which it will be saved later"></i>
+                 <input class="form-control" style="margin-top:10px" id="simName" type="text" th:field="*{name}" value="pendingName"  /></p>
 
 
 <p>
@@ -28,18 +34,38 @@
   </button>
 </p>
 <div class="row collapse" id="collapseExample">
-       <div class="row">
-                       <p class="col-12" style="padding:0">Description: <input class="form-control" id="simDesc" type="text" th:field="*{description}" value="pendingName"  /></p>
-		 <p class="col-6" style="">Operators: <input class="form-control" id="simOps" type="text" th:field="*{operators}" value="pendingOps"  /></p>
-         <p class="col-6" style="">Oven: <input class="form-control" id="simOven" type="text" th:field="*{oven}" value="pendingOven"  /></p>
-      		 <p class="col-6" style="">Material: <input class="form-control" id="simMat" type="text" th:field="*{material}" value="pendingMat"  /></p>
-      		 <p class="col-6" style="">Tool: <input class="form-control" id="simTool" type="text" th:field="*{tool}" value="pendingTool"  /></p>
+       <div class="row" style="margin-left:-7.5px; margin-right:-7.5px">
+       
+         <p class="col-12" style="">Description: 
+         <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Describe your experiment (optional)"></i>
+         <input class="form-control" id="simDesc" type="text" th:field="*{description}" value="pendingName"  /></p>
+		 
+		 <p class="col-6" style="">Operators:  
+		  <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Choose the name of the person in charge for this experiment from the list below"></i>
+		 <input class="form-control" id="simOps" type="text" th:field="*{operators}" value="pendingOps"  /></p>
+         
+         <p class="col-6" style="">Oven: 
+          <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Choose the oven you are using from the list"></i>
+         <input class="form-control" id="simOven" type="text" th:field="*{oven}" value="pendingOven"  /></p>
+      		 
+      		 <p class="col-6" style="">Material: 
+      		  <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Pick the material"></i>
+      		 <input class="form-control" id="simMat" type="text" th:field="*{material}" value="pendingMat"  /></p>
+      		 
+      		 <p class="col-6" style="">Tool: 
+      		 <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Pick a tool"></i>
+      		 <input class="form-control" id="simTool" type="text" th:field="*{tool}" value="pendingTool"  /></p>
+      		 
+      		 <p class="col-12 startDateLabel" th:text="${'Start time: ' + simulation.startTime}" style=""></p>
       
        </div>
 </div>
 
                  <div class="addPanelCont">
-                    <h4>Panels:</h4>
+                    <h4>Panels:
+                         <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Each panel will represent a separate
+                         diagram, so that you can group your data (sensors, simulations, curing cycles) in a reasonable way. You can add up to three panels."></i>
+                    </h4>
                         <div class="col-12">
                           
                             <div  class="col-3 panelConts" th:each="panel,iter : ${pendingPanels}" >
@@ -76,7 +102,9 @@
                         <input style="display: none;" type="number"  name="edit" value="1" th:if="${edit}" />
                         <input style="display: none;" type="text" id="simulationNameForPanel" th:field="*{simulationName}"  />
                         <input class="form-control" id="modalId" type="text" style="display: none;" th:field="*{finalId}" />
-                        <p>Name: <input class="form-control" id="modalName" type="text" th:field="*{name}" /></p>
+                        <p>Name: 
+                        <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Give a name to your panel nder which it will be saved later"></i>
+                        <input class="form-control" id="modalName" type="text" th:field="*{name}" /></p>
                         
                         <div class="row filesInPanels" >
                         	<a th:href="${'/removeFile/' + panel.finalId + '/' + iter.index}" class="col-3" th:each="file,iter : ${panel.getFiles()}">
@@ -90,7 +118,10 @@
                         
                         <h5>Add new dataset:</h5>
                         <p>File: <input class="form-control" language="en" id="modalSens" type="file" th:field="*{pendingFile}" /></p>
-                        <p>Dataset name: <input class="form-control" language="en" id="modalSens" type="text" th:field="*{pendingFile.name}" /></p>
+                        <p>Dataset name: 
+                        <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Describe the dataset (optional)"></i>
+                        
+                        <input class="form-control" language="en" id="modalSens" type="text" th:field="*{pendingFile.name}" /></p>
                           <div class="form-group radioWrapper" >
 						    <select class="form-control" id="fileTypeSelect" th:field="*{pendingFile.type}">
 						      <option value="Sensor">Sensor</option>
@@ -123,6 +154,9 @@
 
 </script>
 <script type="text/javascript" >
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
     function passPanelInfo(id){
         var name =  $("#simName").val();
         window.location.href = "/editpanel/" + id + "/?simulation=" + name;

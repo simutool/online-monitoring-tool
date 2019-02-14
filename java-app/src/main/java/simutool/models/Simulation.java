@@ -1,5 +1,6 @@
 package simutool.models;
 
+import java.beans.Transient;
 import java.util.List;
 
 import simutool.CSVprocessor.FileDTO;
@@ -7,20 +8,23 @@ import simutool.CSVprocessor.FileDTO;
 public class Simulation {
 	private String name;
 	private String id;
-	private int panelNum;
-	private List<Panel> panelList;
+	private  int panelNum;
+	private  List<Panel> panelList;
 	long earliestTime;
 	long latestTime;
-	String projectId;
+	String projectId;	
 	String grafanaURL;
 	List<Comment> comments;
 	FileDTO commentsFile;
 	long timeZone;
 	boolean isLoaded;
 	boolean staticsLoaded;
+	public static String[] metaForUpload = new String[]{"name", "id", "startTime", "endTime", "description",
+			"operators", "oven", "material", "tool"};
 	
 	String date;
-	String time;
+	String startTime;
+	String endTime;
 	String description;
 	String operators;
 	String oven;
@@ -115,11 +119,18 @@ public class Simulation {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public String getTime() {
-		return time;
+	
+	public String getStartTime() {
+		return startTime;
 	}
-	public void setTime(String time) {
-		this.time = time;
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
 	public String getDescription() {
 		return description;
@@ -176,8 +187,10 @@ public class Simulation {
 	public String toString() {
 		return "Simulation [name=" + name + ", id=" + id + ", panelNum=" + panelNum + ", panelList=" + panelList
 				+ ", earliestTime=" + earliestTime + ", latestTime=" + latestTime + ", projectId=" + projectId
-				+ ", date=" + date + ", time=" + time + ", description=" + description + ", operators=" + operators
-				+ ", oven=" + oven + ", material=" + material + ", tool=" + tool + "]";
+				+ ", grafanaURL=" + grafanaURL + ", comments=" + comments + ", commentsFile=" + commentsFile
+				+ ", timeZone=" + timeZone + ", isLoaded=" + isLoaded + ", staticsLoaded=" + staticsLoaded + ", date="
+				+ date + ", startTime=" + startTime + ", endTime=" + endTime + ", description=" + description
+				+ ", operators=" + operators + ", oven=" + oven + ", material=" + material + ", tool=" + tool + "]";
 	}
 	
 	

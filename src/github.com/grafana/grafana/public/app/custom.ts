@@ -18,9 +18,11 @@ import $ from 'jquery';
 			console.log(response);
 			console.log(window.location.host);
 			
-			appendCommentsCont();
+			appendCommentsCont(response);
 			processExperimentData(response);
 			let staticsLaunched = false;
+			$($("title")[0]).text( response.name  );
+			
 			
 			
 			$($(".sendCommentBtn a")[0]).on("click", function(event){
@@ -39,6 +41,27 @@ import $ from 'jquery';
 					launchStatics();
 				}
 			});
+			
+			
+			$("#saveDescriptionPreview").on("input", function(e, t){
+				const name = e.target.name;
+				const value = e.target.value;
+				console.log("changing description: "+ value);
+				$.ajax({
+					method: 'POST',
+					url: springHost + '/setSimulationData',
+					data: JSON.stringify({ "description": value }),
+					headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Content-Type': 'application/json'
+				},
+			}).then(function successCallback(response) {
+				console.log(response);		
+			}, function errorCallback(response) {
+				console.log(response);
+			});	
+    	
+    })
 			
 			console.log($(".scroll-canvas"));
 		$($(".scroll-canvas")[1]).prepend(`<h3 class="custom-header">Experiment ${response.name + (response.loaded ? " (SAVED)" : "")}</h3>`);
@@ -63,6 +86,25 @@ import $ from 'jquery';
 				console.log(response);
 		});
     });
+	
+	
+	
+		function saveExperiment(exit){
+	    $.ajax({
+				method: 'POST',
+				url: springHost + '/savePanel',
+				data: JSON.stringify({ "description": $("#saveDescriptionPreview")[0].value, "loaded": exit}),
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Content-Type': 'application/json'
+		},
+		}).then(function successCallback(response) {
+			
+		
+		}, function errorCallback(response) {
+				console.log(response);
+		});	
+	}
 	
 	
 	function sendComment(comment, time){
@@ -160,17 +202,19 @@ import $ from 'jquery';
 			//$.grep($(".graph-legend-alias pointer"), function(item) { return item.id === '5678' })[0].url;
 			}
 		}	
-		console.log("num of files": numOfFiles);
-				console.log("$('.graph-legend-alias ).length": $(".graph-legend-alias ").length);
 
 		if($(".graph-legend-alias ").length == numOfFiles){
 			let counter = 0;
 			fileNamesFound = true;
 			for(let label of $(".graph-legend-alias ")){
-				const type = "Sensor";
 				console.log(label.text);
 				
-					$(label).text( fileNames[counter] );
+				if(response.loaded){
+			//		$(label).text( fileNames[counter] );
+				}
+				//let panel = $.grep($(response.panelList), function(item) { return item.id === '5678' })[0];
+				
+			//	$(label).text( $.grep($(response.panelList), function(item) { return item.id === '5678' })[0].url );
 				counter++;
 			}
 		}
@@ -210,9 +254,12 @@ import $ from 'jquery';
 					let myButton = $("#launchStatics");
 					myButton.removeClass("btn-success");
 					myButton.addClass("btn-warning");
-					myButton.text("Finish");
+					myButton.text("Save");
 					myButton.removeAttr("onclick");
-					myButton.attr("href", springHost + "/savePanel");
+				//	myButton.attr("href", springHost + "/savePanel");
+					myButton.attr("data-toggle", "modal"); 
+					myButton.attr("data-target", "#savingModal");
+			
 				}
 			let timerId = setInterval(() => setTitle(response, timerId), 500);
 
@@ -221,9 +268,11 @@ import $ from 'jquery';
 					let myButton = $("#launchStatics");
 					myButton.removeClass("btn-success");
 					myButton.addClass("btn-warning");
-					myButton.text("Finish");
+					myButton.text("Save");
 					myButton.removeAttr("onclick");
-					myButton.attr("href", springHost + "/savePanel");
+			//		myButton.attr("href", springHost + "/savePanel");
+					myButton.attr("data-toggle", "modal"); 
+					myButton.attr("data-target", "#savingModal");
 					console.log("statics were added");
 			}
 				
@@ -243,7 +292,7 @@ import $ from 'jquery';
 					<small class="pull-right text-muted">
 					<span class="glyphicon glyphicon-time"></span>${response.comments[i].timeAsString}</small>
 					</br>
-					<li class="ui-state-default"> ${response.comments[i].commentText}</li>
+					<li class="ui-state-default"> ${response.comments[i].commentText.replace(/"/g, "")}</li>
 					</br>
 				</div>`;
 				commentCont.append(commentHtml);
@@ -252,10 +301,18 @@ import $ from 'jquery';
 			
 	}
 	
-	function appendCommentsCont(){
+	function appendCommentsCont(response){
 			const dashboardCont = $(".dashboard-container ");
 			console.log($(".dashboard-container .react-grid-item"));
 			dashboardCont.append(bigCommentCont);
+			$("body").append(savingModal);
+			$("#saveDescriptionPreview").text(response.description);
+			$("#savingModalName").text(response.name);
+			$("#savingModal").hide();
+			
+			$(function () {
+				$('[data-toggle="tooltip"]').tooltip()
+			})
 			
 						//Set initial time in time input
 			$(".customTimepicker").val(new Date().toLocaleTimeString());
@@ -265,6 +322,8 @@ import $ from 'jquery';
 					this.value = new Date().toLocaleTimeString();
 			});
 			
+			$("#saveAndExit").attr("href", springHost + "/savePanel/true");
+			$("#saveAndResume").attr("href", springHost + "/savePanel/false");
 
 			
 			//Set current time every time comment body is in focus
@@ -299,7 +358,7 @@ import $ from 'jquery';
 			Start
 		</a>
 		<a class="btn btn-secondary btn-lg col-xs-4 " id="resetButton"  href="" title="" role="button" >
-			Reset
+			Resume
 		</a>
 	   </div>
   
@@ -334,7 +393,50 @@ import $ from 'jquery';
 			</ul>
 		</div>
 	</div>`;
+	
+	const savingModal = `
+        <div id="savingModal" class="modal"  tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+				<form class="form-group col-xs-12"  action="${springHost} + '/savePanel'" method="post" enctype="multipart/form-data">
+					<div class="modal-content">
+						<div class=" ">
+							<button type="button" style="margin-right:-1rem;color:#fff;margin-top:-1rem;opacity:0.5" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h1 id="savingModalName" class="modal-title"style="text-align: center;"></h1>
+	
+						</div>
+						
+						<div class="modal-body col-xs-12">
+						
+				
+
+						    <p style="margin-bottom: 10px; text-align: center">Description: 
+							<textarea  type="text"  rows="3" class="form-control col-xs-12 " id="saveDescriptionPreview" type="text" value="${name}" ></textarea>
+							
+							<div class="row panelButtons" style="justify-content: space-around;">
+								<a class="btn btn-secondary btn-lg col-xs-4 "  href="#" id="saveAndResume"  title="" >
+									Save & Resume
+								</a>
+								<a class="btn btn-success btn-lg col-xs-4 "  href="#" title="" id="saveAndExit" >
+									Save & Exit
+								</a>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	`;
 
 					
 
+					
+					
+					
+					
+					
+					
+					
+					
 					

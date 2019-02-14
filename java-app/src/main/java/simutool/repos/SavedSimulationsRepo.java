@@ -83,6 +83,8 @@ public class SavedSimulationsRepo {
 			
 			panelPaths.removeIf(i -> i.equals("comments.csv"));
 			panelPaths.removeIf(i -> i.equals("metadata.csv"));
+			panelPaths.removeIf(i -> i.equals("upload.json"));
+
 
 			
 			Map<String, List<String>> groupedByPanelMap = panelPaths.stream()

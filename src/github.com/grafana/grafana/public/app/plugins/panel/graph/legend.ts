@@ -22,7 +22,7 @@ coreModule.directive('graphLegend', (popoverSrv, $timeout) => {
 
       ctrl.events.on('render-legend', () => {
         data = ctrl.seriesList;
-        if (data) {
+        if (data ) {
           render();
         }
         ctrl.events.emit('legend-rendering-complete');

@@ -138,6 +138,19 @@ body{
 	transition: 0.3s;
 }
 
+.startDateLabel{
+	font-size: 18px;
+	color: rgb(216, 217, 218);
+	text-align: center;
+}
+.fa-question-circle{
+	cursor: pointer;
+	font-size: 16px;
+}
+.modal-dialog .fa-question-circle{
+	color: #212124;
+}
+
 
 
 

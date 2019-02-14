@@ -8859,7 +8859,7 @@ h3 {
   margin-left: 15px;
   margin-right: 15px; }
 
-.commentsCont textarea {
+.commentsCont textarea, #saveDescriptionPreview {
   margin-bottom: 20px;
   resize: none;
   width: 100%;

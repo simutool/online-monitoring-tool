@@ -81,7 +81,7 @@ public class Parser {
 			s.setOven(rows.get(1)[1]);
 			s.setMaterial(rows.get(1)[2]);
 			s.setTool(rows.get(1)[3]);
-			s.setId(rows.get(1)[8]);
+			s.setId(rows.get(1)[9]);
 			
 
 		} catch (FileNotFoundException e) {
