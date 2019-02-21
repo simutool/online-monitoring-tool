@@ -19,11 +19,11 @@ public class Simulation {
 	boolean isLoaded;
 	boolean staticsLoaded;
 	public static String[] metaForUpload = new String[]{"name", "started", "ended", "description",
-			"operators", "oven", "material", "tool"};
+			"operators", "oven", "material", "part"};
 	
 	String date;
-	String started;
-	String ended;
+	String created;
+	String saved;
 	String description;
 	String operators;
 	String oven;
@@ -120,17 +120,18 @@ public class Simulation {
 		this.date = date;
 	}
 	
-	public String getStarted() {
-		return started;
+	
+	public String getCreated() {
+		return created;
 	}
-	public void setStarted(String startTime) {
-		this.started = startTime;
+	public void setCreated(String created) {
+		this.created = created;
 	}
-	public String getEnded() {
-		return ended;
+	public String getSaved() {
+		return saved;
 	}
-	public void setEnded(String endTime) {
-		this.ended = endTime;
+	public void setSaved(String saved) {
+		this.saved = saved;
 	}
 	public String getDescription() {
 		return description;
@@ -196,7 +197,7 @@ public class Simulation {
 				+ ", earliestTime=" + earliestTime + ", latestTime=" + latestTime + ", projectId=" + projectId
 				+ ", grafanaURL=" + grafanaURL + ", comments=" + comments + ", commentsFile=" + commentsFile
 				+ ", timeZone=" + timeZone + ", isLoaded=" + isLoaded + ", staticsLoaded=" + staticsLoaded + ", date="
-				+ date + ", startTime=" + started + ", endTime=" + ended + ", description=" + description
+				+ date + ", startTime=" + created + ", endTime=" + saved + ", description=" + description
 				+ ", operators=" + operators + ", oven=" + oven + ", material=" + material + ", tool=" + tool + "]";
 	}
 	

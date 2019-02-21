@@ -42,25 +42,27 @@
 		 
 		 <p class="col-6" style="">Operator:  
 		  <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Choose the name of the person in charge for this experiment from the list below"></i>
-		 <select th:field="*{operators}">
-                <option th:each="el : ${json}" text="dede" th:value="${el}"></option>
+		 <select id="simOps" class="form-control" th:field="*{operators}">
+                <option th:each="el : ${json}" th:if="${el.type} == 'http://www.simutool.com/User'" th:value="${el.identifier}" th:text="${el.title}"></option>
         </select>
          
          <p class="col-6" style="">Oven: 
           <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Choose the oven you are using from the list"></i>
-         <input class="form-control" id="simOven" type="text" th:field="*{oven}" value="pendingOven"  /></p>
+        <select id="simOven" class="form-control" th:field="*{oven}">
+                <option th:each="el : ${json}" th:if="${el.type} == 'http://www.simutool.com/Oven'" th:value="${el.identifier}" th:text="${el.title}"></option>
+        </select>
       		 
       		 <p class="col-6" style="">Material: 
-      		  <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Pick the material"></i>
-      		 <input class="form-control" id="simMat" type="text" th:field="*{material}" value="pendingMat"  /></p>
-      		 
-      		 <p class="col-6" style="">Tool: 
-      		 <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Pick a tool"></i>
-      		 <input class="form-control" id="simTool" type="text" th:field="*{tool}" value="pendingTool"  /></p>
+                <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Pick the material"></i>
+                  <select id="simMat" class="form-control" th:field="*{material}">
+                <option th:each="el : ${json}" th:if="${el.type} == 'http://www.simutool.com/Material'" th:value="${el.identifier}" th:text="${el.title}"></option>
+            </select>
 
             <p class="col-6" style="">Part: 
-      		 <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Pick a part"></i>
-      		 <input class="form-control" id="simTool" type="text" th:field="*{part}" value="pendingPart"  /></p>
+               <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Pick a part"></i>
+               <select id="simTool" class="form-control" th:field="*{part}">
+                <option th:each="el : ${json}" th:if="${el.type} == 'http://www.simutool.com/Part'" th:value="${el.identifier}" th:text="${el.title}"></option>
+            </select>
               
             <p class="col-6" style="">Start date: 
       		 <input class="form-control " style="background-color: #ccc; cursor:not-allowed" disabled id="simTool" type="text" readonly th:value="${ simulation.date}"   /></p>

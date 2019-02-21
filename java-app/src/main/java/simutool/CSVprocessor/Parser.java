@@ -19,6 +19,8 @@ import com.google.gson.stream.JsonReader;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 
+import simutool.controllers.MainController;
+import simutool.models.InputJSON;
 import simutool.models.Simulation;
 
 /**
@@ -97,20 +99,46 @@ public class Parser {
 
 	}
 	
-	public List<JsonObject> parseJsonMetadata(Simulation s, FileReader path) {
+	public List<InputJSON> parseJsonMetadata(Simulation s, FileReader path) {
 		try {
 			if(path == null) {
 				path = new FileReader(metadataFolder + "/default.json");
 			}
-			ArrayList<JsonObject> list = new ArrayList<JsonObject>();
+			ArrayList<InputJSON> list = new ArrayList<InputJSON>();
 			
 	    	Gson gson = new Gson();
 	    	JsonReader reader = new JsonReader(path);
 	    	JsonObject data = gson.fromJson(reader, JsonObject.class);
 	    	JsonArray arr = data.get("payload").getAsJsonArray();
 	    	for(JsonElement a : arr) {
-	    		list.add(a.getAsJsonObject());
+	    		InputJSON j = gson.fromJson(a, InputJSON.class);
+	    		list.add(j);
 	    	}
+	    	for(InputJSON j : list) {
+	    		if(j.getType().equals("http://www.simutool.com/User")) {
+	    			MainController.pendingSimulation.setOperators(j.getIdentifier());
+	    			break;
+	    		}
+	    	}
+	    	for(InputJSON j : list) {
+	    		if(j.getType().equals("http://www.simutool.com/Oven")) {
+	    			MainController.pendingSimulation.setOven(j.getIdentifier());
+	    			break;
+	    		}
+	    	}
+	    	for(InputJSON j : list) {
+	    		if(j.getType().equals("http://www.simutool.com/Part")) {
+	    			MainController.pendingSimulation.setPart(j.getIdentifier());
+	    			break;
+	    		}
+	    	}
+	    	for(InputJSON j : list) {
+	    		if(j.getType().equals("http://www.simutool.com/Material")) {
+	    			MainController.pendingSimulation.setMaterial(j.getIdentifier());
+	    			break;
+	    		}
+	    	}
+	    	System.out.println("meta constructed: " + MainController.pendingSimulation);
 	    	return list;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

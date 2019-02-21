@@ -28,12 +28,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.gson.JsonObject;
-
 import simutool.CSVprocessor.ExperimentSaver;
 import simutool.CSVprocessor.FileDTO;
 import simutool.CSVprocessor.Parser;
 import simutool.DBpopulator.InfluxPopulator;
+import simutool.models.InputJSON;
 import simutool.models.Panel;
 import simutool.models.Simulation;
 import simutool.repos.CommentsRepo;
@@ -131,11 +130,11 @@ public class MainController {
 	@GetMapping("/newsimulation")
 	public String getSettingsForm(Model m) {
 		System.out.println("pendingSimulation 1: "+pendingSimulation);
-		List<JsonObject> arr = null;
+		List<InputJSON> arr = null;
 		if(experimentStarted || pendingSimulation == null) {
 			pendingSimulation = new Simulation();
 			System.out.println("pendingSimulation 2: "+pendingSimulation);
-			parser.parseMetadata(pendingSimulation, null);
+		//	parser.parseMetadata(pendingSimulation, null);
 			arr = parser.parseJsonMetadata(pendingSimulation, null);
 
 			System.out.println("pendingSimulation 3: "+pendingSimulation);
@@ -153,7 +152,7 @@ public class MainController {
 	    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
 	    df.setTimeZone(tz);
 	    String nowAsISO = df.format(new Date());
-		pendingSimulation.setStarted( nowAsISO );
+		pendingSimulation.setCreated( nowAsISO );
 		pendingSimulation.setDate( Calendar.getInstance().getTime().toLocaleString() );
 
 

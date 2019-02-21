@@ -8,7 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -23,7 +22,9 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.moshi.Json;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import simutool.DBpopulator.InfluxPopulator;
 import simutool.controllers.MainController;
@@ -58,7 +59,7 @@ public class ExperimentSaver {
 		 DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
 		 df.setTimeZone(tz);
 		 String nowAsISO = df.format(new Date());
-		 s.setEnded( nowAsISO);
+		 s.setSaved( nowAsISO);
 		 Date now = new Date();
 		 s.setTimeZone(now.getTimezoneOffset());
 		 metadataCsvWriter();
@@ -160,8 +161,8 @@ public class ExperimentSaver {
     		Simulation s = MainController.pendingSimulation;
 	    	System.out.println(s);
 	    	String entry = (s.getOperators() + ", " + s.getOven() + "," +
-	    			s.getMaterial() + "," + s.getTool()  + "," + s.getName() + "," + s.getStarted() + "," +
-	    			s.getEnded() + "," + s.getTimeZone() + "," + s.getDescription() + 
+	    			s.getMaterial() + "," + s.getTool()  + "," + s.getName() + "," + s.getCreated() + "," +
+	    			s.getSaved() + "," + s.getTimeZone() + "," + s.getDescription() + 
     				"," + s.getId() + "\r\n").replaceAll("null", " ");
 
 	    	writer.write(entry);
@@ -198,10 +199,28 @@ public class ExperimentSaver {
 	                })
 	                .create();
 	    	
+	    	JsonObject jj = new JsonObject();
+	    		JsonArray payload = new JsonArray();
+	    			JsonObject payObj = new JsonObject();
+	    			payObj.addProperty("uploader", MainController.pendingSimulation.getOperators());
+
+	    			JsonArray references = new JsonArray();
+	    				references.add(MainController.pendingSimulation.getOven());
+	    				references.add(MainController.pendingSimulation.getMaterial());
+	    				references.add(MainController.pendingSimulation.getPart());
+	    			payObj.add("references", references);
+	    			payObj.addProperty("description", MainController.pendingSimulation.getDescription());
+	    			payObj.addProperty("created", MainController.pendingSimulation.getCreated());
+	    			payObj.addProperty("saved", MainController.pendingSimulation.getSaved());
+
+	    			payload.add(payObj);
+	    			jj.add("payload", payload);
+
+
 	    	String j = gson.toJson(MainController.pendingSimulation);
 	    	System.out.println(j);
 
-	    	writer.write(j);
+	    	writer.write(jj.toString());
 			
 			writer.close();
 		} catch (IOException e) {

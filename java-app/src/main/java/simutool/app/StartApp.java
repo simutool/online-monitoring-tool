@@ -54,7 +54,7 @@ public class StartApp {
 			System.out.println("error==="+e.getMessage()); 
 			e.printStackTrace(); 
 		} 
-		/*try { 
+		try { 
 			String command1 = "cmd /c start cmd.exe /K  cd \"../src/github.com/grafana/grafana/bin\" && grafana-server.exe " ;
 			System.out.println(command1);
 
@@ -84,7 +84,7 @@ public class StartApp {
 		catch(Exception e){ 
 			System.out.println("error==="+e.getMessage()); 
 			e.printStackTrace(); 
-		} */
+		} 
 	}
 
 }
