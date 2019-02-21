@@ -117,8 +117,8 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 			MainController.pendingSimulation.setName(simData.getName());
 		}
 		
-		if(simData.getEndTime() != null) {
-			MainController.pendingSimulation.setEndTime(simData.getEndTime());
+		if(simData.getEnded() != null) {
+			MainController.pendingSimulation.setEnded(simData.getEnded());
 		}
 		if(simData.getDescription() != null) {
 			System.out.println("new description: " + simData.getDescription());

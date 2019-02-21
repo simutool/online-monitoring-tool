@@ -3,9 +3,13 @@ package simutool.controllers;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,11 +28,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.JsonObject;
+
 import simutool.CSVprocessor.ExperimentSaver;
 import simutool.CSVprocessor.FileDTO;
 import simutool.CSVprocessor.Parser;
 import simutool.DBpopulator.InfluxPopulator;
-import simutool.models.Comment;
 import simutool.models.Panel;
 import simutool.models.Simulation;
 import simutool.repos.CommentsRepo;
@@ -126,10 +131,13 @@ public class MainController {
 	@GetMapping("/newsimulation")
 	public String getSettingsForm(Model m) {
 		System.out.println("pendingSimulation 1: "+pendingSimulation);
+		List<JsonObject> arr = null;
 		if(experimentStarted || pendingSimulation == null) {
 			pendingSimulation = new Simulation();
 			System.out.println("pendingSimulation 2: "+pendingSimulation);
 			parser.parseMetadata(pendingSimulation, null);
+			arr = parser.parseJsonMetadata(pendingSimulation, null);
+
 			System.out.println("pendingSimulation 3: "+pendingSimulation);
 			pendingPanels = null;
 			pendingPanel = null;
@@ -141,9 +149,17 @@ public class MainController {
 		if(pendingPanel == null) {
 			pendingPanel = new Panel();
 		}
-		pendingSimulation.setStartTime( Calendar.getInstance().getTime().toLocaleString() );
+	    TimeZone tz = TimeZone.getTimeZone("UTC");
+	    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+	    df.setTimeZone(tz);
+	    String nowAsISO = df.format(new Date());
+		pendingSimulation.setStarted( nowAsISO );
+		pendingSimulation.setDate( Calendar.getInstance().getTime().toLocaleString() );
+
+
 		m.addAttribute("simulation", pendingSimulation);
 		m.addAttribute("simulationName", pendingSimulation.getName());
+		m.addAttribute("json", arr);
 		m.addAttribute("panel", pendingPanel);
 		m.addAttribute("pendingPanels", pendingPanels);
 		return "new-sim";

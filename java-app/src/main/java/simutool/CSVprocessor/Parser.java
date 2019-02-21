@@ -3,6 +3,7 @@ package simutool.CSVprocessor;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,6 +11,11 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonReader;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 
@@ -88,6 +94,29 @@ public class Parser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+	}
+	
+	public List<JsonObject> parseJsonMetadata(Simulation s, FileReader path) {
+		try {
+			if(path == null) {
+				path = new FileReader(metadataFolder + "/default.json");
+			}
+			ArrayList<JsonObject> list = new ArrayList<JsonObject>();
+			
+	    	Gson gson = new Gson();
+	    	JsonReader reader = new JsonReader(path);
+	    	JsonObject data = gson.fromJson(reader, JsonObject.class);
+	    	JsonArray arr = data.get("payload").getAsJsonArray();
+	    	for(JsonElement a : arr) {
+	    		list.add(a.getAsJsonObject());
+	    	}
+	    	return list;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 
 	}
 

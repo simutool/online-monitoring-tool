@@ -18,7 +18,7 @@
 <body>
 
     <div class="introCont col-8 offset-2 secondaryPanel">
-            <h1>New experiment:  </h1>
+            <h1  >New experiment:  </h1>
 
             <form class="form-group col-12" action="#" th:action="@{/newsimulation}" th:object="${simulation}" method="post">
                 <span style="color: red;" th:text="${error}"></span>
@@ -40,9 +40,11 @@
          <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Describe your experiment (optional)"></i>
          <input class="form-control" id="simDesc" type="text" th:field="*{description}" value="pendingName"  /></p>
 		 
-		 <p class="col-6" style="">Operators:  
+		 <p class="col-6" style="">Operator:  
 		  <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Choose the name of the person in charge for this experiment from the list below"></i>
-		 <input class="form-control" id="simOps" type="text" th:field="*{operators}" value="pendingOps"  /></p>
+		 <select th:field="*{operators}">
+                <option th:each="el : ${json}" text="dede" th:value="${el}"></option>
+        </select>
          
          <p class="col-6" style="">Oven: 
           <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Choose the oven you are using from the list"></i>
@@ -55,8 +57,13 @@
       		 <p class="col-6" style="">Tool: 
       		 <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Pick a tool"></i>
       		 <input class="form-control" id="simTool" type="text" th:field="*{tool}" value="pendingTool"  /></p>
-      		 
-      		 <p class="col-12 startDateLabel" th:text="${'Start time: ' + simulation.startTime}" style=""></p>
+
+            <p class="col-6" style="">Part: 
+      		 <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Pick a part"></i>
+      		 <input class="form-control" id="simTool" type="text" th:field="*{part}" value="pendingPart"  /></p>
+              
+            <p class="col-6" style="">Start date: 
+      		 <input class="form-control " style="background-color: #ccc; cursor:not-allowed" disabled id="simTool" type="text" readonly th:value="${ simulation.date}"   /></p>
       
        </div>
 </div>

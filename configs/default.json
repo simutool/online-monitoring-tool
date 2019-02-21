@@ -1,0 +1,13 @@
+{ "payload": [ 
+{"type":"http://www.simutool.com/User", "title":"John Doe", "identifier": "http://www.simutool.com/usuzdj", "description":"Responsible for simulations"},
+{"type":"http://www.simutool.com/User", "title":"Jane Doe", "identifier": "http://www.simutool.com/ujekwl", "description":"Responsible for simulations"},
+{"type":"http://www.simutool.com/Material", "title":"Carbon Fiber", "identifier": "http://www.simutool.com/uef4432dj", "description":"Prepregnated carbon fiber"},
+{"type":"http://www.simutool.com/Material", "title":"Carbon Fiber 2", "identifier": "http://www.simutool.com/uef4662dj", "description":"Another carbon fiber"},
+{"type":"http://www.simutool.com/Oven", "title":"Small Hephaistos Oven", "identifier": "http://www.simutool.com/rt35352dj", "description":"The smaller Hephaistos Oven"},
+{"type":"http://www.simutool.com/Oven", "title":"Another Hephaistos Oven", "identifier": "http://www.simutool.com/rt353dj", "description":"One more Hephaistos Oven"},
+
+{"type":"http://www.simutool.com/Part", "title":"AGI Demonstrator 6mm", "identifier": "http://www.simutool.com/rt3532dj", "description":"The part designed by AGI in 07.2016"},
+{"type":"http://www.simutool.com/Part", "title":"AGI Demonstrator 4mm", "identifier": "http://www.simutool.com/rt3932dj", "description":"The part designed by AGI in 07.2016"}
+
+ ]
+}

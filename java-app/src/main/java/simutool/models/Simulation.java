@@ -1,6 +1,5 @@
 package simutool.models;
 
-import java.beans.Transient;
 import java.util.List;
 
 import simutool.CSVprocessor.FileDTO;
@@ -19,17 +18,18 @@ public class Simulation {
 	long timeZone;
 	boolean isLoaded;
 	boolean staticsLoaded;
-	public static String[] metaForUpload = new String[]{"name", "id", "startTime", "endTime", "description",
+	public static String[] metaForUpload = new String[]{"name", "started", "ended", "description",
 			"operators", "oven", "material", "tool"};
 	
 	String date;
-	String startTime;
-	String endTime;
+	String started;
+	String ended;
 	String description;
 	String operators;
 	String oven;
 	String material;
 	String tool;
+	String part;
 	
 	
 	public Simulation() {
@@ -120,17 +120,17 @@ public class Simulation {
 		this.date = date;
 	}
 	
-	public String getStartTime() {
-		return startTime;
+	public String getStarted() {
+		return started;
 	}
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
+	public void setStarted(String startTime) {
+		this.started = startTime;
 	}
-	public String getEndTime() {
-		return endTime;
+	public String getEnded() {
+		return ended;
 	}
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
+	public void setEnded(String endTime) {
+		this.ended = endTime;
 	}
 	public String getDescription() {
 		return description;
@@ -170,6 +170,13 @@ public class Simulation {
 		this.commentsFile = commentsFile;
 	}
 	
+	
+	public String getPart() {
+		return part;
+	}
+	public void setPart(String part) {
+		this.part = part;
+	}
 	public long getTimeZone() {
 		return timeZone;
 	}
@@ -189,7 +196,7 @@ public class Simulation {
 				+ ", earliestTime=" + earliestTime + ", latestTime=" + latestTime + ", projectId=" + projectId
 				+ ", grafanaURL=" + grafanaURL + ", comments=" + comments + ", commentsFile=" + commentsFile
 				+ ", timeZone=" + timeZone + ", isLoaded=" + isLoaded + ", staticsLoaded=" + staticsLoaded + ", date="
-				+ date + ", startTime=" + startTime + ", endTime=" + endTime + ", description=" + description
+				+ date + ", startTime=" + started + ", endTime=" + ended + ", description=" + description
 				+ ", operators=" + operators + ", oven=" + oven + ", material=" + material + ", tool=" + tool + "]";
 	}
 	

@@ -3,6 +3,7 @@ package simutool.CSVprocessor;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,7 +54,11 @@ public class ExperimentSaver {
 		 if(seriesData != null) {
 			 commentCsvWriter(seriesData.get(0).getValues());
 		 }
-		 s.setEndTime( Calendar.getInstance().getTime().toLocaleString() );
+		 TimeZone tz = TimeZone.getTimeZone("UTC");
+		 DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+		 df.setTimeZone(tz);
+		 String nowAsISO = df.format(new Date());
+		 s.setEnded( nowAsISO);
 		 Date now = new Date();
 		 s.setTimeZone(now.getTimezoneOffset());
 		 metadataCsvWriter();
@@ -155,8 +160,8 @@ public class ExperimentSaver {
     		Simulation s = MainController.pendingSimulation;
 	    	System.out.println(s);
 	    	String entry = (s.getOperators() + ", " + s.getOven() + "," +
-	    			s.getMaterial() + "," + s.getTool()  + "," + s.getName() + "," + s.getStartTime() + "," +
-	    			s.getEndTime() + "," + s.getTimeZone() + "," + s.getDescription() + 
+	    			s.getMaterial() + "," + s.getTool()  + "," + s.getName() + "," + s.getStarted() + "," +
+	    			s.getEnded() + "," + s.getTimeZone() + "," + s.getDescription() + 
     				"," + s.getId() + "\r\n").replaceAll("null", " ");
 
 	    	writer.write(entry);

@@ -191,7 +191,8 @@ import $ from 'jquery';
 			let title = $($(".panel-title-text")[i]);
 			console.log($(".panel-title-text").length);
 			if(response.loaded){
-				$($(".panel-title-text")[i]).text( $.grep($(response.panelList), function(item) { return item.name.charAt(0) == i+1 })[0].name );				
+				$($(".panel-title-text")[i]).text( $.grep($(response.panelList), function(item) { return item.name.charAt(0) == i+1 })[0].name );
+				$("#resetButton").text("Reset view");
 			}else{
 				if(title.text() == '0' || title.text() == '1' || title.text() == '2'){
 					title.text( response.panelList[title.text()].name );
