@@ -178,7 +178,7 @@ public class InfluxDBException extends RuntimeException {
 
   /**
    * Create corresponding InfluxDBException from the message pack error body.
-   * @param messagePackErrorBody
+   * @param messagePackErrorBody smth
    * @return
    */
   public static InfluxDBException buildExceptionForErrorState(final InputStream messagePackErrorBody) {

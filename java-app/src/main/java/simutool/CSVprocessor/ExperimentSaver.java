@@ -202,6 +202,7 @@ public class ExperimentSaver {
 	    	JsonObject jj = new JsonObject();
 	    		JsonArray payload = new JsonArray();
 	    			JsonObject payObj = new JsonObject();
+	    			payObj.addProperty("title", MainController.pendingSimulation.getName());
 	    			payObj.addProperty("uploader", MainController.pendingSimulation.getOperators());
 
 	    			JsonArray references = new JsonArray();

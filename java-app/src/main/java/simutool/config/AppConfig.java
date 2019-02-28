@@ -19,50 +19,17 @@ import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+/**
+ * Configurations to enable multipart uploads (for files) and allow cross origin ajax requests from angular frontend
+ *
+ */
 @ComponentScan
 @Configuration
 @MultipartConfig
 @PropertySource(value = { "classpath:application.properties" })
 public class AppConfig extends WebMvcConfigurerAdapter{
-	/*// POSTGRES stuff - currently not in use
 
 
-    @Autowired
-    private Environment env;
-
-    @Value("${init-db:false}")
-    private String initDatabase;
-
-
-    @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource)
-    {
-        return new JdbcTemplate(dataSource);
-    }
-
-    @Bean
-    public DataSource dataSource()
-    {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(env.getProperty("spring.datasource.driver-class-name"));
-        dataSource.setUrl(env.getProperty("spring.datasource.url"));
-        dataSource.setUsername(env.getProperty("spring.datasource.username"));
-        dataSource.setPassword(env.getProperty("spring.datasource.password"));
-        return dataSource;
-    }
-
-    @Bean
-    public DataSourceInitializer dataSourceInitializer(DataSource dataSource)
-    {
-        DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();    
-        dataSourceInitializer.setDataSource(dataSource);
-        ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
-        databasePopulator.addScript(new ClassPathResource("data.sql"));
-        dataSourceInitializer.setDatabasePopulator(databasePopulator);
-        dataSourceInitializer.setEnabled(Boolean.parseBoolean(initDatabase));
-        return dataSourceInitializer;
-    }
-	 */
 	@Bean(name = "multipartResolver")
 	public MultipartResolver multipartResolver() {
 		CommonsMultipartResolver resolver=new CommonsMultipartResolver();
@@ -71,7 +38,6 @@ public class AppConfig extends WebMvcConfigurerAdapter{
 		return resolver;
 	}
 
-	//Following settings allow
 	@Bean
 	@Order(0)
 	public MultipartFilter multipartFilter() {
@@ -89,7 +55,9 @@ public class AppConfig extends WebMvcConfigurerAdapter{
 		return ResponseEntity.ok().body(null);
 	}
 
-	//Allows accepting cross origin requests from angular components
+	/**Allows accepting cross origin requests from angular components
+	 * 
+	 */
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**");

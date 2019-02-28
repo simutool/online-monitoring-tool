@@ -20,5 +20,5 @@ Do not close prompt if you want yarn to recompile code on runtime every time you
 
 
 ### Start app
-The app is launched by
-`java-app\src\main\java\simutool\app\StartApp.java`
+The app is launched by `Simutool.exe` that is in the project root and runs on `http://localhost:8090`
+App also uses ports `:8080` and `:8086`, make sure they are all free.

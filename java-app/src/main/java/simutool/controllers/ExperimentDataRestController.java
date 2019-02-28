@@ -28,6 +28,10 @@ import simutool.models.Comment;
 import simutool.models.Panel;
 import simutool.models.Simulation;
 
+/**
+ * Mapping for interaction between grafana frontend and Spring server
+ *
+ */
 @RestController
 public class ExperimentDataRestController {
 
@@ -36,51 +40,44 @@ public class ExperimentDataRestController {
 
 	@Autowired
 	private InfluxPopulator influx;
-	
+
 	/**
 	 * Returns JSON with panels data in current simulation
-	 * @return info on selected panels
+	 * @param m empty Model (currently not used)
+	 * @return Simulation - info on experiment with comments
 	 */
 	@RequestMapping("/getExperimentData")
 	public Simulation getExperimentData(Model m) {
-		 Query commentsQuery = new Query("SELECT * FROM " + InfluxPopulator.commentsTableName, InfluxPopulator.commentsTableName);
-		 List<Series> seriesData = InfluxPopulator.influxDB.query(commentsQuery).getResults().get(0).getSeries();
-		 List<Comment> comments = new ArrayList<Comment>();
-		 InfluxPopulator.influxDB.setDatabase(InfluxPopulator.commentsTableName);
-
-System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
-
-		 System.out.println("seriesData: " + seriesData);
-		 if(seriesData != null) {
-			 List<List<Object>> vals = seriesData.get(0).getValues(); 
 		
-			 for(List<Object> val : vals) {
+		//Queries comments and series databases
+		Query commentsQuery = new Query("SELECT * FROM " + InfluxPopulator.commentsTableName, InfluxPopulator.commentsTableName);
+		List<Series> seriesData = InfluxPopulator.influxDB.query(commentsQuery).getResults().get(0).getSeries();
+		List<Comment> comments = new ArrayList<Comment>();
+		InfluxPopulator.influxDB.setDatabase(InfluxPopulator.commentsTableName);
 
-				 PrettyTime pretty = new PrettyTime();
-				 
-				 
-				 long time = saver.normalizeTimeStamp( val.get(0).toString() );
-				 System.out.println("here: " + val.get(0).toString());
-				 Date now = new Date();
-				 Date dateWithTimezone = new Date(time + (now.getTimezoneOffset() * 60000));
+		if(seriesData != null) {
+			List<List<Object>> vals = seriesData.get(0).getValues(); 
 
-				 System.out.println("now.getTimezoneOffset(): " + now.getTimezoneOffset());
+			for(List<Object> val : vals) {
 
-
-				 String text = val.get(1).toString();
-				 Comment c = new Comment();
-				 System.out.println("time: " + time);
-				 System.out.println("pretty: " + dateWithTimezone.getHours() + ":" + dateWithTimezone.getMinutes() + ":" + dateWithTimezone.getSeconds());
-
-				 c.setCommentText(text);
-				 String hours = dateWithTimezone.getHours() < 10 ? "0" + dateWithTimezone.getHours() : "" + dateWithTimezone.getHours();
-				 String minutes = dateWithTimezone.getMinutes() < 10 ? "0" + dateWithTimezone.getMinutes() : "" + dateWithTimezone.getMinutes();
-				 String seconds = dateWithTimezone.getSeconds() < 10 ? "0" + dateWithTimezone.getSeconds() : "" + dateWithTimezone.getSeconds();
-				 c.setTimeAsString( hours + ":" + minutes + ":" + seconds );
-				 comments.add(c);
-			 }
-		 }
-		 try {
+				// Normalize time of each comment
+				long time = saver.normalizeTimeStamp( val.get(0).toString() );
+				System.out.println("here: " + val.get(0).toString());
+				Date now = new Date();
+				Date dateWithTimezone = new Date(time + (now.getTimezoneOffset() * 60000));
+				String text = val.get(1).toString();
+				
+				// Collect a comment
+				Comment c = new Comment();
+				c.setCommentText(text);
+				String hours = dateWithTimezone.getHours() < 10 ? "0" + dateWithTimezone.getHours() : "" + dateWithTimezone.getHours();
+				String minutes = dateWithTimezone.getMinutes() < 10 ? "0" + dateWithTimezone.getMinutes() : "" + dateWithTimezone.getMinutes();
+				String seconds = dateWithTimezone.getSeconds() < 10 ? "0" + dateWithTimezone.getSeconds() : "" + dateWithTimezone.getSeconds();
+				c.setTimeAsString( hours + ":" + minutes + ":" + seconds );
+				comments.add(c);
+			}
+		}
+		try {
 			MainController.pendingSimulation.setComments(comments);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -89,18 +86,22 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 
 		return MainController.pendingSimulation;
 	}
-	
 
+
+	/**
+	 * Save comment passed from grafana frontend vie ajax 
+	 * @param commentData comment recieved from request
+	 */
 	@PostMapping("/sendComment")
 	public void sendComment(@RequestBody Comment commentData) {
+		// Retrieve todays date and combine it with time of comment
 		LocalDateTime today = LocalDateTime.now();
-		
 		String formattedDate = today.getYear() + "-" + today.getMonth().getValue() + "-" + today.getDayOfMonth() + "T" + 
 				commentData.getTimeAsString() + ".111Z"; 
 		
 		long timeStamp = saver.normalizeTimeStamp(formattedDate);
-		System.out.println(timeStamp);
-
+		
+		// Push point to the database
 		Point point = Point.measurement(InfluxPopulator.commentsTableName).time( timeStamp, TimeUnit.MILLISECONDS)
 				.addField("comment", "\"" + commentData.getCommentText() + "\"").build();
 		System.out.println("point: " + point);
@@ -109,14 +110,17 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 		InfluxPopulator.influxDB.close();
 
 	}
-	
 
+	/**
+	 * Saves changes to experiment metadata
+	 * @param simData Simulation, where only one attribute/value pair is not null 
+	 */
 	@PostMapping("/setSimulationData")
 	public void setSimulationData(@RequestBody Simulation simData) {
 		if(simData.getName() != null) {
 			MainController.pendingSimulation.setName(simData.getName());
 		}
-		
+
 		if(simData.getSaved() != null) {
 			MainController.pendingSimulation.setSaved(simData.getSaved());
 		}
@@ -138,8 +142,12 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 		}
 		System.out.println(MainController.pendingSimulation);
 	}
-	
-	
+
+
+	/**
+	 * Push all static data to the database 
+	 * @return if there is any unpushed data left
+	 */
 	@GetMapping("/launchStatics")
 	public boolean launchStatics() {
 		int panelCounter = 1;
@@ -151,8 +159,8 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 
 		if (!MainController.staticsAreLaunched) {
 			for (Panel p : MainController.pendingPanels) {
-				 simCounter = 1;
-				 curCounter = 1;
+				simCounter = 1;
+				curCounter = 1;
 				for (FileDTO file : p.getFiles()) {
 					if (file.getType().equals("Simulation")) {
 						sims.add(file);
@@ -174,7 +182,7 @@ System.out.println(InfluxPopulator.influxDB.query(commentsQuery).getResults());
 			influx.addStaticPoints(sims, "simulation");
 			influx.addStaticPoints(curs, "curing_cycle");
 			MainController.staticsAreLaunched = true;
-			 MainController.pendingSimulation.setStaticsLoaded(true);
+			MainController.pendingSimulation.setStaticsLoaded(true);
 
 		}
 		return !MainController.staticsAreLaunched;

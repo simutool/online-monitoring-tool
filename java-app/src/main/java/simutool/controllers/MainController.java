@@ -49,6 +49,7 @@ public class MainController {
 	boolean allPanelsAreStatic = true;
 	String redirectLink; 
 	String refreshingPar;
+	List<InputJSON> meta = null;
 
 	@Autowired
 	private SavedSimulationsRepo simRepo;
@@ -80,7 +81,11 @@ public class MainController {
 		return "index";
 	}
 
-
+	/**
+	 * Loads selected simulation
+	 * @param id uri of experiment to load
+	 * @return static grafana view 
+	 */
 	@RequestMapping("/load")
 	public String loadSavedSimulation(@RequestParam("id") String id) {
 		influx.tearDownTables();
@@ -130,12 +135,11 @@ public class MainController {
 	@GetMapping("/newsimulation")
 	public String getSettingsForm(Model m) {
 		System.out.println("pendingSimulation 1: "+pendingSimulation);
-		List<InputJSON> arr = null;
 		if(experimentStarted || pendingSimulation == null) {
 			pendingSimulation = new Simulation();
 			System.out.println("pendingSimulation 2: "+pendingSimulation);
 		//	parser.parseMetadata(pendingSimulation, null);
-			arr = parser.parseJsonMetadata(pendingSimulation, null);
+			meta = parser.parseJsonMetadata(pendingSimulation, null);
 
 			System.out.println("pendingSimulation 3: "+pendingSimulation);
 			pendingPanels = null;
@@ -148,6 +152,7 @@ public class MainController {
 		if(pendingPanel == null) {
 			pendingPanel = new Panel();
 		}
+		System.out.println("arr" + meta);
 	    TimeZone tz = TimeZone.getTimeZone("UTC");
 	    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
 	    df.setTimeZone(tz);
@@ -158,7 +163,7 @@ public class MainController {
 
 		m.addAttribute("simulation", pendingSimulation);
 		m.addAttribute("simulationName", pendingSimulation.getName());
-		m.addAttribute("json", arr);
+		m.addAttribute("json", meta);
 		m.addAttribute("panel", pendingPanel);
 		m.addAttribute("pendingPanels", pendingPanels);
 		return "new-sim";
@@ -167,12 +172,11 @@ public class MainController {
 	/**
 	 * Returns new simulation template with a form for submitting new panel
 	 * @param m model for passing arguments to template
-	 * @param id number of "new panel" container that was clicked (0 to 2), needed to preserve consistency 
 	 * @param simName current simulation name, needs to be updated in case if user changes it meanwhile
 	 * @return new simulation template with toggled modal window for adding panel
 	 */
 	@GetMapping("/newpanel")
-	public String getPanelForm(Model m, @RequestParam(value="simulation", required=false) String simName, HttpServletRequest request) {
+	public String getPanelForm(Model m, @RequestParam(value="simulation", required=false) String simName) {
 
 		if(simName != null && simName.length() > 0) {
 			pendingSimulation.setName(simName);
@@ -212,8 +216,10 @@ public class MainController {
 		return "redirect:/newsimulation";
 	}
 	
-	/**
-	 * Saves panel
+	/** 
+	 *  Saves panel
+	 *  @param panel Panel instance passed by user
+	 *  @param id shows panel id. <br> if id is not zero, we are editing an existing panel. Otherwise  panel is new
 	 */
 	@PostMapping(value="/newpanel/{panelId}", consumes = "multipart/form-data", params = "new panel")
 		public String savePanel(@ModelAttribute Panel panel,  @PathVariable(value="panelId") Integer id, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {

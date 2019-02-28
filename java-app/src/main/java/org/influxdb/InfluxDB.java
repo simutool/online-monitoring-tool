@@ -156,6 +156,7 @@ public interface InfluxDB {
   /**
    * Enable batching of single Point writes to speed up writes significantly. This is the same as calling
    * InfluxDB.enableBatch(BatchingOptions.DEFAULTS)
+   * @param smth
    * @return the InfluxDB instance to be able to use it in a fluent manner.
    */
   public InfluxDB enableBatch();
