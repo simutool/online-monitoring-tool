@@ -238,7 +238,7 @@ function setTitle(response, timerId) {
 
 }
 
-/** Overwrites 
+/** Overwrites buttons depending on whether statics are present, adds rendered comments 
 */
 function processExperimentData(response) {
 	let counter = 0;
