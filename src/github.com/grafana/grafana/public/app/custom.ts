@@ -38,7 +38,7 @@ $(function () {
 			const comment = $(".commentBody")[0].value;
 			const time = $(".customTimepicker")[0].value;
 
-			console.log(comment + "---" + time);
+			console.log(" time sent as ---" + time);
 			if (comment.length > 0) {
 				sendComment(comment, time);
 			}
@@ -337,12 +337,19 @@ function appendCommentsCont(response) {
 	})
 
 	//Set initial time in time input
-	$(".customTimepicker").val(new Date().toLocaleTimeString());
+	$(".customTimepicker").val(getTimeNoLocale());
 
 	//Set current time when time input is in focus
 	$(".customTimepicker").on("focus", function (event) {
-		this.value = new Date().toLocaleTimeString();
+		this.value = getTimeNoLocale();
+		console.log("time changed to: " + this.value);
 	});
+	
+	function getTimeNoLocale(){
+		var date = new Date();
+		var dateToString = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+		return dateToString;
+	}
 
 	// Set links for "save & exit" and "save & resume" buttons
 	$("#saveAndExit").attr("href", springHost + "/savePanel/true");

@@ -111,9 +111,9 @@
                         <input style="display: none;" type="number"  name="edit" value="1" th:if="${edit}" />
                         <input style="display: none;" type="text" id="simulationNameForPanel" th:field="*{simulationName}"  />
                         <input class="form-control" id="modalId" type="text" style="display: none;" th:field="*{finalId}" />
-                        <p>Name: 
+                        <p>Panel Name: 
                         <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Give a name to your panel nder which it will be saved later"></i>
-                        <input class="form-control" id="modalName" type="text" th:field="*{name}" /></p>
+                        <input class="form-control" id="modalName" type="text" th:field="*{name}"  /></p>
                         
                         <div class="row filesInPanels" >
                         	<a th:href="${'/removeFile/' + panel.finalId + '/' + iter.index}" class="col-3" th:each="file,iter : ${panel.getFiles()}">
@@ -126,18 +126,20 @@
                         </div>
                         
                         <h5>Add new dataset:</h5>
-                        <p>File: <input class="form-control" language="en" id="modalSens" type="file" th:field="*{pendingFile}" /></p>
+                        <p>Data: <input class="form-control" language="en" id="modalSens" type="file" th:field="*{pendingFile}" /></p>
                         <p>Dataset name: 
                         <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Describe the dataset (optional)"></i>
                         
                         <input class="form-control" language="en" id="modalSens" type="text" th:field="*{pendingFile.name}" /></p>
+                         
+                         <p style="margin-bottom: 0">Type of data: 
                           <div class="form-group radioWrapper" >
 						    <select class="form-control" id="fileTypeSelect" th:field="*{pendingFile.type}">
 						      <option value="Sensor">Sensor</option>
 						      <option value="Simulation">Simulation</option>
 						      <option value="Curing cycle">Curing cycle</option>
 						    </select>
-						  </div>
+						  </div></p>
 						 <div class="row"><button type="submit" name="new file" class="btn btn-default col-2 offset-5 addFileToPanelBtn">Add</button></div>
 						  
                     </div>

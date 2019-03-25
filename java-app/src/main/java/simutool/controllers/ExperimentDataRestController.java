@@ -99,6 +99,9 @@ public class ExperimentDataRestController {
 		String formattedDate = today.getYear() + "-" + today.getMonth().getValue() + "-" + today.getDayOfMonth() + "T" + 
 				commentData.getTimeAsString() + ".111Z"; 
 		
+		System.out.println("getTimeAsString: " + commentData.getTimeAsString());
+		System.out.println("formattedDate: " + formattedDate);
+		
 		long timeStamp = saver.normalizeTimeStamp(formattedDate);
 		
 		// Push point to the database

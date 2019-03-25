@@ -190,6 +190,12 @@ public class MainController {
 		m.addAttribute("pendingPanels", pendingPanels);
 		return "new-sim";
 	}
+	
+	@GetMapping(value="/newpanel/{panelId}", consumes = "multipart/form-data", params = "new panel")
+	public String redirectToEditPanel(@ModelAttribute Panel panel,  @PathVariable(value="panelId") Integer id, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {
+
+		return  "redirect:/editpanel/" + id;
+	}
 
 	/**
 	 * Processes submitted simulation form
@@ -223,12 +229,14 @@ public class MainController {
 	 */
 	@PostMapping(value="/newpanel/{panelId}", consumes = "multipart/form-data", params = "new panel")
 		public String savePanel(@ModelAttribute Panel panel,  @PathVariable(value="panelId") Integer id, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {
-		
+		System.out.println("post new panel");
+
 		boolean edit = edited != null;
 
 		if(panel.getName().length() < 1) {
 			redirectAttributes.addFlashAttribute("panelError", "Enter panel name");
-			return  "redirect:/newpanel/" + id;
+			System.out.println("no panel name entered");
+			return  "redirect:/editpanel/" + id;
 		}else if(id == 0) {
 			pendingPanel.setFinalId();
 			pendingPanel.setName(panel.getName());
@@ -279,7 +287,7 @@ public class MainController {
 	 */
 	@PostMapping(value="/newpanel/{panelId}", consumes = "multipart/form-data", params = "new file")
 	public String saveFile(@ModelAttribute Panel panel,  @PathVariable(value="panelId") Integer id, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {
-
+System.out.println("adding file triggered");
 		redirectAttributes.addFlashAttribute("pendingName", panel.getSimulationName());
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		boolean edit = edited != null;
