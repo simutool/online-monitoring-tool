@@ -74,10 +74,12 @@ public class InfluxPopulator {
 		Query dropCommentsQuery = new Query("drop database " + commentsTableName, commentsTableName);
 		Query createCommentsQuery = new Query("create database " + commentsTableName, commentsTableName);
 		influxDB.setDatabase(tableName);
-System.out.println("teared down");
+		System.out.println("teared down");
 
+		// Delete databases for main data and comments
 		influxDB.query(dropQuery);
 		influxDB.query(createQuery);
+		// Create them anew
 		influxDB.query(dropCommentsQuery);
 		influxDB.query(createCommentsQuery);
 		//tear down sensor threads
@@ -96,10 +98,12 @@ System.out.println("teared down");
 		timer = new Timer();
 		sensorData.removeIf(i -> i == null);
 		
+		// Adding a CyclicBarrier in order to start all threads as simultaneously  as possible
 		final CyclicBarrier gate = new CyclicBarrier(sensorData.size()+1);
 
 		try {
 			for(FileDTO file : sensorData) {
+				// Start a thread for every sensor dataset
 				Thread t = new Thread() {
 					public void run() {
 						try {
@@ -122,7 +126,6 @@ System.out.println("teared down");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	//	FileDTO file = parser.getFile("sensor", datasource_id, fileName);
 	}
 	
 	/**
@@ -182,6 +185,9 @@ System.out.println("static points triggered");
 
 				List<String[]> rows = file.getRows();
 				Builder builder = BatchPoints.database(tableName);
+				// Finds difference between first timestamp and current moment
+				// Thus, with this difference added to every timestamp, experiment that was in past starts
+				// 	as if it were "from now"
 				long shift = System.currentTimeMillis() - Long.valueOf(rows.get(0)[0]) - 1;
 				
 				for (String[] data : rows) {

@@ -60,7 +60,7 @@ public class SavedSimulationsRepo {
 			System.out.println("Simulation found: " + exp.list());
 			List<Panel> myPanels = new ArrayList<Panel>();
 			
-			//Group experiment by panel name
+			//Takes all file names in folder
 			List<String> panelPaths =  new LinkedList( Arrays.asList(exp.list()) );
 			
 			FileDTO commentsFile = new FileDTO();
@@ -69,7 +69,6 @@ public class SavedSimulationsRepo {
 					if(filePath.equals("comments.csv")) {
 						commentsFile = parser.parseFilesForPanels("comments", new FileReader(folder + "/" + path + "/comments.csv"));
 						sim.setCommentsFile(commentsFile);
-					//	writeCommentsToDB(commentsFile);
 					}
 					if(filePath.equals("metadata.csv")) {
 						parser.parseMetadata(sim, new FileReader(folder + "/" + path + "/metadata.csv"));
@@ -81,35 +80,44 @@ public class SavedSimulationsRepo {
 				e1.printStackTrace();
 			}
 			
+			// Removes all files that are not datasets
 			panelPaths.removeIf(i -> i.equals("comments.csv"));
 			panelPaths.removeIf(i -> i.equals("metadata.csv"));
 			panelPaths.removeIf(i -> i.equals("upload.json"));
 
 
-			
+			// Retrieves panel name from file name and groups data
+			// panel name is everything between "PANEL_" and "---"
 			Map<String, List<String>> groupedByPanelMap = panelPaths.stream()
 					.collect(Collectors.groupingBy(file -> file.substring(file.indexOf("_PANEL_")+7, file.indexOf("---")) ));
 			List<List<String>> groupedByPanelList = new ArrayList<List<String>>(groupedByPanelMap.values());
 
-			//Iterate through panels of one experiment
+			//Get panel name and panel number
 			for(List<String> files : groupedByPanelList) {
 				String panelName = files.get(0).substring(files.get(0).indexOf("_PANEL_")+7, files.get(0).indexOf("---"));
 				String panelNum = panelName.substring(0,1);
 
 				System.out.println("it has panels: " + panelName);
+				
+				// Creates Panel object for every panel
 				Panel p = new Panel();
 				List<FileDTO> newFiles = new ArrayList<FileDTO>();
 				p.setName(panelName);
 				for(String file : files) {
+					
+					// Retrieves file datatype
+					// datatype is everything between "---" and file.length()-6
 					String dataType = file.substring(file.indexOf("---")+3, file.length()-6);
 					System.out.println("datatype: " + dataType);
 							try {
+								// Parse single files
 								FileDTO fileToAdd = parser.parseFilesForPanels(dataType.toLowerCase() , new FileReader(savingFolder +
 										"/EXP_" + simName + "/" + file));
 								fileToAdd.setName( file.substring(0, file.indexOf("_PANEL_")) );
 								fileToAdd.setInternalNumber( Integer.parseInt( file.substring(file.length()-5, file.length()-4) ));
 								fileToAdd.setPanelNumber( Integer.parseInt( panelNum ) );
 
+								// Find files with earliest and latest time, save them to show the right scale
 								String fileStartTimeStr = fileToAdd.getRows().get(0)[0];
 								String fileEndTimeStr = fileToAdd.getRows().get(fileToAdd.getRows().size()-1)[0];
    
@@ -155,18 +163,8 @@ public class SavedSimulationsRepo {
 		try {
 				List<String[]> rows = commentsFile.getRows();
 				Builder builder = BatchPoints.database(InfluxPopulator.commentsTableName);
-				long shift = System.currentTimeMillis() - Long.valueOf(rows.get(0)[0]) - 1;
 				
 				for (String[] data : rows) {
-					long time = 0;
-					System.out.println("Long.parseLong( data[0]  " + Long.parseLong( data[0]));
-					System.out.println("Long.parseLong( data[1]  " + data[1]);
-
-					if(commentsFile.getEarliestTime() != 0) {
-						time = Long.valueOf(data[0]);
-					}else{
-						time = Long.valueOf(data[0]) * 1000 + shift;
-					}
 					
 					Point batchPoint = Point.measurement(InfluxPopulator.commentsTableName)
 							.time(Long.parseLong( data[0] ), TimeUnit.MILLISECONDS)
@@ -184,20 +182,7 @@ public class SavedSimulationsRepo {
 		}
 	}
 	
-/*	public RowMapper<Simulation> simulationsRowMapper = new RowMapper<Simulation>() {
-		@Override
-		public Simulation mapRow(ResultSet rs, int i) throws SQLException {
-			int id = rs.getInt("id");
-			String name = rs.getString("name");
-			int panelNum = rs.getInt("panelsnum");
-			return new Simulation(id, name, panelNum);
-		}
-	}; */
 	
-	public boolean simulationNameExists(String name) {
-	//	boolean exists = template.queryForObject("SELECT COUNT(id) FROM simulations where name='" + name + "'", Integer.class) > 0;
-		return false;
-	}
 
 	public static List<Simulation> getSavedSimulations() {
 		return savedSimulations;

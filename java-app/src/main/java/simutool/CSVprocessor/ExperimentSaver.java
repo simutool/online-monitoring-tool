@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.influxdb.dto.Query;
@@ -23,7 +24,6 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import simutool.DBpopulator.InfluxPopulator;
@@ -40,6 +40,10 @@ public class ExperimentSaver {
 	@Value("${saveCSVfolder}")
 	private String savingFolder;
 	
+	/**
+	 * Writes csv files with experiment datasets and metadata
+	 * @param s Current simulation
+	 */
 	public void savePanels(Simulation s) {
 		
 		 List<String> fileNames = new ArrayList<>();
@@ -48,7 +52,7 @@ public class ExperimentSaver {
 				 fileNames.add(f.getName());
 			 }
 		 }
-		 
+		 // Get all data that is in influx at the moment
 		 Query query = new Query("SELECT * FROM " + influx.getTablename(), influx.getTablename());
 		 Query commentsQuery = new Query("SELECT * FROM " + InfluxPopulator.commentsTableName, InfluxPopulator.commentsTableName);
 		 List<Series> seriesData = InfluxPopulator.influxDB.query(commentsQuery).getResults().get(0).getSeries();
@@ -70,6 +74,7 @@ public class ExperimentSaver {
 		 System.out.println("columns: " + columns);
 		
 		 
+		 // Create an empty ArrayList<String[]>() for  every column
 		 List<List<String[]>> collectedFiles = new ArrayList<List<String[]>>();
 		 for(int i = 1; i < columns.size(); i++) {
 			 collectedFiles.add( new ArrayList<String[]>() );
@@ -77,6 +82,7 @@ public class ExperimentSaver {
 	
 		 String simulationName = s.getName();
 
+		 // Populate ArrayList with String Arrays [time, value, dataset_id (0 by default)]
 		 for(List<Object> point : q) {
 			 for(int i = 1; i < point.size(); i++) {
 				 if(point.get(i) != null) {
@@ -85,6 +91,7 @@ public class ExperimentSaver {
 			 }
 		 }
 		 
+		 // Create FileDTO instances from collected data and write it to file 
 		 for(int i = 0; i < collectedFiles.size(); i++) {
 			 FileDTO file = new FileDTO();
 			 file.setRows(collectedFiles.get(i));
@@ -98,14 +105,22 @@ public class ExperimentSaver {
 		 
 	} 
 	 
+	/**
+	 * writes static datasets to a csv file
+	 * 
+	 * @param file File instance
+	 * @param simulationName name of experiment
+	 */
 	public void writeCSV(FileDTO file, String simulationName) {
 		
+		// Remove all non-literal and non-digit characters from file name
 		String fileName = ("/" + file.getName().replaceAll("[^A-Za-z0-9]+", "_") + "_PANEL_" + 
 				+ file.getPanelNumber() + "-"  + MainController.pendingPanels.get(file.getPanelNumber()-1).getName() + "---" + file.getType().toUpperCase() + "-" + file.getInternalNumber() + ".csv");
 		
 	    System.out.println(fileName);
 	    File directory = new File(savingFolder + "/" + "EXP_" + simulationName);
 
+	    // If directory with experiment name doesn't exist, create it, otherwise overwrite
 	    if (! directory.exists()){
 	        directory.mkdir();
 	    }
@@ -133,19 +148,36 @@ public class ExperimentSaver {
 	}
 	
 	public long normalizeTimeStamp(String inputTime) {
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-		String cleanedTime = inputTime.replaceAll("\\[", "");
-		long date;
-		try {
-			date = dateFormat.parse(cleanedTime).getTime();
-			System.out.println(date);
-			return date;
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            
+			try {
+			    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.UK);
+
+			    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+				String cleanedTime = inputTime.replaceAll("\\[", "");
+				cleanedTime += ".111Z";
+				long date;
+				date = dateFormat.parse(cleanedTime).getTime();
+				System.out.println(date);
+				return date;
+			} catch (ParseException e) {
+			    try {
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH);
+
+					dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+					String cleanedTime = inputTime.replaceAll("\\[", "");
+					long date;
+					date = dateFormat.parse(cleanedTime).getTime();
+					System.out.println(date);
+					return date;
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+	
 		return 0;
+
+		
 	}
 	
 	public void metadataCsvWriter() {

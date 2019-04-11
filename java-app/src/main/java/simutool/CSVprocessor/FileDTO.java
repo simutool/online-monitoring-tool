@@ -12,7 +12,11 @@ public class FileDTO {
 	private String name;
 	private String type;
 	private int datasource_id;
+	
+	// Each line is an array of values: time,value,dataset_id
 	private List<String[]> rows;
+	
+	// Earliest and latest timestamp in a dataset - to calculate perfect scale
 	long earliestTime;
 	long latestTime;
 	

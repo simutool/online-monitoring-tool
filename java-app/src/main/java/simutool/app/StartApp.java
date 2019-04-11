@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
 
 import javax.annotation.PostConstruct;
 
@@ -19,6 +20,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.autoconfigure.web.MultipartAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
+import simutool.CSVprocessor.ExperimentSaver;
 import simutool.DBpopulator.InfluxPopulator;
 
 /**
@@ -42,6 +44,8 @@ public class StartApp {
 	@Value("${grafanaStarter}")
 	private String grafanaStarter;
 
+	@Autowired
+	private ExperimentSaver saver;
 	/**
 	 * Path to the host where this Spring Boot app is running
 	 */
@@ -61,6 +65,8 @@ public class StartApp {
 	 */
 	@PostConstruct
 	public void serversStart() { 
+
+		
 		Process influxProcess = null; 
 		Process grafanaProcess = null; 
 		try { 

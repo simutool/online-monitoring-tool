@@ -97,7 +97,7 @@ public class ExperimentDataRestController {
 		// Retrieve todays date and combine it with time of comment
 		LocalDateTime today = LocalDateTime.now();
 		String formattedDate = today.getYear() + "-" + today.getMonth().getValue() + "-" + today.getDayOfMonth() + "T" + 
-				commentData.getTimeAsString() + ".111Z"; 
+				commentData.getTimeAsString(); 
 		
 		System.out.println("getTimeAsString: " + commentData.getTimeAsString());
 		System.out.println("formattedDate: " + formattedDate);
@@ -149,7 +149,7 @@ public class ExperimentDataRestController {
 
 	/**
 	 * Push all static data to the database 
-	 * @return if there is any unpushed data left
+	 * @return true if there is any unpushed data left
 	 */
 	@GetMapping("/launchStatics")
 	public boolean launchStatics() {
@@ -161,6 +161,7 @@ public class ExperimentDataRestController {
 		long longestDuration = 0;
 
 		if (!MainController.staticsAreLaunched) {
+			// Iterates over pendingPanels and creates two arraylists for simulations and curing cycles
 			for (Panel p : MainController.pendingPanels) {
 				simCounter = 1;
 				curCounter = 1;

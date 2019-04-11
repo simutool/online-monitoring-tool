@@ -35,7 +35,6 @@ import simutool.DBpopulator.InfluxPopulator;
 import simutool.models.InputJSON;
 import simutool.models.Panel;
 import simutool.models.Simulation;
-import simutool.repos.CommentsRepo;
 import simutool.repos.SavedSimulationsRepo;
 
 @Controller
@@ -54,8 +53,6 @@ public class MainController {
 	@Autowired
 	private SavedSimulationsRepo simRepo;
 
-	@Autowired
-	private CommentsRepo comments;
 
 	@Autowired
 	private InfluxPopulator influx;
@@ -94,10 +91,9 @@ public class MainController {
 			simRepo.writeCommentsToDB(s.getCommentsFile());
 		}
 		List<Panel> panels = s.getPanelList();
-		int counter = 1;
+
 		for(Panel p: panels) {
 			for(FileDTO f : p.getFiles()) {
-			//	f.setNumber(counter);
 				f.setEarliestTime(s.getEarliestTime());
 				f.setLatestTime(s.getLatestTime());
 				List<FileDTO> dataset = new ArrayList<FileDTO>();
@@ -105,12 +101,15 @@ public class MainController {
 				influx.addStaticPoints( dataset, f.getType() );
 			}
 			s.setLoaded(true);
-			counter++;
 		}
 		pendingSimulation = s;
 		pendingPanels = s.getPanelList();
+		
+		// Defines perfect scale from earliest timestamp in experiment to the last one
 		refreshingPar = "?from=" + s.getEarliestTime() + "&to=" + s.getLatestTime(); 
 		experimentStarted = true;
+		
+		// Collect redirect url depending on the number of panels
 		switch(panels.size()){
 		case 1:{
 			redirectLink = "d/ibjZzy-iz/1-panel-monitoring";
@@ -134,14 +133,15 @@ public class MainController {
 	 */
 	@GetMapping("/newsimulation")
 	public String getSettingsForm(Model m) {
-		System.out.println("pendingSimulation 1: "+pendingSimulation);
+
+		// If called for the first time, when simulation has no pending data yet, set pendingSimulation to a new Simulation
 		if(experimentStarted || pendingSimulation == null) {
 			pendingSimulation = new Simulation();
-			System.out.println("pendingSimulation 2: "+pendingSimulation);
-		//	parser.parseMetadata(pendingSimulation, null);
-			meta = parser.parseJsonMetadata(pendingSimulation, null);
 
-			System.out.println("pendingSimulation 3: "+pendingSimulation);
+			// Parse metadata and save it in a global variable
+			meta = parser.parseJsonMetadata( null);
+
+			// Clear pending panel data
 			pendingPanels = null;
 			pendingPanel = null;
 			experimentStarted = false;
@@ -152,15 +152,16 @@ public class MainController {
 		if(pendingPanel == null) {
 			pendingPanel = new Panel();
 		}
-		System.out.println("arr" + meta);
+		
+		// Save start date and time 
 	    TimeZone tz = TimeZone.getTimeZone("UTC");
-	    DateFormat df = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss"); // Quoted "Z" to indicate UTC, no timezone offset
+	    DateFormat df = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss"); 
 	    df.setTimeZone(tz);
 	    String nowAsISO = df.format(new Date());
 		pendingSimulation.setCreated( nowAsISO );
 		pendingSimulation.setDate( Calendar.getInstance().getTime().toLocaleString() );
 
-
+		// Send data to template
 		m.addAttribute("simulation", pendingSimulation);
 		m.addAttribute("simulationName", pendingSimulation.getName());
 		m.addAttribute("json", meta);
@@ -208,8 +209,6 @@ public class MainController {
 	public String saveSimulation(@ModelAttribute Simulation simulation, Model m, final RedirectAttributes redirectAttributes) {
 		if(simulation.getName() == null || simulation.getName().length() < 1) {
 			redirectAttributes.addFlashAttribute("error", "Enter a name");
-		}else if(simRepo.simulationNameExists(simulation.getName())) {
-			redirectAttributes.addFlashAttribute("error", "Simulation with this name already exists");
 		}else if(pendingPanels.size() < 1) {
 			redirectAttributes.addFlashAttribute("error", "You must add at least 1 graph");
 		}
@@ -231,13 +230,11 @@ public class MainController {
 		public String savePanel(@ModelAttribute Panel panel,  @PathVariable(value="panelId") Integer id, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {
 		System.out.println("post new panel");
 
-		boolean edit = edited != null;
 
 		if(panel.getName().length() < 1) {
-			redirectAttributes.addFlashAttribute("panelError", "Enter panel name");
-			System.out.println("no panel name entered");
-			return  "redirect:/editpanel/" + id;
-		}else if(id == 0) {
+			panel.setName("Panel " + (pendingPanels.size()+1));
+		}
+		if(id == 0) {
 			pendingPanel.setFinalId();
 			pendingPanel.setName(panel.getName());
 			pendingPanels.add(pendingPanel);	
@@ -253,10 +250,10 @@ public class MainController {
 	}
 
 	/**
-	 * Saves panel
+	 * Saves changes to a panel
 	 */
 	@GetMapping(value="/editpanel/{panelId}")
-		public String editPanelForm(@ModelAttribute Panel panel,  @RequestParam(value="simulation", required=false) String simName, @PathVariable(value="panelId") Integer id, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {
+		public String editPanelForm(@ModelAttribute Panel panel,  @RequestParam(value="simulation", required=false) String simName, @PathVariable(value="panelId") Integer id, Model m, final RedirectAttributes redirectAttributes) {
 		
 			for(Panel p : pendingPanels) {
 				if(p.getFinalId() == id) {
@@ -286,16 +283,16 @@ public class MainController {
 	 * @return redirect to updated new simulation template if submitted form is valid, otherwise new panel template with comments on errors 
 	 */
 	@PostMapping(value="/newpanel/{panelId}", consumes = "multipart/form-data", params = "new file")
-	public String saveFile(@ModelAttribute Panel panel,  @PathVariable(value="panelId") Integer id, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {
+	public String saveFile(@ModelAttribute Panel panel,  @PathVariable(value="panelId") Integer id, HttpServletRequest request, Model m, final RedirectAttributes redirectAttributes) {
 System.out.println("adding file triggered");
 		redirectAttributes.addFlashAttribute("pendingName", panel.getSimulationName());
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		boolean edit = edited != null;
+
 		if(panel.getName() != null) {
 			pendingPanel.setName( panel.getName() );
 		}
 		
-		System.out.println("edit: " + edit);
+
 		try {
 
 			String submittedPath = (multipartRequest.getPart("pendingFile").getSubmittedFileName());
@@ -331,6 +328,7 @@ System.out.println("adding file triggered");
 		int panelCounter = 1;
 		int sensorCounter = 1;
 
+		// Iterate over all datasets
 		pendingSimulation.setPanelList(pendingPanels);
 		for(Panel p : pendingPanels) {
 			sensorCounter = 1;
@@ -338,16 +336,21 @@ System.out.println("adding file triggered");
 				if(file.getType().equals("Sensor")) {
 					sens.add(file);
 					allPanelsAreStatic = false;
+					// Pick only sensor files, set internal number within panel (sensor 1, sensor 2 etc.)
 					file.setInternalNumber(sensorCounter);
+					// Set panel number
 					file.setPanelNumber(panelCounter);
 					sensorCounter++;
 				}
 			}
+			//Simulation is not a saved one
 			pendingSimulation.setLoaded(false);
 			panelCounter++;
 		}
-
+		// Clear database
 		influx.tearDownTables();
+		
+		// Push dynamic data
 		influx.simulateSensor(1000, sens);
 		staticsAreLaunched = false;
 		refreshingPar = "?orgId=1&refresh=1s"; 
