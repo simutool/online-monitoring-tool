@@ -98,7 +98,19 @@ public class ExperimentSaver {
 			 file.setType(columns.get(i+1).substring(3, columns.get(i+1).length()-2));
 			 file.setInternalNumber(Integer.parseInt(columns.get(i+1).substring(columns.get(i+1).length()-1, columns.get(i+1).length())));
 			 file.setPanelNumber(Integer.parseInt(columns.get(i+1).substring(1, 2)));
-			 file.setName(fileNames.get(i));
+			 
+			 for(Panel p : MainController.pendingSimulation.getPanelList()) {
+				 for(FileDTO f : p.getFiles()) {
+					 if(f.getInternalNumber() == file.getInternalNumber() && 
+						f.getPanelNumber() == file.getPanelNumber() && 
+						f.getType().toLowerCase().replace(' ', '_').equals(file.getType().toLowerCase().replace(' ', '_'))) {
+						 
+						 file.setName(f.getName());
+
+					 }
+				 }
+			 }
+			 
 			 writeCSV(file, simulationName);
 		 }
 
@@ -117,7 +129,6 @@ public class ExperimentSaver {
 		String fileName = ("/" + file.getName().replaceAll("[^A-Za-z0-9]+", "_") + "_PANEL_" + 
 				+ file.getPanelNumber() + "-"  + MainController.pendingPanels.get(file.getPanelNumber()-1).getName() + "---" + file.getType().toUpperCase() + "-" + file.getInternalNumber() + ".csv");
 		
-	    System.out.println(fileName);
 	    File directory = new File(savingFolder + "/" + "EXP_" + simulationName);
 
 	    // If directory with experiment name doesn't exist, create it, otherwise overwrite
@@ -148,31 +159,19 @@ public class ExperimentSaver {
 	}
 	
 	public long normalizeTimeStamp(String inputTime) {
-            
-			try {
-			    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.UK);
+    
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
 
-			    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-				String cleanedTime = inputTime.replaceAll("\\[", "");
-				cleanedTime += ".111Z";
+	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+		String cleanedTime = inputTime.replaceAll("\\[", "");
+		
+			try {
 				long date;
 				date = dateFormat.parse(cleanedTime).getTime();
-				System.out.println(date);
 				return date;
 			} catch (ParseException e) {
-			    try {
-					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH);
-
-					dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-					String cleanedTime = inputTime.replaceAll("\\[", "");
-					long date;
-					date = dateFormat.parse(cleanedTime).getTime();
-					System.out.println(date);
-					return date;
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				e.printStackTrace();
+				
 			}
 	
 		return 0;
@@ -191,7 +190,6 @@ public class ExperimentSaver {
 	    	FileWriter writer = new FileWriter(metaFile);
     		writer.write("operators,oven,material,tool,name,start_time,end_time,timezone,description,id\r\n");
     		Simulation s = MainController.pendingSimulation;
-	    	System.out.println(s);
 	    	String entry = (s.getOperators() + ", " + s.getOven() + "," +
 	    			s.getMaterial() + "," + s.getTool()  + "," + s.getName() + "," + s.getCreated() + "," +
 	    			s.getSaved() + "," + s.getTimeZone() + "," + s.getDescription() + 
@@ -294,6 +292,10 @@ public class ExperimentSaver {
 	    
 
 
+	}
+	
+	public static void main(String[] argv) {
+	
 	}
 	
 

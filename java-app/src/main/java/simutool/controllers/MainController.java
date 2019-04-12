@@ -427,6 +427,52 @@ System.out.println("adding file triggered");
 		}
 	}
 	
+	/**
+	 * Push all static data to the database 
+	 * @return true if there is any unpushed data left
+	 */
+	@GetMapping("/launchStatics")
+	public String launchStatics() {
+		int panelCounter = 1;
+		int simCounter = 1;
+		int curCounter = 1;
+		List<FileDTO> sims  = new ArrayList<FileDTO>();
+		List<FileDTO> curs  = new ArrayList<FileDTO>();
+		long longestDuration = 0;
+
+		if (!MainController.staticsAreLaunched) {
+			// Iterates over pendingPanels and creates two arraylists for simulations and curing cycles
+			for (Panel p : MainController.pendingPanels) {
+				simCounter = 1;
+				curCounter = 1;
+				for (FileDTO file : p.getFiles()) {
+					if (file.getType().equals("Simulation")) {
+						sims.add(file);
+						file.setInternalNumber(simCounter);
+						file.setPanelNumber(panelCounter);
+						simCounter++;
+					} else if (file.getType().equals("Curing cycle")) {
+						curs.add(file);
+						file.setInternalNumber(curCounter);
+						file.setPanelNumber(panelCounter);
+						curCounter++;
+					}
+					longestDuration = Math.max(longestDuration, file.findDuration());
+
+				}
+				MainController.pendingSimulation.setLoaded(false);
+				panelCounter++;
+			}
+			influx.addStaticPoints(sims, "simulation");
+			influx.addStaticPoints(curs, "curing_cycle");
+			MainController.staticsAreLaunched = true;
+			MainController.pendingSimulation.setStaticsLoaded(true);
+
+		}
+	//	return !MainController.staticsAreLaunched;
+		return "redirect:/reset";
+
+	}
 
 	@RequestMapping("/")
 	public String redirectToHome() {

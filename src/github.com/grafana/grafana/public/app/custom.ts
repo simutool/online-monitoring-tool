@@ -46,11 +46,7 @@ $(function () {
 		});
 		
 		// Show static datasets if "start button" is clicked
-		$("#launchStatics").on("click", function (event) {
-			if (!$("#launchStatics").hasClass("disabled")) {
-				launchStatics();
-			}
-		});
+		$("#launchStatics").attr("href", springHost + "/launchStatics");
 
 		// --- Saving experiment modal ---
 		// When there is input change in the description field, send it to server
@@ -153,7 +149,7 @@ function launchStatics() {
 	}).then(function successCallback(response) {
 		console.log(response);
 
-		// Get and render updated expriment data
+		/* Get and render updated expriment data
 		$.ajax({
 			method: 'GET',
 			url: springHost + '/getExperimentData',
@@ -166,7 +162,7 @@ function launchStatics() {
 
 		}, function errorCallback(response) {
 			console.log(response);
-		});
+		}); */
 
 	}, function errorCallback(response) {
 		console.log(response);
@@ -184,10 +180,22 @@ function setTitle(response, timerId) {
 	
 	// Put all custom panel names
 	for (let panel of response.panelList) {
-		numOfFiles += panel.files.length;
+
 		for (let file of panel.files) {
-			fileNames.push(file.name);
+			if( file.type.toLowerCase() != "sensor" && !response.staticsLoaded && !response.loaded){
+				console.log(file.type != "Sensor");
+								console.log(!response.staticsLoaded);
+				console.log(file.type != "Sensor" && !response.staticsLoaded );
+			
+			}else{
+								console.log("here2");
+
+				numOfFiles = numOfFiles+1;
+			}
+			//fileNames.push({"id": "test.P" + file.panelNumber + "_" + file.type.toLowerCase() + "_" + file.internalNumber, "name":  });
+			fileNames.push(file);
 		}
+		console.log("numOfFiles: " + numOfFiles);
 	}
 
 	// Check if number of default labels is the same as number of panels - it means, all labels are loaded now
@@ -216,18 +224,23 @@ function setTitle(response, timerId) {
 		is supposed to overwrite dataset names in the legend (e.g. "test.P1_simulation_1" to "Left sensor")
 	*/
 	if ($(".graph-legend-alias ").length == numOfFiles) {
-		let counter = 0;
 		fileNamesFound = true;
 		for (let label of $(".graph-legend-alias ")) {
 			console.log(label.text);
-			if (response.loaded) {
-				//		$(label).text( fileNames[counter] );
-			}
-			//let panel = $.grep($(response.panelList), function(item) { return item.id === '5678' })[0];
+			
+			let oldLabel = $.grep($(fileNames), function(file) { return "test.P" + file.panelNumber + "_" + file.type.toLowerCase().replace(' ','_') + "_" + file.internalNumber === label.text })[0];
+			if(oldLabel){
+				console.log("Match found:");
+				console.log("test.P" + oldLabel.panelNumber + "_" + oldLabel.type.toLowerCase().replace(' ','_') + "_" + oldLabel.internalNumber);
+				console.log(label.text);
+								console.log("Text set to: " + oldLabel.name);
 
-			//	$(label).text( $.grep($(response.panelList), function(item) { return item.id === '5678' })[0].url );
-			counter++;
+				console.log("-----");
+
+				$(label).text( oldLabel.name );
+			}
 		}
+	
 	}
 
 	// If all default labels were found and changed - stop the timer
@@ -271,7 +284,7 @@ function processExperimentData(response) {
 		myButton.removeClass("btn-success");
 		myButton.addClass("btn-warning");
 		myButton.text("Save");
-		myButton.removeAttr("onclick");
+		myButton.removeAttr("href");
 		myButton.attr("data-toggle", "modal");
 		myButton.attr("data-target", "#savingModal");
 	}
@@ -286,7 +299,7 @@ function processExperimentData(response) {
 		myButton.removeClass("btn-success");
 		myButton.addClass("btn-warning");
 		myButton.text("Save");
-		myButton.removeAttr("onclick");
+		myButton.removeAttr("href");
 		myButton.attr("data-toggle", "modal");
 		myButton.attr("data-target", "#savingModal");
 		console.log("statics were added");
@@ -361,7 +374,7 @@ function appendCommentsCont(response) {
 
 	// Function for setting timepicker value from system time
 	function setCustomTime() {
-		$(".customTimepicker").val(new Date().toLocaleTimeString());
+		$(".customTimepicker").val(getTimeNoLocale());
 	}
 
 	//Connect comment sections with buttons that toggle them

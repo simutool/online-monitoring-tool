@@ -7,6 +7,7 @@ coreModule.directive('graphLegend', (popoverSrv, $timeout) => {
   return {
     link: (scope, elem) => {
       let firstRender = true;
+	  let renderNumber = 0;
       const ctrl = scope.ctrl;
       const panel = ctrl.panel;
       let data;
@@ -22,7 +23,7 @@ coreModule.directive('graphLegend', (popoverSrv, $timeout) => {
 
       ctrl.events.on('render-legend', () => {
         data = ctrl.seriesList;
-        if (data ) {
+        if (data && firstRender) {
           render();
         }
         ctrl.events.emit('legend-rendering-complete');
@@ -121,6 +122,7 @@ coreModule.directive('graphLegend', (popoverSrv, $timeout) => {
           elem.on('click', '.graph-legend-alias', toggleSeries);
           elem.on('click', 'th', sortLegend);
           firstRender = false;
+		  renderNumber = renderNumber+1;
         }
 
         seriesList = data;
