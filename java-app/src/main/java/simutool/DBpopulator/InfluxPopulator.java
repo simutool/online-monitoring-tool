@@ -74,7 +74,6 @@ public class InfluxPopulator {
 		Query dropCommentsQuery = new Query("drop database " + commentsTableName, commentsTableName);
 		Query createCommentsQuery = new Query("create database " + commentsTableName, commentsTableName);
 		influxDB.setDatabase(tableName);
-		System.out.println("teared down");
 
 		// Delete databases for main data and comments
 		influxDB.query(dropQuery);
@@ -153,7 +152,6 @@ public class InfluxPopulator {
 			this.internalNum = internalNum;
 			counter = 0;
 			shift =  System.currentTimeMillis() - Long.valueOf( rows.get(0)[0] ) - 1;
-			System.out.println("Start adding sensor");
 		}
 
 		public void run() {
@@ -178,10 +176,8 @@ public class InfluxPopulator {
 	public void addStaticPoints(List<FileDTO> simData, String type) {
 		try {
 			simData.removeIf(i -> i == null);
-System.out.println("static points triggered");
 
 			for (FileDTO file : simData) {
-				System.out.println("file: " + file);
 
 				List<String[]> rows = file.getRows();
 				Builder builder = BatchPoints.database(tableName);

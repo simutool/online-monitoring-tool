@@ -57,7 +57,6 @@ public class SavedSimulationsRepo {
 			String simName = exp.getName().substring(4, exp.getName().length());
 			Simulation sim = new Simulation();
 			sim.setName(simName);
-			System.out.println("Simulation found: " + exp.list());
 			List<Panel> myPanels = new ArrayList<Panel>();
 			
 			//Takes all file names in folder
@@ -96,8 +95,6 @@ public class SavedSimulationsRepo {
 			for(List<String> files : groupedByPanelList) {
 				String panelName = files.get(0).substring(files.get(0).indexOf("_PANEL_")+7, files.get(0).indexOf("---"));
 				String panelNum = panelName.substring(0,1);
-
-				System.out.println("it has panels: " + panelName);
 				
 				// Creates Panel object for every panel
 				Panel p = new Panel();
@@ -108,7 +105,7 @@ public class SavedSimulationsRepo {
 					// Retrieves file datatype
 					// datatype is everything between "---" and file.length()-6
 					String dataType = file.substring(file.indexOf("---")+3, file.length()-6);
-					System.out.println("datatype: " + dataType);
+
 							try {
 								// Parse single files
 								FileDTO fileToAdd = parser.parseFilesForPanels(dataType.toLowerCase() , new FileReader(savingFolder +
@@ -146,8 +143,6 @@ public class SavedSimulationsRepo {
 				}
 				p.setFiles(newFiles);
 				myPanels.add(p);
-				System.out.println(p);
-
 			}
 			sim.setPanelList(myPanels);
 			sim.setEarliestTime(earliestTime);

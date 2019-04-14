@@ -1,12 +1,9 @@
 package simutool.app;
 
-import java.awt.Desktop;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.time.LocalDateTime;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 
@@ -65,7 +62,7 @@ public class StartApp {
 	 */
 	@PostConstruct
 	public void serversStart() { 
-
+	
 		
 		Process influxProcess = null; 
 		Process grafanaProcess = null; 
@@ -83,7 +80,6 @@ public class StartApp {
 						while (true) {
 							line = r.readLine();
 							if (line == null) { break; }
-							System.out.println(line);
 						}
 
 					} catch (Exception e) {
@@ -95,12 +91,10 @@ public class StartApp {
 			influx.startInflux();
 		} 
 		catch(Exception e){ 
-			System.out.println("error==="+e.getMessage()); 
 			e.printStackTrace(); 
 		} 
 		try { 
 			String command1 = "cmd /c start cmd.exe /K  cd \"" + grafanaStarter + "\" && grafana-server.exe " ;
-			System.out.println(command1);
 
 			Thread grafana = new Thread() {
 				public void run() {
@@ -115,7 +109,6 @@ public class StartApp {
 						while (true) {
 							line = r.readLine();
 							if (line == null) { break; }
-							System.out.println(line);
 						}
 
 					} catch (Exception e) {
@@ -126,7 +119,6 @@ public class StartApp {
 			grafana.start();
 		} 
 		catch(Exception e){ 
-			System.out.println("error==="+e.getMessage()); 
 			e.printStackTrace(); 
 		} 
 	}

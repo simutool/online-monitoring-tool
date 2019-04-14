@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>New experiment</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"></link>
+    <link rel="stylesheet" type="text/css" th:href="@{/index.css}"></link>
+    <script th:src="@{/js/jquery.min.js}" ></script>
+        <script th:src="@{/js/bootstrap.min.js}" ></script>
+
+</head>
+<body>
+
+    <div class="introCont col-8 offset-2 secondaryPanel">
+            <h1>Oops!</h1>
+
+            <h3>Something went wrong!</h3>
+            <a class="btn btn-primary" style="margin-top:50px" href="/">Back to homepage</a>
+    </div>
+
+    
+          
+</body>
+<script type="text/javascript"  th:if="${modal}">
+    $(window).on('load',function(){
+        $('#newPanelModal').modal('show');
+    });
+
+    $('#newPanelModal').on('hidden.bs.modal', function(e) {
+            $('#newPanelModal').modal('show');
+    });
+
+
+</script>
+<script type="text/javascript" >
+    function passPanelInfo(id){
+        var name =  $("#simName").val();
+        window.location.href = "/newpanel/" + id + "/?simulation=" + name;
+    }
+
+
+</script>
+
+
+</html>

@@ -89,7 +89,7 @@ public class Parser {
 				path = new FileReader(metadataFolder + "/default.csv");
 			}
 			List<String[]>rows = libParser.parseAll(path);
-			System.out.println("metadata rows: " + rows.get(1).length);
+
 			s.setOperators(rows.get(1)[0]);
 			s.setOven(rows.get(1)[1]);
 			s.setMaterial(rows.get(1)[2]);
@@ -149,7 +149,6 @@ public class Parser {
 	    			break;
 	    		}
 	    	}
-	    	System.out.println("meta constructed: " + MainController.pendingSimulation);
 	    	return list;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

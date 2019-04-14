@@ -77,9 +77,6 @@ public class FileDTO {
 	public long findDuration() {
 		long result;
 		try {
-			System.out.println("1: " + rows.get(rows.size()-1)[0]);
-			System.out.println("2: " + rows.get(0)[0]);
-
 			result = (Long.parseLong( rows.get(rows.size()-1)[0] ) - Long.parseLong( rows.get(0)[0] ))/60;
 			return result;
 		} catch (Exception e) {

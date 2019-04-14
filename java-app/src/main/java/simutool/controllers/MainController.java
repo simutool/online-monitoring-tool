@@ -75,8 +75,10 @@ public class MainController {
 	public String startMenu(Model m) {
 		simRepo.readSavedSimulations();
 		m.addAttribute("saved", simRepo.getSavedSimulations());
+		List<Panel> sim = pendingSimulation.getPanelList();
 		return "index";
 	}
+	
 
 	/**
 	 * Loads selected simulation
@@ -228,8 +230,6 @@ public class MainController {
 	 */
 	@PostMapping(value="/newpanel/{panelId}", consumes = "multipart/form-data", params = "new panel")
 		public String savePanel(@ModelAttribute Panel panel,  @PathVariable(value="panelId") Integer id, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {
-		System.out.println("post new panel");
-
 
 		if(panel.getName().length() < 1) {
 			panel.setName("Panel " + (pendingPanels.size()+1));
@@ -284,7 +284,7 @@ public class MainController {
 	 */
 	@PostMapping(value="/newpanel/{panelId}", consumes = "multipart/form-data", params = "new file")
 	public String saveFile(@ModelAttribute Panel panel,  @PathVariable(value="panelId") Integer id, HttpServletRequest request, Model m, final RedirectAttributes redirectAttributes) {
-System.out.println("adding file triggered");
+
 		redirectAttributes.addFlashAttribute("pendingName", panel.getSimulationName());
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
@@ -296,12 +296,11 @@ System.out.println("adding file triggered");
 		try {
 
 			String submittedPath = (multipartRequest.getPart("pendingFile").getSubmittedFileName());
-			System.out.println("submittedPath: " + submittedPath);
 			InputStream sensorStream = multipartRequest.getPart("pendingFile").getInputStream();
 			Reader r = new InputStreamReader(sensorStream);
 			String extension = submittedPath.substring(submittedPath.lastIndexOf('.') + 1);
 			if(!extension.equals("csv") && submittedPath.length() > 1) {
-				System.out.println("here 1--- " + extension);
+
 				redirectAttributes.addFlashAttribute("panelError", "Submitted file is invalid or missing" );
 			}
 			List<FileDTO> currentFiles = pendingPanel.getFiles();
@@ -312,7 +311,6 @@ System.out.println("adding file triggered");
 				fileToAdd.setName(panel.getPendingFile().getName());
 			}
 			currentFiles.add( fileToAdd );
-			System.out.println("fileToAdd: " + fileToAdd.getRows());
 			pendingPanel.setFiles(currentFiles);
 
 		}catch (Exception e) {
@@ -419,10 +417,8 @@ System.out.println("adding file triggered");
 		saver.savePanels(pendingSimulation);
 		if(exit) {
 			simRepo.readSavedSimulations();
-			System.out.println("Saved and exited");
 			return "redirect:/load?id=" + id;
 		}else {
-			System.out.println("Saved and resumed");
 			return "redirect:/reset";
 		}
 	}

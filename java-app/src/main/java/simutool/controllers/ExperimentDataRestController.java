@@ -62,7 +62,6 @@ public class ExperimentDataRestController {
 
 				// Normalize time of each comment
 				long time = saver.normalizeTimeStamp( val.get(0).toString() );
-				System.out.println("here: " + val.get(0).toString());
 				Date now = new Date();
 				Date dateWithTimezone = new Date(time + (now.getTimezoneOffset() * 60000));
 				String text = val.get(1).toString();
@@ -98,16 +97,12 @@ public class ExperimentDataRestController {
 		LocalDateTime today = LocalDateTime.now();
 		String formattedDate = today.getYear() + "-" + today.getMonth().getValue() + "-" + today.getDayOfMonth() + "T" + 
 				commentData.getTimeAsString() + ".111Z"; 
-		
-		System.out.println("getTimeAsString: " + commentData.getTimeAsString());
-		System.out.println("formattedDate: " + formattedDate);
-		
+				
 		long timeStamp = saver.normalizeTimeStamp(formattedDate);
 		
 		// Push point to the database
 		Point point = Point.measurement(InfluxPopulator.commentsTableName).time( timeStamp, TimeUnit.MILLISECONDS)
 				.addField("comment", "\"" + commentData.getCommentText() + "\"").build();
-		System.out.println("point: " + point);
 
 		InfluxPopulator.influxDB.write(InfluxPopulator.commentsTableName, "autogen", point); 
 		InfluxPopulator.influxDB.close();
@@ -128,7 +123,6 @@ public class ExperimentDataRestController {
 			MainController.pendingSimulation.setSaved(simData.getSaved());
 		}
 		if(simData.getDescription() != null) {
-			System.out.println("new description: " + simData.getDescription());
 			MainController.pendingSimulation.setDescription(simData.getDescription());
 		}
 		if(simData.getOperators() != null) {
@@ -143,7 +137,6 @@ public class ExperimentDataRestController {
 		if(simData.getTool() != null) {
 			MainController.pendingSimulation.setTool(simData.getTool());
 		}
-		System.out.println(MainController.pendingSimulation);
 	}
 
 

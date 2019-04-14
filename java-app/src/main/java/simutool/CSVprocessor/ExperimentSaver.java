@@ -69,10 +69,7 @@ public class ExperimentSaver {
 		 metadataCsvWriter();
 		 jsonMetadataWriter();
 		 List<String> columns = influx.getInfluxDB().query(query).getResults().get(0).getSeries().get(0).getColumns();
-		 List<List<Object>> q = influx.getInfluxDB().query(query).getResults().get(0).getSeries().get(0).getValues();
-		 
-		 System.out.println("columns: " + columns);
-		
+		 List<List<Object>> q = influx.getInfluxDB().query(query).getResults().get(0).getSeries().get(0).getValues();		
 		 
 		 // Create an empty ArrayList<String[]>() for  every column
 		 List<List<String[]>> collectedFiles = new ArrayList<List<String[]>>();
@@ -186,7 +183,6 @@ public class ExperimentSaver {
 	    }
 		File metaFile = new File(directory + "/metadata.csv");
 	    try {
-	    	System.out.println("writing metadata");
 	    	FileWriter writer = new FileWriter(metaFile);
     		writer.write("operators,oven,material,tool,name,start_time,end_time,timezone,description,id\r\n");
     		Simulation s = MainController.pendingSimulation;
@@ -249,7 +245,6 @@ public class ExperimentSaver {
 
 
 	    	String j = gson.toJson(MainController.pendingSimulation);
-	    	System.out.println(j);
 
 	    	writer.write(jj.toString());
 			
@@ -264,7 +259,6 @@ public class ExperimentSaver {
 	public void commentCsvWriter(List<List<Object>> comments) {
 		String fileName = ("/comments.csv");
 		
-	    System.out.println(fileName);
 	    File directory = new File(savingFolder + "/" + "EXP_" + MainController.pendingSimulation.getName());
 
 	    if (! directory.exists()){
