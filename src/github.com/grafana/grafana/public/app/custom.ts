@@ -25,8 +25,16 @@ $(function () {
 		appendCommentsCont(response);
 		processExperimentData(response);
 		
+				const customHeader = `<div>
+		<button class="btn navbar-button " data-toggle="modal" data-target="#homepageModal" style="position:absolute;top:10">
+			<i class="fa fa-home" ></i> Homepage
+		</button>
+		<h3 class="custom-header">Experiment ${response.name + (response.loaded ? " (SAVED)" : "")}</h3></div>`
+		
 		// Render header with experiment name
-		$($(".scroll-canvas")[1]).prepend(`<h3 class="custom-header">Experiment ${response.name + (response.loaded ? " (SAVED)" : "")}</h3>`);
+		$($(".scroll-canvas")[1]).prepend(customHeader);
+		
+
 		
 		// Hide grafana navigation bars
 		$(".sidemenu, .navbar").addClass("hiddenSection");
@@ -343,6 +351,10 @@ function appendCommentsCont(response) {
 	$("#saveDescriptionPreview").text(response.description);
 	$("#savingModalName").text(response.name);
 	$("#savingModal").hide();
+	
+	$("body").append(homepageModal);
+	$("#homepageModal").hide();
+
 
 	//  Activate tooltips with hints
 	$(function () {
@@ -460,3 +472,35 @@ const savingModal = `
 			</div>
 		</div>
 	`;
+	
+	
+	const homepageModal = `
+        <div id="homepageModal" class="modal"  tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class=" ">
+							<button type="button" style="margin-right:-1rem;color:#fff;margin-top:-1rem;opacity:0.5" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+							<h1 id="savingModalName" class="modal-title"style="text-align: center;"></h1>
+	
+						</div>
+						
+						<div class="modal-body col-xs-12">
+							<p>Do you want do go back to the start page? All experiment data will be lost.</p>
+				
+							<div class="row panelButtons" style="justify-content: space-around;">
+								<a class="btn btn-secondary btn-lg col-xs-4 "  href="${springHost}" id="saveAndResume"  title="" >
+									Yes
+								</a>
+								<a class="btn btn-success btn-lg col-xs-4 "  href="#" type="button" data-dismiss="modal" id="saveAndExit" >
+									No
+								</a>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	`;
+	
+	

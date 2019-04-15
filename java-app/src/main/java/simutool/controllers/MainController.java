@@ -75,7 +75,6 @@ public class MainController {
 	public String startMenu(Model m) {
 		simRepo.readSavedSimulations();
 		m.addAttribute("saved", simRepo.getSavedSimulations());
-		List<Panel> sim = pendingSimulation.getPanelList();
 		return "index";
 	}
 	
