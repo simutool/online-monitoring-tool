@@ -2072,3 +2072,37 @@ t=2019-04-14T23:46:17+0200 lvl=info msg="Stopped TracingService" logger=server r
 t=2019-04-14T23:46:17+0200 lvl=info msg="Stopped AlertingService" logger=server reason="context canceled"
 t=2019-04-14T23:46:17+0200 lvl=info msg="Stopped PluginManager" logger=server reason="context canceled"
 t=2019-04-14T23:46:17+0200 lvl=eror msg="Server shutdown" logger=server reason="listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+t=2019-04-15T12:35:16+0200 lvl=eror msg="Failed to detect generated javascript files in public/build" logger=settings
+t=2019-04-15T12:35:16+0200 lvl=info msg="Starting Grafana" logger=server version=5.4.0-pre1 commit=8be4490 compiled=2018-10-19T15:55:11+0200
+t=2019-04-15T12:35:16+0200 lvl=info msg="Config loaded from" logger=settings file=C:\\git\\simutool\\online-monitoring-client\\src\\github.com\\grafana\\grafana/conf/defaults.ini
+t=2019-04-15T12:35:16+0200 lvl=info msg="Config loaded from" logger=settings file=C:\\git\\simutool\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\custom.ini
+t=2019-04-15T12:35:16+0200 lvl=info msg="Path Home" logger=settings path=C:\\git\\simutool\\online-monitoring-client\\src\\github.com\\grafana\\grafana
+t=2019-04-15T12:35:16+0200 lvl=info msg="Path Data" logger=settings path=C:\\git\\simutool\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data
+t=2019-04-15T12:35:16+0200 lvl=info msg="Path Logs" logger=settings path=C:\\git\\simutool\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\log
+t=2019-04-15T12:35:16+0200 lvl=info msg="Path Plugins" logger=settings path=C:\\git\\simutool\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-04-15T12:35:16+0200 lvl=info msg="Path Provisioning" logger=settings path=C:\\git\\simutool\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\conf\\provisioning
+t=2019-04-15T12:35:16+0200 lvl=info msg="App mode production" logger=settings
+t=2019-04-15T12:35:16+0200 lvl=info msg="Initializing HTTPServer" logger=server
+t=2019-04-15T12:35:16+0200 lvl=info msg="Initializing SqlStore" logger=server
+t=2019-04-15T12:35:16+0200 lvl=info msg="Connecting to DB" logger=sqlstore dbtype=sqlite3
+t=2019-04-15T12:35:16+0200 lvl=info msg="Starting DB migration" logger=migrator
+t=2019-04-15T12:35:16+0200 lvl=info msg="Initializing PluginManager" logger=server
+t=2019-04-15T12:35:16+0200 lvl=info msg="Starting plugin search" logger=plugins
+t=2019-04-15T12:35:16+0200 lvl=info msg="Plugin dir created" logger=plugins dir=C:\\git\\simutool\\online-monitoring-client\\src\\github.com\\grafana\\grafana\\data\\plugins
+t=2019-04-15T12:35:16+0200 lvl=info msg="Initializing InternalMetricsService" logger=server
+t=2019-04-15T12:35:16+0200 lvl=info msg="Initializing RenderingService" logger=server
+t=2019-04-15T12:35:16+0200 lvl=info msg="Initializing HooksService" logger=server
+t=2019-04-15T12:35:16+0200 lvl=info msg="Initializing SearchService" logger=server
+t=2019-04-15T12:35:16+0200 lvl=info msg="Initializing CleanUpService" logger=server
+t=2019-04-15T12:35:16+0200 lvl=info msg="Initializing NotificationService" logger=server
+t=2019-04-15T12:35:16+0200 lvl=info msg="Initializing ProvisioningService" logger=server
+t=2019-04-15T12:35:16+0200 lvl=info msg="Initializing AlertingService" logger=server
+t=2019-04-15T12:35:16+0200 lvl=info msg="Initializing TracingService" logger=server
+t=2019-04-15T12:35:16+0200 lvl=info msg="Initializing Stream Manager"
+t=2019-04-15T12:35:16+0200 lvl=info msg="HTTP Server Listen" logger=http.server address=0.0.0.0:8080 protocol=http subUrl= socket=
+t=2019-04-15T12:35:33+0200 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/d/hUg4ks-ik/2-panel-monitoring status=302 remote_addr=[::1] time_ms=5 size=29 referer=http://localhost:8090/home
+t=2019-04-15T12:35:33+0200 lvl=info msg="Request Completed" logger=context userId=0 orgId=0 uname= method=GET path=/login status=302 remote_addr=[::1] time_ms=9 size=94 referer=http://localhost:8090/home
+t=2019-04-15T12:35:33+0200 lvl=info msg="Request Completed" logger=context userId=1 orgId=1 uname=admin method=GET path=/public/build/app.a57d7eb2b884b86dc3ae.js status=404 remote_addr=[::1] time_ms=19 size=26770 referer="http://localhost:8080/d/hUg4ks-ik/2-panel-monitoring?from=1555099106905&to=1555109976906"
+t=2019-04-15T12:35:33+0200 lvl=info msg="Request Completed" logger=context userId=1 orgId=1 uname=admin method=GET path=/public/build/app.a57d7eb2b884b86dc3ae.js status=404 remote_addr=[::1] time_ms=20 size=26770 referer="http://localhost:8080/d/hUg4ks-ik/2-panel-monitoring?from=1555099106905&to=1555109976906"
+t=2019-04-15T12:35:39+0200 lvl=info msg="Request Completed" logger=context userId=1 orgId=1 uname=admin method=GET path=/public/build/app.a57d7eb2b884b86dc3ae.js status=404 remote_addr=[::1] time_ms=23 size=26770 referer="http://localhost:8080/d/OSF-tramk/3-panels-monitoring?from=1555098662347&to=1555109534261"
+t=2019-04-15T12:59:19+0200 lvl=info msg="Request Completed" logger=context userId=1 orgId=1 uname=admin method=GET path=/public/build/app.a57d7eb2b884b86dc3ae.js status=404 remote_addr=[::1] time_ms=13 size=26770 referer="http://localhost:8080/d/ibjZzy-iz/1-panel-monitoring?orgId=1&refresh=1s"
