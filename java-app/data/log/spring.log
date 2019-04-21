@@ -1,0 +1,159 @@
+2019-04-15 11:58:48.221  INFO 17320 --- [main] simutool.app.StartApp                    : Starting StartApp on LAPTOP-G7PHQBJH with PID 17320 (C:\dev\online-monitoring-client\java-app\target\classes started by valen in C:\dev\online-monitoring-client\java-app)
+2019-04-15 11:58:48.223  INFO 17320 --- [main] simutool.app.StartApp                    : No active profile set, falling back to default profiles: default
+2019-04-15 11:58:48.420  INFO 17320 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@78a2da20: startup date [Mon Apr 15 11:58:48 CEST 2019]; root of context hierarchy
+2019-04-15 11:58:49.796  INFO 17320 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8090 (http)
+2019-04-15 11:58:49.813  INFO 17320 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-04-15 11:58:49.814  INFO 17320 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.23
+2019-04-15 11:58:49.925  INFO 17320 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-04-15 11:58:49.926  INFO 17320 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1509 ms
+2019-04-15 11:58:50.103  INFO 17320 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2019-04-15 11:58:50.107  INFO 17320 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2019-04-15 11:58:50.108  INFO 17320 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2019-04-15 11:58:50.108  INFO 17320 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2019-04-15 11:58:50.109  INFO 17320 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2019-04-15 11:58:50.110  INFO 17320 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'multipartFilter' to: [/*]
+2019-04-15 11:58:52.995  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@78a2da20: startup date [Mon Apr 15 11:58:48 CEST 2019]; root of context hierarchy
+2019-04-15 11:58:53.071  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/setSimulationData],methods=[POST]}" onto public void simutool.controllers.ExperimentDataRestController.setSimulationData(simutool.models.Simulation)
+2019-04-15 11:58:53.073  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/getExperimentData]}" onto public simutool.models.Simulation simutool.controllers.ExperimentDataRestController.getExperimentData(org.springframework.ui.Model)
+2019-04-15 11:58:53.073  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/sendComment],methods=[POST]}" onto public void simutool.controllers.ExperimentDataRestController.sendComment(simutool.models.Comment)
+2019-04-15 11:58:53.082  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/load]}" onto public java.lang.String simutool.controllers.MainController.loadSavedSimulation(java.lang.String)
+2019-04-15 11:58:53.083  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/newpanel/{panelId}],methods=[GET],params=[new panel],consumes=[multipart/form-data]}" onto public java.lang.String simutool.controllers.MainController.redirectToEditPanel(simutool.models.Panel,java.lang.Integer,javax.servlet.http.HttpServletRequest,java.lang.Integer,org.springframework.ui.Model,org.springframework.web.servlet.mvc.support.RedirectAttributes)
+2019-04-15 11:58:53.084  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/newpanel/{panelId}],methods=[POST],params=[new panel],consumes=[multipart/form-data]}" onto public java.lang.String simutool.controllers.MainController.savePanel(simutool.models.Panel,java.lang.Integer,javax.servlet.http.HttpServletRequest,java.lang.Integer,org.springframework.ui.Model,org.springframework.web.servlet.mvc.support.RedirectAttributes)
+2019-04-15 11:58:53.085  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/newsimulation],methods=[GET]}" onto public java.lang.String simutool.controllers.MainController.getSettingsForm(org.springframework.ui.Model)
+2019-04-15 11:58:53.085  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/newsimulation],methods=[POST]}" onto public java.lang.String simutool.controllers.MainController.saveSimulation(simutool.models.Simulation,org.springframework.ui.Model,org.springframework.web.servlet.mvc.support.RedirectAttributes)
+2019-04-15 11:58:53.086  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/home]}" onto public java.lang.String simutool.controllers.MainController.startMenu(org.springframework.ui.Model)
+2019-04-15 11:58:53.087  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/newpanel],methods=[GET]}" onto public java.lang.String simutool.controllers.MainController.getPanelForm(org.springframework.ui.Model,java.lang.String)
+2019-04-15 11:58:53.087  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String simutool.controllers.MainController.redirectToHome()
+2019-04-15 11:58:53.088  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/editpanel/{panelId}],methods=[GET]}" onto public java.lang.String simutool.controllers.MainController.editPanelForm(simutool.models.Panel,java.lang.String,java.lang.Integer,org.springframework.ui.Model,org.springframework.web.servlet.mvc.support.RedirectAttributes)
+2019-04-15 11:58:53.088  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/removeFile/{panelId}/{fileId}],methods=[GET]}" onto public java.lang.String simutool.controllers.MainController.removeFile(java.lang.Long,int)
+2019-04-15 11:58:53.089  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/saveComment/],methods=[POST]}" onto public java.lang.String simutool.controllers.MainController.saveComment(java.lang.String)
+2019-04-15 11:58:53.089  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/newpanel/{panelId}],methods=[POST],params=[new file],consumes=[multipart/form-data]}" onto public java.lang.String simutool.controllers.MainController.saveFile(simutool.models.Panel,java.lang.Integer,javax.servlet.http.HttpServletRequest,org.springframework.ui.Model,org.springframework.web.servlet.mvc.support.RedirectAttributes)
+2019-04-15 11:58:53.090  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/removePanel/{id}],methods=[GET]}" onto public java.lang.String simutool.controllers.MainController.removePanel(java.lang.Long)
+2019-04-15 11:58:53.091  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/launchStatics],methods=[GET]}" onto public java.lang.String simutool.controllers.MainController.launchStatics()
+2019-04-15 11:58:53.092  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/savePanel/{exit}],methods=[GET]}" onto public java.lang.String simutool.controllers.MainController.startSavingPanel(boolean)
+2019-04-15 11:58:53.093  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/reset]}" onto public java.lang.String simutool.controllers.MainController.resetGrafanaLink()
+2019-04-15 11:58:53.095  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-04-15 11:58:53.096  INFO 17320 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-04-15 11:58:53.129  INFO 17320 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-04-15 11:58:53.129  INFO 17320 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-04-15 11:58:53.170  INFO 17320 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-04-15 11:58:53.901  INFO 17320 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2019-04-15 11:58:54.111  INFO 17320 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8090 (http)
+2019-04-15 11:58:54.123  INFO 17320 --- [main] simutool.app.StartApp                    : Started StartApp in 6.173 seconds (JVM running for 6.491)
+2019-04-15 12:00:48.921  INFO 18792 --- [main] simutool.app.StartApp                    : Starting StartApp on LAPTOP-G7PHQBJH with PID 18792 (C:\dev\online-monitoring-client\java-app\target\classes started by valen in C:\dev\online-monitoring-client\java-app)
+2019-04-15 12:00:48.928  INFO 18792 --- [main] simutool.app.StartApp                    : No active profile set, falling back to default profiles: default
+2019-04-15 12:00:49.355  INFO 18792 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@78a2da20: startup date [Mon Apr 15 12:00:49 CEST 2019]; root of context hierarchy
+2019-04-15 12:00:51.892  INFO 18792 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8090 (http)
+2019-04-15 12:00:51.917  INFO 18792 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-04-15 12:00:51.920  INFO 18792 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.23
+2019-04-15 12:00:52.065  INFO 18792 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-04-15 12:00:52.066  INFO 18792 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2715 ms
+2019-04-15 12:00:52.203  INFO 18792 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2019-04-15 12:00:52.207  INFO 18792 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2019-04-15 12:00:52.208  INFO 18792 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2019-04-15 12:00:52.208  INFO 18792 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2019-04-15 12:00:52.209  INFO 18792 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2019-04-15 12:00:52.209  INFO 18792 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'multipartFilter' to: [/*]
+2019-04-15 12:00:55.126  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@78a2da20: startup date [Mon Apr 15 12:00:49 CEST 2019]; root of context hierarchy
+2019-04-15 12:00:55.193  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/setSimulationData],methods=[POST]}" onto public void simutool.controllers.ExperimentDataRestController.setSimulationData(simutool.models.Simulation)
+2019-04-15 12:00:55.195  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/sendComment],methods=[POST]}" onto public void simutool.controllers.ExperimentDataRestController.sendComment(simutool.models.Comment)
+2019-04-15 12:00:55.196  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/getExperimentData]}" onto public simutool.models.Simulation simutool.controllers.ExperimentDataRestController.getExperimentData(org.springframework.ui.Model)
+2019-04-15 12:00:55.206  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/newpanel/{panelId}],methods=[GET],params=[new panel],consumes=[multipart/form-data]}" onto public java.lang.String simutool.controllers.MainController.redirectToEditPanel(simutool.models.Panel,java.lang.Integer,javax.servlet.http.HttpServletRequest,java.lang.Integer,org.springframework.ui.Model,org.springframework.web.servlet.mvc.support.RedirectAttributes)
+2019-04-15 12:00:55.207  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/load]}" onto public java.lang.String simutool.controllers.MainController.loadSavedSimulation(java.lang.String)
+2019-04-15 12:00:55.208  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/home]}" onto public java.lang.String simutool.controllers.MainController.startMenu(org.springframework.ui.Model)
+2019-04-15 12:00:55.208  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/newsimulation],methods=[GET]}" onto public java.lang.String simutool.controllers.MainController.getSettingsForm(org.springframework.ui.Model)
+2019-04-15 12:00:55.209  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/newpanel],methods=[GET]}" onto public java.lang.String simutool.controllers.MainController.getPanelForm(org.springframework.ui.Model,java.lang.String)
+2019-04-15 12:00:55.209  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/savePanel/{exit}],methods=[GET]}" onto public java.lang.String simutool.controllers.MainController.startSavingPanel(boolean)
+2019-04-15 12:00:55.211  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/newpanel/{panelId}],methods=[POST],params=[new file],consumes=[multipart/form-data]}" onto public java.lang.String simutool.controllers.MainController.saveFile(simutool.models.Panel,java.lang.Integer,javax.servlet.http.HttpServletRequest,org.springframework.ui.Model,org.springframework.web.servlet.mvc.support.RedirectAttributes)
+2019-04-15 12:00:55.211  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/reset]}" onto public java.lang.String simutool.controllers.MainController.resetGrafanaLink()
+2019-04-15 12:00:55.211  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/editpanel/{panelId}],methods=[GET]}" onto public java.lang.String simutool.controllers.MainController.editPanelForm(simutool.models.Panel,java.lang.String,java.lang.Integer,org.springframework.ui.Model,org.springframework.web.servlet.mvc.support.RedirectAttributes)
+2019-04-15 12:00:55.212  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/removePanel/{id}],methods=[GET]}" onto public java.lang.String simutool.controllers.MainController.removePanel(java.lang.Long)
+2019-04-15 12:00:55.213  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/launchStatics],methods=[GET]}" onto public java.lang.String simutool.controllers.MainController.launchStatics()
+2019-04-15 12:00:55.213  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/removeFile/{panelId}/{fileId}],methods=[GET]}" onto public java.lang.String simutool.controllers.MainController.removeFile(java.lang.Long,int)
+2019-04-15 12:00:55.213  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String simutool.controllers.MainController.redirectToHome()
+2019-04-15 12:00:55.214  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/saveComment/],methods=[POST]}" onto public java.lang.String simutool.controllers.MainController.saveComment(java.lang.String)
+2019-04-15 12:00:55.215  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/newsimulation],methods=[POST]}" onto public java.lang.String simutool.controllers.MainController.saveSimulation(simutool.models.Simulation,org.springframework.ui.Model,org.springframework.web.servlet.mvc.support.RedirectAttributes)
+2019-04-15 12:00:55.216  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/newpanel/{panelId}],methods=[POST],params=[new panel],consumes=[multipart/form-data]}" onto public java.lang.String simutool.controllers.MainController.savePanel(simutool.models.Panel,java.lang.Integer,javax.servlet.http.HttpServletRequest,java.lang.Integer,org.springframework.ui.Model,org.springframework.web.servlet.mvc.support.RedirectAttributes)
+2019-04-15 12:00:55.218  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-04-15 12:00:55.219  INFO 18792 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-04-15 12:00:55.249  INFO 18792 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-04-15 12:00:55.250  INFO 18792 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-04-15 12:00:55.292  INFO 18792 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-04-15 12:00:55.848  INFO 18792 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2019-04-15 12:00:55.911  INFO 18792 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8090 (http)
+2019-04-15 12:00:55.916  INFO 18792 --- [main] simutool.app.StartApp                    : Started StartApp in 7.265 seconds (JVM running for 7.64)
+2019-04-15 12:01:23.201  INFO 18792 --- [http-nio-8090-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2019-04-15 12:01:23.202  INFO 18792 --- [http-nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2019-04-15 12:01:23.218  INFO 18792 --- [http-nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 16 ms
+2019-04-15 12:01:23.288 ERROR 18792 --- [http-nio-8090-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause
+
+java.lang.NullPointerException: null
+	at simutool.repos.SavedSimulationsRepo.readSavedSimulations(SavedSimulationsRepo.java:52) ~[classes/:na]
+	at simutool.repos.SavedSimulationsRepo$$FastClassBySpringCGLIB$$9ab1bdc.invoke(<generated>) ~[classes/:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204) ~[spring-core-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:738) ~[spring-aop-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157) ~[spring-aop-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:136) ~[spring-tx-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:673) ~[spring-aop-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at simutool.repos.SavedSimulationsRepo$$EnhancerBySpringCGLIB$$e650ae7.readSavedSimulations(<generated>) ~[classes/:na]
+	at simutool.controllers.MainController.startMenu(MainController.java:76) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_181]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source) ~[na:1.8.0_181]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source) ~[na:1.8.0_181]
+	at java.lang.reflect.Method.invoke(Unknown Source) ~[na:1.8.0_181]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:133) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:97) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:827) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:738) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:85) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:967) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:901) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:970) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:861) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:635) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:846) ~[spring-webmvc-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52) ~[tomcat-embed-websocket-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.web.multipart.support.MultipartFilter.doFilterInternal(MultipartFilter.java:122) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.web.filter.HttpPutFormContentFilter.doFilterInternal(HttpPutFormContentFilter.java:108) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:81) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:197) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) ~[spring-web-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:199) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:478) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:803) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1459) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) [na:1.8.0_181]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at java.lang.Thread.run(Unknown Source) [na:1.8.0_181]
+

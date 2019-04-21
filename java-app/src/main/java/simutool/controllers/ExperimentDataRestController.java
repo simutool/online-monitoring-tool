@@ -14,6 +14,7 @@ import org.influxdb.dto.Query;
 import org.influxdb.dto.QueryResult.Series;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +42,12 @@ public class ExperimentDataRestController {
 	@Autowired
 	private InfluxPopulator influx;
 
+	@Value("${influx.tableName}")
+	private String tableName;
+	
+	@Value("${influx.commentsTableName}")
+	private String commentsTableName;
+	
 	/**
 	 * Returns JSON with panels data in current simulation
 	 * @param m empty Model (currently not used)
@@ -50,10 +57,10 @@ public class ExperimentDataRestController {
 	public Simulation getExperimentData(Model m) {
 		
 		//Queries comments and series databases
-		Query commentsQuery = new Query("SELECT * FROM " + InfluxPopulator.commentsTableName, InfluxPopulator.commentsTableName);
+		Query commentsQuery = new Query("SELECT * FROM " + commentsTableName, commentsTableName);
 		List<Series> seriesData = InfluxPopulator.influxDB.query(commentsQuery).getResults().get(0).getSeries();
 		List<Comment> comments = new ArrayList<Comment>();
-		InfluxPopulator.influxDB.setDatabase(InfluxPopulator.commentsTableName);
+		InfluxPopulator.influxDB.setDatabase(commentsTableName);
 
 		if(seriesData != null) {
 			List<List<Object>> vals = seriesData.get(0).getValues(); 
@@ -101,10 +108,10 @@ public class ExperimentDataRestController {
 		long timeStamp = saver.normalizeTimeStamp(formattedDate);
 		
 		// Push point to the database
-		Point point = Point.measurement(InfluxPopulator.commentsTableName).time( timeStamp, TimeUnit.MILLISECONDS)
+		Point point = Point.measurement(commentsTableName).time( timeStamp, TimeUnit.MILLISECONDS)
 				.addField("comment", "\"" + commentData.getCommentText() + "\"").build();
 
-		InfluxPopulator.influxDB.write(InfluxPopulator.commentsTableName, "autogen", point); 
+		InfluxPopulator.influxDB.write(commentsTableName, "autogen", point); 
 		InfluxPopulator.influxDB.close();
 
 	}

@@ -25,8 +25,11 @@ import simutool.controllers.MainController;
 @Service
 public class InfluxPopulator {
 	
-	public final static String tableName = "test";
-	public final static String commentsTableName = "comments";
+	@Value("${influx.tableName}")
+	private String tableName;
+	
+	@Value("${influx.commentsTableName}")
+	private String commentsTableName;
 
 	public static InfluxDB influxDB;
 	
@@ -43,10 +46,6 @@ public class InfluxPopulator {
 	@Value("${influx.password}")
 	private String influxPassword;
 	
-	
-	public static String getTablename() {
-		return tableName;
-	}
 
 	
 	public static InfluxDB getInfluxDB() {
@@ -152,6 +151,7 @@ public class InfluxPopulator {
 			this.internalNum = internalNum;
 			counter = 0;
 			shift =  System.currentTimeMillis() - Long.valueOf( rows.get(0)[0] ) - 1;
+			System.out.println(tableName);
 		}
 
 		public void run() {

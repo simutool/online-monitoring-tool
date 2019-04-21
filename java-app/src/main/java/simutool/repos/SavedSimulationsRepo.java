@@ -37,6 +37,12 @@ public class SavedSimulationsRepo {
 	@Value("${metadataFolder}")
 	private String metadataFolder;
 	
+	@Value("${influx.tableName}")
+	private String tableName;
+	
+	@Value("${influx.commentsTableName}")
+	private String commentsTableName;
+	
 	@Autowired
 	private Parser parser;
 	
@@ -157,17 +163,17 @@ public class SavedSimulationsRepo {
 				
 		try {
 				List<String[]> rows = commentsFile.getRows();
-				Builder builder = BatchPoints.database(InfluxPopulator.commentsTableName);
+				Builder builder = BatchPoints.database(commentsTableName);
 				
 				for (String[] data : rows) {
 					
-					Point batchPoint = Point.measurement(InfluxPopulator.commentsTableName)
+					Point batchPoint = Point.measurement(commentsTableName)
 							.time(Long.parseLong( data[0] ), TimeUnit.MILLISECONDS)
 							.addField("comment", data[1]).build();
 					builder.points(batchPoint);
 
 				}
-				InfluxPopulator.influxDB.setDatabase(InfluxPopulator.commentsTableName);
+				InfluxPopulator.influxDB.setDatabase(commentsTableName);
 				InfluxPopulator.influxDB.write(builder.build()); 
 				InfluxPopulator.influxDB.close();
 			

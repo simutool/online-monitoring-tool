@@ -40,6 +40,12 @@ public class ExperimentSaver {
 	@Value("${saveCSVfolder}")
 	private String savingFolder;
 	
+	@Value("${influx.tableName}")
+	private String tableName;
+	
+	@Value("${influx.commentsTableName}")
+	private String commentsTableName;
+	
 	/**
 	 * Writes csv files with experiment datasets and metadata
 	 * @param s Current simulation
@@ -53,8 +59,8 @@ public class ExperimentSaver {
 			 }
 		 }
 		 // Get all data that is in influx at the moment
-		 Query query = new Query("SELECT * FROM " + influx.getTablename(), influx.getTablename());
-		 Query commentsQuery = new Query("SELECT * FROM " + InfluxPopulator.commentsTableName, InfluxPopulator.commentsTableName);
+		 Query query = new Query("SELECT * FROM " + tableName, tableName);
+		 Query commentsQuery = new Query("SELECT * FROM " + commentsTableName, commentsTableName);
 		 List<Series> seriesData = InfluxPopulator.influxDB.query(commentsQuery).getResults().get(0).getSeries();
 		 if(seriesData != null) {
 			 commentCsvWriter(seriesData.get(0).getValues());
