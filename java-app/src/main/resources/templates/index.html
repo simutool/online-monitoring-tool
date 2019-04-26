@@ -23,15 +23,26 @@
                 <h4>or load a saved one:</h4>
                     <div class="horisontalScroll">
                         <th:block th:each="sim,iter : ${saved}">
-                        <a class="col-3 pointerCursor" th:href="@{load(id=${sim.id})}">
-                            <img th:src="@{/icn-panel.svg}"  class=""></img>
-                            <span th:text="${sim.name}" class="col-12">...</span>
-                        </a>
+                        
+	                        <a th:if="${sim.errorMessage}" class="col-3 pointerCursor brokenSim" href="" th:onclick="'alert(\'' + ${sim.errorMessage} + '\');'" >
+	                            <img th:src="@{/icn-panel.svg}"  class=""></img>
+	                            <span th:text="${sim.name}" style="color:red" class="col-12">.</span>
+	                        </a>
+		                    <a th:if="${sim.errorMessage == null}" class="col-3 pointerCursor" th:href="@{load(id=${sim.id})}">
+	                            <img th:src="@{/icn-panel.svg}"  class=""></img>
+	                            <span th:text="${sim.name}" class="col-12">...</span>
+	                        </a>
+	                        
+
+	                        
                         </th:block>
                     </div>
                       
             </div>
     </div>
+    
+	
+	
 
 </body>
 </html>

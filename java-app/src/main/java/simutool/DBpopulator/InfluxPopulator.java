@@ -137,11 +137,11 @@ public class InfluxPopulator {
 		int counter;
 		int panelNum;
 		List<String[]> rows;
-		int datasource_id;
+		String datasource_id;
 		long shift;
 		int internalNum;
 
-		public AddPoint(int datasource_id, int millis, FileDTO file, Timer timer, int panelNum, int internalNum) {
+		public AddPoint(String datasource_id, int millis, FileDTO file, Timer timer, int panelNum, int internalNum) {
 			
 			this.timer = timer;
 			this.millis = millis;

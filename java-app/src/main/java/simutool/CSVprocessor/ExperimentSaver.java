@@ -236,13 +236,26 @@ public class ExperimentSaver {
 	    			JsonObject payObj = new JsonObject();
 	    			payObj.addProperty("title", MainController.pendingSimulation.getName());
 	    			payObj.addProperty("uploader", MainController.pendingSimulation.getOperators());
-
 	    			JsonArray references = new JsonArray();
 	    				references.add(MainController.pendingSimulation.getOven());
 	    				references.add(MainController.pendingSimulation.getMaterial());
 	    				references.add(MainController.pendingSimulation.getPart());
-	    			payObj.add("references", references);
-	    			payObj.addProperty("description", MainController.pendingSimulation.getDescription());
+	    				for(Panel p : MainController.pendingSimulation.getPanelList()) {
+	    					for(FileDTO f : p.getFiles()) {
+	    						if(!f.getDatasource_id().equals("0")) {
+	    		    				references.add(f.getDatasource_id());
+	    						}
+	    					}
+	    				}
+	    			payObj.add("related", references);
+	    			String desc;
+					try {
+						desc = MainController.pendingSimulation.getDescription().length()>0 ? MainController.pendingSimulation.getDescription() : "";
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						desc = "";
+					}
+	    			payObj.addProperty("description", desc);
 	    			payObj.addProperty("created", MainController.pendingSimulation.getCreated());
 	    			payObj.addProperty("saved", MainController.pendingSimulation.getSaved());
 

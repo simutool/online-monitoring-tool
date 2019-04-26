@@ -150,6 +150,9 @@ body{
 .modal-dialog .fa-question-circle{
 	color: #212124;
 }
+.brokenSim{
+	filter: opacity(50%);
+}
 
 
 

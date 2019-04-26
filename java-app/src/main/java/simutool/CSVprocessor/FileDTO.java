@@ -11,7 +11,7 @@ public class FileDTO {
 	private int internalNumber;
 	private String name;
 	private String type;
-	private int datasource_id;
+	private String datasource_id;
 	
 	// Each line is an array of values: time,value,dataset_id
 	private List<String[]> rows;
@@ -64,10 +64,10 @@ public class FileDTO {
 	public void setRows(List<String[]> rows) {
 		this.rows = rows;
 	}
-	public int getDatasource_id() {
+	public String getDatasource_id() {
 		return datasource_id;
 	}
-	public void setDatasource_id(int datasource_id) {
+	public void setDatasource_id(String datasource_id) {
 		this.datasource_id = datasource_id;
 	}
 	/**

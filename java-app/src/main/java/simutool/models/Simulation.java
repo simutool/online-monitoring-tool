@@ -18,6 +18,7 @@ public class Simulation {
 	long timeZone;
 	boolean isLoaded;
 	boolean staticsLoaded;
+	String errorMessage;
 	public static String[] metaForUpload = new String[]{"name", "started", "ended", "description",
 			"operators", "oven", "material", "part"};
 	
@@ -190,6 +191,13 @@ public class Simulation {
 	}
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+	
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
 	}
 	@Override
 	public String toString() {

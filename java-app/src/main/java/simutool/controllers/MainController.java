@@ -1,5 +1,6 @@
 package simutool.controllers;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -44,6 +45,7 @@ public class MainController {
 	static Panel pendingPanel;
 	public static List<Panel> pendingPanels;
 	public static boolean staticsAreLaunched = false;
+	public static String zipPath = null;
 	public static boolean experimentStarted = false;
 	boolean allPanelsAreStatic = true;
 	String redirectLink; 
@@ -65,6 +67,12 @@ public class MainController {
 
 	@Value("${grafana.host}")
 	private String grafanaHost;
+	
+	@Value("${saveCSVfolder}")
+	private String savingFolder;
+	
+	@Value("${importZIPfolder}")
+	private String importZIPfolder;
 
 	/**
 	 * Starts index page
@@ -73,9 +81,18 @@ public class MainController {
 	 */
 	@RequestMapping("/home")
 	public String startMenu(Model m) {
-		simRepo.readSavedSimulations();
-		m.addAttribute("saved", simRepo.getSavedSimulations());
-		return "index";
+		if(zipPath == null) {
+			simRepo.setSavedSimulations(null);
+			simRepo.readSavedSimulations(savingFolder, null);
+			simRepo.readSavedSimulations(importZIPfolder, null);
+			m.addAttribute("saved", simRepo.getSavedSimulations());
+			return "index";
+		}else {
+			simRepo.setSavedSimulations(null);
+			simRepo.readSavedSimulations(importZIPfolder, zipPath);
+			zipPath = null;
+			return "redirect:/load?id=" + simRepo.getSavedSimulations().get(0).getId();
+		}
 	}
 	
 
@@ -415,7 +432,9 @@ public class MainController {
 		pendingSimulation.setId(id);
 		saver.savePanels(pendingSimulation);
 		if(exit) {
-			simRepo.readSavedSimulations();
+			simRepo.setSavedSimulations(null);
+			simRepo.readSavedSimulations(savingFolder, null);
+			simRepo.readSavedSimulations(importZIPfolder, null);
 			return "redirect:/load?id=" + id;
 		}else {
 			return "redirect:/reset";

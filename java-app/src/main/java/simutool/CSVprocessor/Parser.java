@@ -71,7 +71,7 @@ public class Parser {
 
 		file.setRows(rows);
 		file.setType(type);
-		file.setDatasource_id(Integer.parseInt(rows.get(0)[2]));
+		file.setDatasource_id( rows.get(0)[2] );
 
 		return file;
 	}
@@ -110,41 +110,47 @@ public class Parser {
 	 * 			path to metadata file - if null, {configuration folder}/default.json is used
 	 * @return a list of metadata objects, like operator, oven etc. (see InputJSON.java)
 	 */
-	public List<InputJSON> parseJsonMetadata(FileReader path) {
+	public List<InputJSON> parseJsonMetadata(FileReader pathMeta) {
 		try {
-			if(path == null) {
-				path = new FileReader(metadataFolder + "/default.json");
+			if(pathMeta == null) {
+				pathMeta = new FileReader(metadataFolder + "/default.json");
 			}
 			ArrayList<InputJSON> list = new ArrayList<InputJSON>();
 			
-	    	Gson gson = new Gson();
-	    	JsonReader reader = new JsonReader(path);
-	    	JsonObject data = gson.fromJson(reader, JsonObject.class);
-	    	JsonArray arr = data.get("payload").getAsJsonArray();
+	    	Gson gsonMeta = new Gson();
+	    	JsonReader readerMeta = new JsonReader(pathMeta);
+	    	JsonObject dataMeta = gsonMeta.fromJson(readerMeta, JsonObject.class);
+	    	JsonArray arr = dataMeta.get("payload").getAsJsonArray();
+	    	
+	    	Gson gsonUris = new Gson();
+	    	JsonReader readerUris = new JsonReader( new FileReader(metadataFolder + "/uris.json") );
+	    	JsonObject dataUris = gsonMeta.fromJson(readerUris, JsonObject.class);
+	    	
 	    	for(JsonElement a : arr) {
-	    		InputJSON j = gson.fromJson(a, InputJSON.class);
+	    		InputJSON j = gsonMeta.fromJson(a, InputJSON.class);
 	    		list.add(j);
 	    	}
+	    	
 	    	for(InputJSON j : list) {
-	    		if(j.getType().equals("http://www.simutool.com/User")) {
+	    		if(j.getType().equals( dataUris.get("user_uri").toString().replaceAll("\"", "") )) {
 	    			MainController.pendingSimulation.setOperators(j.getIdentifier());
 	    			break;
 	    		}
 	    	}
 	    	for(InputJSON j : list) {
-	    		if(j.getType().equals("http://www.simutool.com/Oven")) {
+	    		if(j.getType().equals( dataUris.get("oven_uri").toString().replaceAll("\"", "") )) {
 	    			MainController.pendingSimulation.setOven(j.getIdentifier());
 	    			break;
 	    		}
 	    	}
 	    	for(InputJSON j : list) {
-	    		if(j.getType().equals("http://www.simutool.com/Part")) {
+	    		if(j.getType().equals( dataUris.get("part_uri").toString().replaceAll("\"", "") )) {
 	    			MainController.pendingSimulation.setPart(j.getIdentifier());
 	    			break;
 	    		}
 	    	}
 	    	for(InputJSON j : list) {
-	    		if(j.getType().equals("http://www.simutool.com/Material")) {
+	    		if(j.getType().equals( dataUris.get("material_uri").toString().replaceAll("\"", "") )) {
 	    			MainController.pendingSimulation.setMaterial(j.getIdentifier());
 	    			break;
 	    		}

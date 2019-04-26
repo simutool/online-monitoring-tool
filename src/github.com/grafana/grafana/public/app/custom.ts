@@ -3,7 +3,7 @@ import 'moment';
 declare var $: $;
 
 const springHost = 'http://localhost:8090';
-
+export let experiment;
 
 /**
    Basic function for modifying fronend assets
@@ -19,16 +19,18 @@ $(function () {
 		},
 	}).then(function successCallback(response) {
 		console.log(response);
+		experiment = response;
 		console.log(window.location.host);
 
 		// Render container for adding comments, buttons, panels titles
 		appendCommentsCont(response);
 		processExperimentData(response);
+		const buttonAction = response.loaded ? `href=${springHost}` : `data-toggle="modal" data-target="#homepageModal"`;
 		
 				const customHeader = `<div>
-		<button class="btn navbar-button " data-toggle="modal" data-target="#homepageModal" style="position:absolute;top:10">
+		<a class="btn navbar-button "  ${buttonAction} style="position:absolute;top:10px;left:20px;">
 			<i class="fa fa-home" ></i> Homepage
-		</button>
+		</a>
 		<h3 class="custom-header">Experiment ${response.name + (response.loaded ? " (SAVED)" : "")}</h3></div>`
 		
 		// Render header with experiment name
@@ -83,7 +85,7 @@ $(function () {
 		// Show/hide developer tools when "d" key is pressed
 		$(window).keyup(function (event) {
 			const key = event.keyCode; //find the key that was pressed
-			if (key === 68 && !$("#commentInput").is(":focus")) {
+			if (key === 68 && !$("#commentInput").is(":focus") && !$("#savingModal textarea").is(":focus")) {
 				if ($(".sidemenu").hasClass("hiddenSection")) {
 					$(".sidemenu, .navbar").removeClass("hiddenSection");
 					console.log("show developer tools");
@@ -92,6 +94,10 @@ $(function () {
 					$(".sidemenu, .navbar").addClass("hiddenSection");
 					console.log("hide developer tools");
 				}
+			}
+			if (key === 13 && event.ctrlKey && ($("#commentInput").is(":focus") || $(".customTimepicker").is(":focus"))) {
+				$($(".sendCommentBtn a")[0]).trigger("click");
+				
 			}
 		});
 
@@ -200,7 +206,7 @@ function setTitle(response, timerId) {
 
 				numOfFiles = numOfFiles+1;
 			}
-			//fileNames.push({"id": "test.P" + file.panelNumber + "_" + file.type.toLowerCase() + "_" + file.internalNumber, "name":  });
+			//fileNames.push({"id": "db.P" + file.panelNumber + "_" + file.type.toLowerCase() + "_" + file.internalNumber, "name":  });
 			fileNames.push(file);
 		}
 		console.log("numOfFiles: " + numOfFiles);
@@ -229,17 +235,17 @@ function setTitle(response, timerId) {
 	}
 
 	/** ---- Not implemented yet ------
-		is supposed to overwrite dataset names in the legend (e.g. "test.P1_simulation_1" to "Left sensor")
+		is supposed to overwrite dataset names in the legend (e.g. "db.P1_simulation_1" to "Left sensor")
 	*/
 	if ($(".graph-legend-alias ").length == numOfFiles) {
 		fileNamesFound = true;
 		for (let label of $(".graph-legend-alias ")) {
 			console.log(label.text);
 			
-			let oldLabel = $.grep($(fileNames), function(file) { return "test.P" + file.panelNumber + "_" + file.type.toLowerCase().replace(' ','_') + "_" + file.internalNumber === label.text })[0];
+			let oldLabel = $.grep($(fileNames), function(file) { return "db.P" + file.panelNumber + "_" + file.type.toLowerCase().replace(' ','_') + "_" + file.internalNumber === label.text })[0];
 			if(oldLabel){
 				console.log("Match found:");
-				console.log("test.P" + oldLabel.panelNumber + "_" + oldLabel.type.toLowerCase().replace(' ','_') + "_" + oldLabel.internalNumber);
+				console.log("db.P" + oldLabel.panelNumber + "_" + oldLabel.type.toLowerCase().replace(' ','_') + "_" + oldLabel.internalNumber);
 				console.log(label.text);
 								console.log("Text set to: " + oldLabel.name);
 

@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import { appEvents } from 'app/core/core';
+import { experiment } from 'app/custom';
 
 export default function GraphTooltip(this: any, elem, dashboard, scope, getSeriesFn) {
   const self = this;
@@ -127,11 +128,24 @@ export default function GraphTooltip(this: any, elem, dashboard, scope, getSerie
         yaxis = series.yaxis.n;
       }
 
+	  	let fileNames = new Array();
+	
+	// Put all custom panel names
+	for (let panel of experiment.panelList) {
+
+		for (let file of panel.files) {
+			fileNames.push(file);
+		}
+	}
+	
+	let oldLabel = $.grep($(fileNames), function(file) { return "db.P" + file.panelNumber + "_" + file.type.toLowerCase().replace(' ','_') + "_" + file.internalNumber === series.aliasEscaped })[0];
+
       results[yaxis].push({
         value: value,
         hoverIndex: hoverIndex,
         color: series.color,
-        label: series.aliasEscaped,
+       //label: series.aliasEscaped,
+		label: oldLabel.name,
         time: pointTime,
         distance: hoverDistance,
         index: i,

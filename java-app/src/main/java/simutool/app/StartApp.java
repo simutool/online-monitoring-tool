@@ -2,13 +2,14 @@ package simutool.app;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -19,6 +20,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 import simutool.CSVprocessor.ExperimentSaver;
 import simutool.DBpopulator.InfluxPopulator;
+import simutool.controllers.MainController;
+import simutool.repos.SavedSimulationsRepo;
 
 /**
  * Entry point. <br>
@@ -27,13 +30,16 @@ import simutool.DBpopulator.InfluxPopulator;
  */
 @ComponentScan(basePackages = "simutool")
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class, MultipartAutoConfiguration.class})
-public class StartApp {
+public class StartApp implements ApplicationRunner{
 
 	/**
 	 * Path to influxd.exe file
 	 */
 	@Value("${influxStarter}")
 	private String influxStarter;
+	
+	@Autowired
+	private SavedSimulationsRepo simRepo;
 	
 	/**
 	 * Path to grafana-server.exe file
@@ -56,6 +62,17 @@ public class StartApp {
 		SpringApplication.run(StartApp.class, args);
 	}
 
+	
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+
+        List<String> zips = args.getOptionValues("l");
+        if(zips != null) {
+        	String zipPath = zips.get(0);
+    		MainController.zipPath = zipPath;
+        }
+    }
+	
 	/**
 	 * Launches grafana and influx servers after server has been started.
 	 * Each server is running in a separate thread
@@ -65,7 +82,7 @@ public class StartApp {
 	
 		
 		Process influxProcess = null; 
-		Process grafanaProcess = null; 
+		final Process grafanaProcess; 
 		try { 
 			Thread infl = new Thread() {
 				public void run() {
@@ -122,5 +139,11 @@ public class StartApp {
 			e.printStackTrace(); 
 		} 
 	}
+	
+
+
 
 }
+
+
+
