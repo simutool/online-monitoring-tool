@@ -94,6 +94,8 @@ public class Parser {
 			s.setOven(rows.get(1)[1]);
 			s.setMaterial(rows.get(1)[2]);
 			s.setTool(rows.get(1)[3]);
+			s.setCreated(rows.get(1)[5]);
+			s.setSaved(rows.get(1)[6]);
 			s.setId(rows.get(1)[9]);
 			
 

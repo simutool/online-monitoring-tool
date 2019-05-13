@@ -157,3 +157,6 @@ java.lang.NullPointerException: null
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-8.5.23.jar:8.5.23]
 	at java.lang.Thread.run(Unknown Source) [na:1.8.0_181]
 
+2019-05-12 22:59:38.953  INFO 41552 --- [main] simutool.app.StartApp                    : Starting StartApp on LAPTOP-G7PHQBJH with PID 41552 (C:\dev\online-monitoring-client\java-app\target\classes started by valen in C:\dev\online-monitoring-client\java-app)
+2019-05-12 22:59:38.968  INFO 41552 --- [main] simutool.app.StartApp                    : No active profile set, falling back to default profiles: default
+2019-05-12 22:59:39.379  INFO 41552 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@329548d0: startup date [Sun May 12 22:59:39 CEST 2019]; root of context hierarchy

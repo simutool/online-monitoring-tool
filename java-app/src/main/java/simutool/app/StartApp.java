@@ -1,6 +1,7 @@
 package simutool.app;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
@@ -138,6 +139,16 @@ public class StartApp implements ApplicationRunner{
 		catch(Exception e){ 
 			e.printStackTrace(); 
 		} 
+		
+		Runtime rt = Runtime.getRuntime();
+		String url = "http://localhost:8090";
+		try {
+			rt.exec("rundll32 url.dll,FileProtocolHandler " + url);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 

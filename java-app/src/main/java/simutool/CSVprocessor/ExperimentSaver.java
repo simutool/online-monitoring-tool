@@ -109,6 +109,7 @@ public class ExperimentSaver {
 						f.getType().toLowerCase().replace(' ', '_').equals(file.getType().toLowerCase().replace(' ', '_'))) {
 						 
 						 file.setName(f.getName());
+						 file.setDatasource_id(f.getDatasource_id());
 
 					 }
 				 }
@@ -130,9 +131,9 @@ public class ExperimentSaver {
 		
 		// Remove all non-literal and non-digit characters from file name
 		String fileName = ("/" + file.getName().replaceAll("[^A-Za-z0-9]+", "_") + "_PANEL_" + 
-				+ file.getPanelNumber() + "-"  + MainController.pendingPanels.get(file.getPanelNumber()-1).getName() + "---" + file.getType().toUpperCase() + "-" + file.getInternalNumber() + ".csv");
+				+ file.getPanelNumber() + "-"  + MainController.pendingPanels.get(file.getPanelNumber()-1).getName().replaceAll("[^A-Za-z0-9]+", "_") + "---" + file.getType().toUpperCase() + "-" + file.getInternalNumber() + ".csv");
 		
-	    File directory = new File(savingFolder + "/" + "EXP_" + simulationName);
+	    File directory = new File(savingFolder + "/" + "EXP_" + simulationName.replaceAll("[^A-Za-z0-9]+", "_"));
 
 	    // If directory with experiment name doesn't exist, create it, otherwise overwrite
 	    if (! directory.exists()){
@@ -151,7 +152,7 @@ public class ExperimentSaver {
 	    		String[] entry = file.getRows().get(i);
 	    		String escaped = "\"" + entry[index] + "\"";
 
-	    		writer.write( normalizeTimeStamp(entry[0]) + "," + escaped + ",0" + "\r\n");
+	    		writer.write( normalizeTimeStamp(entry[0]) + "," + escaped + "," + file.getDatasource_id() + "\r\n");
 	    	}
 			
 			writer.close();
@@ -183,7 +184,7 @@ public class ExperimentSaver {
 	}
 	
 	public void metadataCsvWriter() {
-	    File directory = new File(savingFolder + "/" + "EXP_" + MainController.pendingSimulation.getName());
+	    File directory = new File(savingFolder + "/" + "EXP_" + MainController.pendingSimulation.getName().replaceAll("[^A-Za-z0-9]+", "_"));
 	    if (! directory.exists()){
 	        directory.mkdir();
 	    }
@@ -208,7 +209,7 @@ public class ExperimentSaver {
 	}
 	
 	public void jsonMetadataWriter() {
-	    File directory = new File(savingFolder + "/" + "EXP_" + MainController.pendingSimulation.getName());
+	    File directory = new File(savingFolder + "/" + "EXP_" + MainController.pendingSimulation.getName().replaceAll("[^A-Za-z0-9]+", "_"));
 	    if (! directory.exists()){
 	        directory.mkdir();
 	    }
@@ -278,7 +279,7 @@ public class ExperimentSaver {
 	public void commentCsvWriter(List<List<Object>> comments) {
 		String fileName = ("/comments.csv");
 		
-	    File directory = new File(savingFolder + "/" + "EXP_" + MainController.pendingSimulation.getName());
+	    File directory = new File(savingFolder + "/" + "EXP_" + MainController.pendingSimulation.getName().replaceAll("[^A-Za-z0-9]+", "_"));
 
 	    if (! directory.exists()){
 	        directory.mkdir();

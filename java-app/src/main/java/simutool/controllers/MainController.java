@@ -85,6 +85,8 @@ public class MainController {
 			simRepo.setSavedSimulations(null);
 			simRepo.readSavedSimulations(savingFolder, null);
 			simRepo.readSavedSimulations(importZIPfolder, null);
+			simRepo.orderSimulations();
+
 			m.addAttribute("saved", simRepo.getSavedSimulations());
 			return "index";
 		}else {
