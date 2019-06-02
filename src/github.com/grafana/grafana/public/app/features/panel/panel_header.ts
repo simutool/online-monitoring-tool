@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import { coreModule } from 'app/core/core';
+import { experiment } from 'app/custom';
 
 const template = `
 <span class="panel-title">

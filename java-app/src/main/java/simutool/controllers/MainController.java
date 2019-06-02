@@ -73,6 +73,9 @@ public class MainController {
 	
 	@Value("${importZIPfolder}")
 	private String importZIPfolder;
+	
+	@Value("${simulated.sensor.interval}")
+	private int interval;
 
 	/**
 	 * Starts index page
@@ -208,6 +211,7 @@ public class MainController {
 		m.addAttribute("simulation", pendingSimulation);
 		m.addAttribute("simulationName", pendingSimulation.getName());
 		m.addAttribute("panel", pendingPanel);
+		m.addAttribute("json", meta);
 		m.addAttribute("pendingPanels", pendingPanels);
 		return "new-sim";
 	}
@@ -248,7 +252,12 @@ public class MainController {
 	 */
 	@PostMapping(value="/newpanel/{panelId}", consumes = "multipart/form-data", params = "new panel")
 		public String savePanel(@ModelAttribute Panel panel,  @PathVariable(value="panelId") Integer id, HttpServletRequest request, @RequestParam(name = "edit", required=false) Integer edited, Model m, final RedirectAttributes redirectAttributes) {
+		
+		if(pendingPanel.getFiles() == null || pendingPanel.getFiles().size() < 1) {
+			redirectAttributes.addFlashAttribute("panelError", "You must add at least one dataset");
+			return  "redirect:/editpanel/" + id;
 
+		}
 		if(panel.getName().length() < 1) {
 			panel.setName("Panel " + (pendingPanels.size()+1));
 		}
@@ -286,6 +295,7 @@ public class MainController {
 			m.addAttribute("simulation", pendingSimulation);
 			m.addAttribute("simulationName", pendingSimulation.getName());
 			m.addAttribute("panel", pendingPanel);
+			m.addAttribute("json", meta);
 			m.addAttribute("pendingPanels", pendingPanels);
 			return "new-sim";
 		
@@ -306,10 +316,26 @@ public class MainController {
 		redirectAttributes.addFlashAttribute("pendingName", panel.getSimulationName());
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
+
 		if(panel.getName() != null) {
 			pendingPanel.setName( panel.getName() );
 		}
 		
+		if(panel.getPendingFile().getType().toLowerCase().equals("sensor")) {
+			FileDTO fileToAdd = new FileDTO();
+			if(panel.getPendingFile().getName() == null || panel.getPendingFile().getName().length()<1) {
+				fileToAdd.setName( panel.getPendingFile().getType() + "_" + (pendingPanel.getFiles().size()+1) );
+			}else {
+				fileToAdd.setName(panel.getPendingFile().getName());
+			}
+			fileToAdd.setStreamField( panel.getPendingFile().getStreamField() );
+			fileToAdd.setType( panel.getPendingFile().getType() );
+			List<FileDTO> currentFiles = pendingPanel.getFiles();
+			currentFiles.add( fileToAdd );
+			pendingPanel.setFiles(currentFiles);
+			return  "redirect:/editpanel/" + id;
+
+		}
 
 		try {
 
@@ -319,7 +345,7 @@ public class MainController {
 			String extension = submittedPath.substring(submittedPath.lastIndexOf('.') + 1);
 			if(!extension.equals("csv") && submittedPath.length() > 1) {
 
-				redirectAttributes.addFlashAttribute("panelError", "Submitted file is invalid or missing" );
+				redirectAttributes.addFlashAttribute("panelError", "Submitted dataset is invalid or missing" );
 			}
 			List<FileDTO> currentFiles = pendingPanel.getFiles();
 			FileDTO fileToAdd = parser.parseFilesForPanels(panel.getPendingFile().getType(), r);
@@ -332,6 +358,7 @@ public class MainController {
 			pendingPanel.setFiles(currentFiles);
 
 		}catch (Exception e) {
+
 			redirectAttributes.addFlashAttribute("panelError", "Submitted file is invalid or missing");
 			e.printStackTrace();
 		}
@@ -349,7 +376,7 @@ public class MainController {
 		for(Panel p : pendingPanels) {
 			sensorCounter = 1;
 			for(FileDTO file : p.getFiles()) {
-				if(file.getType().equals("Sensor")) {
+				if(file.getType().equals("Simulated sensor")) {
 					sens.add(file);
 					allPanelsAreStatic = false;
 					// Pick only sensor files, set internal number within panel (sensor 1, sensor 2 etc.)
@@ -367,7 +394,7 @@ public class MainController {
 		influx.tearDownTables();
 		
 		// Push dynamic data
-		influx.simulateSensor(1000, sens);
+		influx.simulateSensor(interval, sens);
 		staticsAreLaunched = false;
 		refreshingPar = "?orgId=1&refresh=1s"; 
 		switch(pendingPanels.size()){
@@ -390,6 +417,9 @@ public class MainController {
 	public String resetGrafanaLink() {
 		return "redirect://" + pendingSimulation.getGrafanaURL();
 	}
+	
+	
+
 	
 	
 	/**
@@ -417,7 +447,8 @@ public class MainController {
 	public String removeFile(@PathVariable(value="panelId") Long panelId, @PathVariable(value="fileId") int fileId) {
 
 		pendingPanel.getFiles().remove(pendingPanel.getFiles().get(fileId));
-		
+		//pendingPanel.getFiles().set(fileId, null);
+
 		return  "redirect:/editpanel/" + panelId;
 	}
 	
@@ -473,7 +504,11 @@ public class MainController {
 						file.setPanelNumber(panelCounter);
 						curCounter++;
 					}
-					longestDuration = Math.max(longestDuration, file.findDuration());
+					try {
+						longestDuration = Math.max(longestDuration, file.findDuration());
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+					}
 
 				}
 				MainController.pendingSimulation.setLoaded(false);

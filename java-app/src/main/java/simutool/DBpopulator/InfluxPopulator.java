@@ -158,7 +158,7 @@ public class InfluxPopulator {
 			String[] data = rows.get(counter);
 
 			Point point = Point.measurement(tableName).time( Long.parseLong(data[0])*1000 + shift, TimeUnit.MILLISECONDS)
-					.addField("P" + panelNum + "_sensor_" + internalNum, Double.parseDouble((data[1]))).build();
+					.addField("P" + panelNum + "_simulated_sensor_" + internalNum, Double.parseDouble((data[1]))).build();
 			influxDB.write(tableName, "autogen", point);
 			influxDB.close();
 			counter++;

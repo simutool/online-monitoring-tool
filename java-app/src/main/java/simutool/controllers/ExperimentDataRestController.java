@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.influxdb.dto.Point;
 import org.influxdb.dto.Query;
 import org.influxdb.dto.QueryResult.Series;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import simutool.CSVprocessor.ExperimentSaver;
 import simutool.CSVprocessor.FileDTO;
@@ -147,7 +150,25 @@ public class ExperimentDataRestController {
 	}
 
 
+	@RequestMapping("/generateStreamField")
+	public String generateStreamField(HttpServletRequest request, Model m, final RedirectAttributes redirectAttributes) {
+		
+		int currentPanelNum = MainController.pendingPanel.getFinalId() == 0 ? MainController.pendingPanels.size()+1 : MainController.pendingPanel.getFinalId();
+		System.out.println("MainController.pendingPanel.getFinalId(): " + MainController.pendingPanel.getFinalId());
 
+		String result = "P";
+		
+		int sensorCounter = 1;
+		for(FileDTO file : MainController.pendingPanel.getFiles()) {
+				if(file.getType().equals("Sensor")) {
+					sensorCounter++;
+				}
+		}
+		// Set panel number
+		result += currentPanelNum + "_sensor_" + sensorCounter;
+		MainController.pendingPanel.getPendingFile().setStreamField(result);
+		return result;
+	}
 
 }
 

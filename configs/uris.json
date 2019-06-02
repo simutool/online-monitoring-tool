@@ -1,4 +1,12 @@
 
-{"user_uri":"http://www.simutool.com/User", "oven_uri":"http://www.simutool.com/Oven", "part_uri": "http://www.simutool.com/Part", "material_uri":"http://www.simutool.com/Material"}
+{
+"dataset_uri":"http://www.simutool.com/DataSet", 
+"user_uri":"http://www.simutool.com/User", 
+"oven_uri":"http://www.simutool.com/Oven", 
+"part_uri": "http://www.simutool.com/Part", 
+"material_uri":"http://www.simutool.com/Material",
+"dataset_uri":"http://www.simutool.com/DataSet"
+
+}
  
 

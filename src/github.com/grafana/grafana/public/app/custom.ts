@@ -192,25 +192,7 @@ function setTitle(response, timerId) {
 	let numOfFiles = 0;
 	let fileNames = new Array();
 	
-	// Put all custom panel names
-	for (let panel of response.panelList) {
 
-		for (let file of panel.files) {
-			if( file.type.toLowerCase() != "sensor" && !response.staticsLoaded && !response.loaded){
-				console.log(file.type != "Sensor");
-								console.log(!response.staticsLoaded);
-				console.log(file.type != "Sensor" && !response.staticsLoaded );
-			
-			}else{
-								console.log("here2");
-
-				numOfFiles = numOfFiles+1;
-			}
-			//fileNames.push({"id": "db.P" + file.panelNumber + "_" + file.type.toLowerCase() + "_" + file.internalNumber, "name":  });
-			fileNames.push(file);
-		}
-		console.log("numOfFiles: " + numOfFiles);
-	}
 
 	// Check if number of default labels is the same as number of panels - it means, all labels are loaded now
 	if ($(".panel-title-text").length == response.panelList.length) {
@@ -234,34 +216,13 @@ function setTitle(response, timerId) {
 		}
 	}
 
-	/** ---- Not implemented yet ------
-		is supposed to overwrite dataset names in the legend (e.g. "db.P1_simulation_1" to "Left sensor")
-	*/
-	if ($(".graph-legend-alias ").length == numOfFiles) {
-		fileNamesFound = true;
-		for (let label of $(".graph-legend-alias ")) {
-			console.log(label.text);
-			
-			let oldLabel = $.grep($(fileNames), function(file) { return "db.P" + file.panelNumber + "_" + file.type.toLowerCase().replace(' ','_') + "_" + file.internalNumber === label.text })[0];
-			if(oldLabel){
-				console.log("Match found:");
-				console.log("db.P" + oldLabel.panelNumber + "_" + oldLabel.type.toLowerCase().replace(' ','_') + "_" + oldLabel.internalNumber);
-				console.log(label.text);
-								console.log("Text set to: " + oldLabel.name);
 
-				console.log("-----");
-
-				$(label).text( oldLabel.name );
-			}
-		}
-	
-	}
 
 	// If all default labels were found and changed - stop the timer
 	// otherwise it will be triggered again in 500ms
-	if (labelsFound && fileNamesFound) {
-		clearInterval(timerId);
-	}
+	//if (labelsFound) {
+		//clearInterval(timerId);
+	//}
 
 }
 
@@ -305,7 +266,8 @@ function processExperimentData(response) {
 	
 	// Set timer to overwrite default panel names 
 	// (implemented as timer task, since it is unpredictable whether existing fronend components or this script is loaded first)
-	let timerId = setInterval(() => setTitle(response, timerId), 500);
+	
+	//let timerId = setInterval(() => setTitle(response, timerId), 500);
 
 	// After statics were added, change "Start" button to "Save"
 	if (response.staticsLoaded) {

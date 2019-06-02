@@ -6,6 +6,7 @@ import { PanelModel } from 'app/features/dashboard/panel_model';
 import Remarkable from 'remarkable';
 import { GRID_CELL_HEIGHT, GRID_CELL_VMARGIN, LS_PANEL_COPY_KEY } from 'app/core/constants';
 import store from 'app/core/store';
+import { experiment } from 'app/custom';
 
 const TITLE_HEIGHT = 27;
 const PANEL_BORDER = 2;
@@ -40,6 +41,8 @@ export class PanelCtrl {
     this.editorTabIndex = 0;
     this.events = this.panel.events;
     this.timing = {};
+	
+
 
     const plugin = config.panels[this.panel.type];
     if (plugin) {
@@ -58,6 +61,11 @@ export class PanelCtrl {
   panelDidMount() {
     this.events.emit('component-did-mount');
     this.dashboard.panelInitialized(this.panel);
+	  
+  	if (this.panel.title == '0' || this.panel.title == '1' || this.panel.title == '2') {
+		this.panel.title = experiment.panelList[this.panel.title].name;
+	}
+
   }
 
   renderingCompleted() {

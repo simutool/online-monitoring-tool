@@ -1,13 +1,14 @@
-import _ from 'lodash';
+ import _ from 'lodash';
 import $ from 'jquery';
 import baron from 'baron';
 import coreModule from 'app/core/core_module';
+import { experiment } from 'app/custom';
+
 
 coreModule.directive('graphLegend', (popoverSrv, $timeout) => {
   return {
     link: (scope, elem) => {
       let firstRender = true;
-	  let renderNumber = 0;
       const ctrl = scope.ctrl;
       const panel = ctrl.panel;
       let data;
@@ -23,7 +24,7 @@ coreModule.directive('graphLegend', (popoverSrv, $timeout) => {
 
       ctrl.events.on('render-legend', () => {
         data = ctrl.seriesList;
-        if (data && firstRender) {
+        if (data) {
           render();
         }
         ctrl.events.emit('legend-rendering-complete');
@@ -122,7 +123,6 @@ coreModule.directive('graphLegend', (popoverSrv, $timeout) => {
           elem.on('click', '.graph-legend-alias', toggleSeries);
           elem.on('click', 'th', sortLegend);
           firstRender = false;
-		  renderNumber = renderNumber+1;
         }
 
         seriesList = data;
@@ -197,8 +197,21 @@ coreModule.directive('graphLegend', (popoverSrv, $timeout) => {
           html += '<i class="fa fa-minus pointer" style="color:' + series.color + '"></i>';
           html += '</div>';
 
+		  let fileNames = new Array();
+	
+			// Put all custom panel names
+			for (let panel of experiment.panelList) {
+
+				for (let file of panel.files) {
+					fileNames.push(file);
+				}
+			}
+	
+			let oldLabel = $.grep($(fileNames), function(file) { return "db.P" + file.panelNumber + "_" + file.type.toLowerCase().replace(' ','_') + "_" + file.internalNumber === series.aliasEscaped })[0];
+
+		  
           html +=
-            '<a class="graph-legend-alias pointer" title="' + series.aliasEscaped + '">' + series.aliasEscaped + '</a>';
+            '<a class="graph-legend-alias pointer" title="' + oldLabel.name + '">' + oldLabel.name + '</a>';
 
           if (panel.legend.values) {
             const avg = series.formatValue(series.stats.avg);

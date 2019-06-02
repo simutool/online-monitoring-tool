@@ -7,7 +7,11 @@
 {"type":"http://www.simutool.com/Oven", "title":"Another Hephaistos Oven", "identifier": "http://www.simutool.com/rt353dj", "description":"One more Hephaistos Oven"},
 
 {"type":"http://www.simutool.com/Part", "title":"AGI Demonstrator 6mm", "identifier": "http://www.simutool.com/rt3532dj", "description":"The part designed by AGI in 07.2016"},
-{"type":"http://www.simutool.com/Part", "title":"AGI Demonstrator 4mm", "identifier": "http://www.simutool.com/rt3932dj", "description":"The part designed by AGI in 07.2016"}
+{"type":"http://www.simutool.com/Part", "title":"AGI Demonstrator 4mm", "identifier": "http://www.simutool.com/rt3932dj", "description":"The part designed by AGI in 07.2016"},
+
+{"type":"http://www.simutool.com/DataSet", "title":"FO/1 Hephaistos", "identifier": "http://www.simutool.com/rt444j", "description":"Some dataset"},
+
+{"type":"http://www.simutool.com/DataSet", "title":"FO/2 Hephaistos", "identifier": "http://www.simutool.com/rt433j", "description":"Some another dataset"}
 
  ]
 }

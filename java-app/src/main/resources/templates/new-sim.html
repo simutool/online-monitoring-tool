@@ -117,8 +117,8 @@
                         
                         <div class="row filesInPanels" >
                         	<a th:href="${'/removeFile/' + panel.finalId + '/' + iter.index}" class="col-3" th:each="file,iter : ${panel.getFiles()}">
-                        		<i th:class="${file.type.equals('Sensor') ? 'fas fa-file-medical-alt' :
-                        		 (file.type.equals('Simulation') ? 'fas fa-file-signature' : 'fas fa-file-alt')}"></i>
+                        		<i th:class="${file.type.equals('Curing cycle') ? 'fas fa-file-alt' :
+                        		 (file.type.equals('Simulation') ? 'fas fa-file-signature' : 'fas fa-file-medical-alt')}"></i>
                         		<p th:text="${file.type}"></p>
                         		<p th:text="${file.name}"></p>
                         	</a>
@@ -126,20 +126,52 @@
                         </div>
                         
                         <h5>Add new dataset:</h5>
-                        <p>Data: <input class="form-control" language="en" id="modalSens" type="file" th:field="*{pendingFile}" /></p>
-                        <p>Dataset name: 
-                        <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Describe the dataset (optional)"></i>
+                                            
                         
-                        <input class="form-control" language="en" id="modalSens" type="text" th:field="*{pendingFile.name}" /></p>
-                         
                          <p style="margin-bottom: 0">Type of data: 
                           <div class="form-group radioWrapper" >
-						    <select class="form-control" id="fileTypeSelect" th:field="*{pendingFile.type}">
+						    <select class="form-control" id="fileTypeSelect" onchange="typeSpecFields(false)" th:field="*{pendingFile.type}">
+							<option value="---">---</option>
+						
 						      <option value="Sensor">Sensor</option>
+						  	  <option value="Simulated sensor">Simulated sensor</option>
+						   
 						      <option value="Simulation">Simulation</option>
 						      <option value="Curing cycle">Curing cycle</option>
 						    </select>
 						  </div></p>
+						
+						 
+                          <p id="filepicker-label">Data: <input class="form-control" language="en" id="modalSens" type="file" th:field="*{pendingFile}" /></p>
+                         
+						  <div class="card card-body bg-light" id="influxdb-name-label">
+							  <span>InfluxDB field name (please copy)
+							  <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" 
+							  title='Push you data to influx with &quot;db&quot; as database name and this identifier as field name'>
+							  </i></span>
+							  <p class="" style="text-align:center;margin-top:10px">
+							 <span id="streamNameSpan" style="color:#000;border:2px dashed #000;padding:10px;">P1_sensor_1</span> 
+							  </p>
+						  </div>
+						  
+						 <div id="stream-select-label" style="margin-bottom: 0">Datasource: 
+						 <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" 
+							  title='Choose the dataset you want to stream'>
+							  </i>
+                          <div class="form-group radioWrapper" >
+						    <select class="form-control" id="streamSelect"  type="file" th:field="*{pendingFile.streamField}" >
+
+                			<option th:each="i : ${json}" th:if="${i.type} == 'http://www.simutool.com/DataSet'" th:value="${i.identifier}" th:text="${i.title}"></option>
+
+						    </select>
+						  </div>
+						  </div>
+						  
+						  <p id="file-name-label">Display name: 
+                        	<i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Describe the dataset (optional)"></i>
+                        	<input class="form-control" language="en" id="modalSens" type="text" th:field="*{pendingFile.name}" /></p>
+                         
+						  
 						 <div class="row"><button type="submit" name="new file" class="btn btn-default col-4 offset-4 addFileToPanelBtn">Add dataset</button></div>
 						  
                     </div>
@@ -168,6 +200,11 @@
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+
+$(function () {
+  typeSpecFields(true);
+})
+
     function passPanelInfo(id){
         var name =  $("#simName").val();
         window.location.href = "/editpanel/" + id + "/?simulation=" + name;
@@ -176,6 +213,44 @@ $(function () {
     function toggleNewPanel(id){
         var name =  $("#simName").val();
         window.location.href = "/newpanel?simulation=" + name;
+    }
+    
+    function typeSpecFields(start){
+    	let value = $("#fileTypeSelect").val();
+    	let sensorFields = $("#file-name-label, #influxdb-name-label, #stream-select-label");
+    	let nonSensorFields = $("#file-name-label, #filepicker-label");
+      	
+      	sensorFields.hide();
+    	nonSensorFields.hide();  
+    	
+    	if(start || value == "---"){
+			$(".addFileToPanelBtn").hide();
+    	}else if(value == "Sensor"){
+    	
+    	$.ajax({
+				method: 'GET',
+				url: '/generateStreamField',
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Content-Type': 'application/json'
+		},
+		}).then(function successCallback(response) {
+		console.log(response);
+			$("#streamNameSpan").text(response);
+			
+    		sensorFields.show();
+    		$(".addFileToPanelBtn").show();
+    		
+    	}, function errorCallback(response) {
+				console.log(response);
+		});	
+		
+
+    		
+    	}else{
+    		nonSensorFields.show();
+    		$(".addFileToPanelBtn").show();
+    	}
     }
     
     $("#simName, #simDate, #simTime, #simDesc, #simOps, #simOven, #simTool").on("change", function(e, t){

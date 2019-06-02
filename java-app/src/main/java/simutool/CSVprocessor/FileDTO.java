@@ -12,6 +12,7 @@ public class FileDTO {
 	private String name;
 	private String type;
 	private String datasource_id;
+	private String streamField;
 	
 	// Each line is an array of values: time,value,dataset_id
 	private List<String[]> rows;
@@ -87,10 +88,16 @@ public class FileDTO {
 	}
 	
 	
+	public String getStreamField() {
+		return streamField;
+	}
+	public void setStreamField(String streamField) {
+		this.streamField = streamField;
+	}
 	@Override
 	public String toString() {
 		return "FileDTO [panel number=" + panelNumber + ", name=" + name + ", type=" + type + ", datasource_id=" + datasource_id
-				+ ", rows=" + rows.size() + "]";
+				 + "]";
 	}
 	
 
