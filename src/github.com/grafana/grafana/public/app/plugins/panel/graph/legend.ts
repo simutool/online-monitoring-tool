@@ -206,12 +206,17 @@ coreModule.directive('graphLegend', (popoverSrv, $timeout) => {
 					fileNames.push(file);
 				}
 			}
+
+			
+			for(let file of fileNames){
+
+				console.log(file);
+			}
 	
 			let oldLabel = $.grep($(fileNames), function(file) { return "db.P" + file.panelNumber + "_" + file.type.toLowerCase().replace(' ','_') + "_" + file.internalNumber === series.aliasEscaped })[0];
 
-		  
           html +=
-            '<a class="graph-legend-alias pointer" title="' + oldLabel.name + '">' + oldLabel.name + '</a>';
+            '<a class="graph-legend-alias pointer" title="' + series.aliasEscaped + '">' + oldLabel.name + '</a>';
 
           if (panel.legend.values) {
             const avg = series.formatValue(series.stats.avg);

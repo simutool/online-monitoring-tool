@@ -186,45 +186,7 @@ function launchStatics() {
 /** Overwrite default grafana panel names (is triggered multiple times with setInterval function)
 	
 */
-function setTitle(response, timerId) {
-	let labelsFound = false;
-	let fileNamesFound = false;
-	let numOfFiles = 0;
-	let fileNames = new Array();
-	
 
-
-	// Check if number of default labels is the same as number of panels - it means, all labels are loaded now
-	if ($(".panel-title-text").length == response.panelList.length) {
-		labelsFound = true;
-
-		for (let i = 0; i < $(".panel-title-text").length; i++) {
-
-			let title = $($(".panel-title-text")[i]);
-			console.log($(".panel-title-text").length);
-			if (response.loaded) {
-				$($(".panel-title-text")[i]).text($.grep($(response.panelList), function (item) {
-					return item.name.charAt(0) == i + 1
-				})[0].name);
-				$("#resetButton").text("Reset view");
-			}
-			else {
-				if (title.text() == '0' || title.text() == '1' || title.text() == '2') {
-					title.text(response.panelList[title.text()].name);
-				}
-			}
-		}
-	}
-
-
-
-	// If all default labels were found and changed - stop the timer
-	// otherwise it will be triggered again in 500ms
-	//if (labelsFound) {
-		//clearInterval(timerId);
-	//}
-
-}
 
 /** Overwrites buttons depending on whether statics are present, adds rendered comments 
 */
@@ -242,7 +204,7 @@ function processExperimentData(response) {
 		console.log("panel: " + panel);
 
 		for (let file of panel.files) {
-			if (file.type != "Sensor") {
+			if (file.type != "Sensor" && file.type != "Simulated sensor") {
 				console.log("file.type" + file.type != "sensor");
 				staticDataFound = true;
 				break;

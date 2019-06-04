@@ -1,6 +1,5 @@
 package simutool.controllers;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -33,6 +32,7 @@ import simutool.CSVprocessor.ExperimentSaver;
 import simutool.CSVprocessor.FileDTO;
 import simutool.CSVprocessor.Parser;
 import simutool.DBpopulator.InfluxPopulator;
+import simutool.DBpopulator.SensorEmulator;
 import simutool.models.InputJSON;
 import simutool.models.Panel;
 import simutool.models.Simulation;
@@ -61,6 +61,9 @@ public class MainController {
 
 	@Autowired
 	private Parser parser;
+	
+	@Autowired
+	private SensorEmulator emu;
 
 	@Autowired
 	private ExperimentSaver saver;
@@ -259,7 +262,16 @@ public class MainController {
 
 		}
 		if(panel.getName().length() < 1) {
-			panel.setName("Panel " + (pendingPanels.size()+1));
+			int lastPanel = MainController.pendingPanels.size();
+			for(Panel p : MainController.pendingPanels) {
+				try {
+					lastPanel = Math.max(Integer.parseInt(p.getName().substring(p.getName().length()-1)), lastPanel);
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			panel.setName("Panel " + (lastPanel+1));
 		}
 		if(id == 0) {
 			pendingPanel.setFinalId();
@@ -328,7 +340,12 @@ public class MainController {
 			}else {
 				fileToAdd.setName(panel.getPendingFile().getName());
 			}
-			fileToAdd.setStreamField( panel.getPendingFile().getStreamField() );
+			fileToAdd.setStreamField( MainController.pendingPanel.getPendingFile().getStreamField() );
+			fileToAdd.setPanelNumber( MainController.pendingPanel.getPendingFile().getPanelNumber() );
+			fileToAdd.setInternalNumber( MainController.pendingPanel.getPendingFile().getInternalNumber() );
+
+			fileToAdd.setDatasource_id( panel.getPendingFile().getDatasource_id() );
+
 			fileToAdd.setType( panel.getPendingFile().getType() );
 			List<FileDTO> currentFiles = pendingPanel.getFiles();
 			currentFiles.add( fileToAdd );
@@ -385,6 +402,7 @@ public class MainController {
 					file.setPanelNumber(panelCounter);
 					sensorCounter++;
 				}
+
 			}
 			//Simulation is not a saved one
 			pendingSimulation.setLoaded(false);
@@ -395,6 +413,15 @@ public class MainController {
 		
 		// Push dynamic data
 		influx.simulateSensor(interval, sens);
+		
+//		for(Panel p : pendingPanels) {
+//			for(FileDTO f : p.getFiles()) {
+//				if(f.getType().toLowerCase().equals("sensor")) {
+//					emu.startRealSensor(f.getStreamField());
+//		
+//				}
+//			}
+//		}
 		staticsAreLaunched = false;
 		refreshingPar = "?orgId=1&refresh=1s"; 
 		switch(pendingPanels.size()){

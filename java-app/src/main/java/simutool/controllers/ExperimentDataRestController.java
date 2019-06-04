@@ -150,23 +150,35 @@ public class ExperimentDataRestController {
 	}
 
 
+	public static int datasetCounter = 0;
+	
 	@RequestMapping("/generateStreamField")
 	public String generateStreamField(HttpServletRequest request, Model m, final RedirectAttributes redirectAttributes) {
 		
-		int currentPanelNum = MainController.pendingPanel.getFinalId() == 0 ? MainController.pendingPanels.size()+1 : MainController.pendingPanel.getFinalId();
-		System.out.println("MainController.pendingPanel.getFinalId(): " + MainController.pendingPanel.getFinalId());
-
+		int currentPanelNum = 0;
+		
+		if(MainController.pendingPanel.getFinalId() == 0) {
+			currentPanelNum = MainController.pendingPanels.size()+1;
+		}else {
+			currentPanelNum = MainController.pendingPanels.indexOf(MainController.pendingPanel) +1;
+		}
+			
 		String result = "P";
 		
-		int sensorCounter = 1;
+		int sensorCounter = 0;
 		for(FileDTO file : MainController.pendingPanel.getFiles()) {
 				if(file.getType().equals("Sensor")) {
-					sensorCounter++;
+					int highestField = Integer.parseInt(file.getStreamField().substring( file.getStreamField().length()-1));
+					sensorCounter = Math.max(highestField, sensorCounter);
 				}
 		}
 		// Set panel number
-		result += currentPanelNum + "_sensor_" + sensorCounter;
+		result += currentPanelNum + "_sensor_" + (sensorCounter+1);
 		MainController.pendingPanel.getPendingFile().setStreamField(result);
+
+		MainController.pendingPanel.getPendingFile().setPanelNumber(currentPanelNum);
+		MainController.pendingPanel.getPendingFile().setInternalNumber(sensorCounter+1);
+
 		return result;
 	}
 

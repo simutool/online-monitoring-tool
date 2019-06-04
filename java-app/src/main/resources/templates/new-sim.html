@@ -82,7 +82,7 @@
                                     <img th:src="@{/icn-panel.svg}" class=" " ></img>
                                     <span th:text="${panel.name}"  class="col-12 panelLabel"></span>
                                 </a>
-                                <a class="btn btn-outline-danger"  th:href="@{'/removePanel/' + ${panel.finalId}}">Remove &times;</a>
+                                <a class="btn btn-outline-danger" th:href="@{'/removePanel/' + ${panel.finalId}}">Remove &times;</a>
                             </div>
 							<div class="col-3 panelConts noPanel" th:if="${pendingPanels.size()<3}" >
                                 <a  th:onclick="@{'toggleNewPanel(' + ${panel.finalId} + ')'}">
@@ -159,7 +159,7 @@
 							  title='Choose the dataset you want to stream'>
 							  </i>
                           <div class="form-group radioWrapper" >
-						    <select class="form-control" id="streamSelect"  type="file" th:field="*{pendingFile.streamField}" >
+						    <select class="form-control" id="streamSelect"  type="file" th:field="*{pendingFile.datasource_id}" >
 
                 			<option th:each="i : ${json}" th:if="${i.type} == 'http://www.simutool.com/DataSet'" th:value="${i.identifier}" th:text="${i.title}"></option>
 
