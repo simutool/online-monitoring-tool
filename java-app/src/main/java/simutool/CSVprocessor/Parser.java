@@ -158,7 +158,7 @@ public class Parser {
 	    		}
 	    	}
 	    	return list;
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

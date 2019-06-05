@@ -55,15 +55,11 @@ public class MainController {
 	@Autowired
 	private SavedSimulationsRepo simRepo;
 
-
 	@Autowired
 	private InfluxPopulator influx;
 
 	@Autowired
 	private Parser parser;
-	
-	@Autowired
-	private SensorEmulator emu;
 
 	@Autowired
 	private ExperimentSaver saver;

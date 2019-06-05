@@ -23,7 +23,7 @@
             <form class="form-group col-12" action="#" th:action="@{/newsimulation}" th:object="${simulation}" method="post">
                 <span style="color: red;" th:text="${error}"></span>
                 <p >Name: 
-                <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Give a name to your experiment under which it will be saved later"></i>
+                <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" th:title="${@environment.getProperty('tooltip.name')}"></i>
                  <input class="form-control" style="margin-top:10px" id="simName" type="text" th:field="*{name}" value="pendingName"  /></p>
 
 
@@ -37,29 +37,29 @@
        <div class="row" style="margin-left:-7.5px; margin-right:-7.5px">
        
          <p class="col-12" style="">Description: 
-         <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Describe your experiment (optional)"></i>
+         <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" th:title="${@environment.getProperty('tooltip.description')}" ></i>
          <input class="form-control" id="simDesc" type="text" th:field="*{description}" value="pendingName"  /></p>
 		 
 		 <p class="col-6" style="">Operator:  
-		  <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Choose the name of the person in charge for this experiment from the list below"></i>
+		  <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" th:title="${@environment.getProperty('tooltip.operator')}" ></i>
 		 <select id="simOps" class="form-control" th:field="*{operators}">
                 <option th:each="el : ${json}" th:if="${el.type} == 'http://www.simutool.com/User'" th:value="${el.identifier}" th:text="${el.title}"></option>
         </select>
          
          <p class="col-6" style="">Oven: 
-          <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Choose the oven you are using from the list"></i>
+          <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" th:title="${@environment.getProperty('tooltip.oven')}" ></i>
         <select id="simOven" class="form-control" th:field="*{oven}">
                 <option th:each="el : ${json}" th:if="${el.type} == 'http://www.simutool.com/Oven'" th:value="${el.identifier}" th:text="${el.title}"></option>
         </select>
       		 
       		 <p class="col-6" style="">Material: 
-                <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Pick the material"></i>
+                <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" th:title="${@environment.getProperty('tooltip.material')}" ></i>
                   <select id="simMat" class="form-control" th:field="*{material}">
                 <option th:each="el : ${json}" th:if="${el.type} == 'http://www.simutool.com/Material'" th:value="${el.identifier}" th:text="${el.title}"></option>
             </select>
 
             <p class="col-6" style="">Part: 
-               <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Pick a part"></i>
+               <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" th:title="${@environment.getProperty('tooltip.part')}" ></i>
                <select id="simTool" class="form-control" th:field="*{part}">
                 <option th:each="el : ${json}" th:if="${el.type} == 'http://www.simutool.com/Part'" th:value="${el.identifier}" th:text="${el.title}"></option>
             </select>
@@ -71,9 +71,8 @@
 </div>
 
                  <div class="addPanelCont">
-                    <h4>Panels:
-                         <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Each panel will represent a separate
-                         diagram, so that you can group your data (sensors, simulations, curing cycles) in a reasonable way. You can add up to three panels."></i>
+                    <h4>Panels: 
+                         <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" th:title="${@environment.getProperty('tooltip.panels')}" ></i>
                     </h4>
                         <div class="col-12">
                           
@@ -112,7 +111,7 @@
                         <input style="display: none;" type="text" id="simulationNameForPanel" th:field="*{simulationName}"  />
                         <input class="form-control" id="modalId" type="text" style="display: none;" th:field="*{finalId}" />
                         <p>Panel Name: 
-                        <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Give a name to your panel nder which it will be saved later"></i>
+                        <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" th:title="${@environment.getProperty('tooltip.panelName')}"></i>
                         <input class="form-control" id="modalName" type="text" th:field="*{name}"  /></p>
                         
                         <div class="row filesInPanels" >
@@ -120,7 +119,9 @@
                         		<i th:class="${file.type.equals('Curing cycle') ? 'fas fa-file-alt' :
                         		 (file.type.equals('Simulation') ? 'fas fa-file-signature' : 'fas fa-file-medical-alt')}"></i>
                         		<p th:text="${file.type}"></p>
-                        		<p th:text="${file.name}"></p>
+                        		<p th:if="${!file.type.equals('Sensor')}" th:text="${file.name}"></p>
+                        		<p th:if="${file.type.equals('Sensor')}" th:text="${file.streamField}"></p>
+                        		
                         	</a>
                         	                        	
                         </div>
@@ -147,7 +148,7 @@
 						  <div class="card card-body bg-light" id="influxdb-name-label">
 							  <span>InfluxDB field name (please copy)
 							  <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" 
-							  title='Push you data to influx with &quot;db&quot; as database name and this identifier as field name'>
+							  th:title="${@environment.getProperty('tooltip.streamFieldName')}">
 							  </i></span>
 							  <p class="" style="text-align:center;margin-top:10px">
 							 <span id="streamNameSpan" style="color:#000;border:2px dashed #000;padding:10px;">P1_sensor_1</span> 
@@ -156,7 +157,7 @@
 						  
 						 <div id="stream-select-label" style="margin-bottom: 0">Datasource: 
 						 <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" 
-							  title='Choose the dataset you want to stream'>
+							th:title="${@environment.getProperty('tooltip.datasource')}">
 							  </i>
                           <div class="form-group radioWrapper" >
 						    <select class="form-control" id="streamSelect"  type="file" th:field="*{pendingFile.datasource_id}" >
@@ -168,7 +169,7 @@
 						  </div>
 						  
 						  <p id="file-name-label">Display name: 
-                        	<i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" title="Describe the dataset (optional)"></i>
+                        	<i class="fas fa-question-circle" data-toggle="tooltip" data-placement="top" th:title="${@environment.getProperty('tooltip.displayName')}"></i>
                         	<input class="form-control" language="en" id="modalSens" type="text" th:field="*{pendingFile.name}" /></p>
                          
 						  

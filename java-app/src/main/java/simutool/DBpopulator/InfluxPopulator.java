@@ -22,6 +22,10 @@ import simutool.CSVprocessor.FileDTO;
 import simutool.CSVprocessor.Parser;
 import simutool.controllers.MainController;
 
+/**
+ * Pushes data to influx database
+ *
+ */
 @Service
 public class InfluxPopulator {
 	
