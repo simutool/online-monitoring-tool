@@ -2,10 +2,12 @@
 
 
 Distribution package (Windows x64):
+
 https://gitlab.rz.uni-bamberg.de/mobi/simutool/online-monitoring-client/blob/master/online-monitoring.zip
 
 User manual:
-https://gitlab.rz.uni-bamberg.de/mobi/simutool/online-monitoring-client/blob/master/docs%20simutool.pdf
+
+https://gitlab.rz.uni-bamberg.de/mobi/simutool/online-monitoring-client/blob/master/user_manual.pdf
 
 ## Development
 
