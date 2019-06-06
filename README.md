@@ -19,7 +19,6 @@ The app consists of three major parts:
 
 Spring Boot manages file input/output and passes data to influx. Grafana pulls data from influx for visualisation.
 
-`monitoring-tool.zip` in your project root is a ready production package of this app.
 
 #### Cloning the repository
 
@@ -51,7 +50,7 @@ Entry point is `java-app\src\main\java\simutool\app\StartApp.java`
 
 1. in `application.properties` set BUILD_DIR variable empty. This line shall look like `BUILD_DIR = `
 2. Run app with Maven Build configuration, setting goals to `package spring-boot:repackage`
-3. At `java-app\target` find JAR file `influxdb-java-2.14-SNAPSHOT.jar`, convert it to .exe using any available tool (*Launch4j* recommended) and put into project root (`monitoring-tool`)
+3. At `java-app\target` find JAR file `influxdb-java-2.14-SNAPSHOT.jar`, convert it to .exe using any available tool (*Launch4j* recommended) and put into project root
 4. Remove folders `java-app` and `src\github.com\grafana\grafana\node_modules` to reduce package size
 
 #### Start app
