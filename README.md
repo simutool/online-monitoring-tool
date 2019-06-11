@@ -11,7 +11,13 @@ https://github.com/simutool/online-monitoring-tool/blob/master/user_manual.pdf
 
 
 ## Development
+##### Prerequisites:
 
+1. nodejs - [download](https://nodejs.org/en/download/)
+2. Eclipse (Neon or newer) with Maven support - [download](https://www.eclipse.org/downloads/packages/release/neon/3)
+3. Launch4j - [download](https://sourceforge.net/projects/launch4j/files/latest/download)
+4. JDK 8 (just JRE is not sufficient) - [download](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+5. 
 #### Structure
 The app consists of three major parts: 
 - Spring Boot app (`/java-app` folder)
@@ -19,23 +25,17 @@ The app consists of three major parts:
 - influx database (`/influxdb` folder).
 
 Spring Boot manages file input/output and passes data to influx. Grafana pulls data from influx for visualisation.
-
-
-#### Cloning the repository
+#### Step 1:  Clone the repository
 
 If you get errors due to long file names, run `git config --system core.longpaths true` in prompt with Administrator permissions to make git ignore this issue.
 
-Grafana credentials for this project are preconfigured:<br>
-**Username**: admin<br>
-**Password**: 12345
 
-
-#### Frontend
+#### Step 2: Build Frontend
 
 Frontend assets of first two (non-grafana) pages are withing Spring Boot project (`java-app\src\main\resources`).
 All the rest files are under `src\github.com\grafana\grafana\public`.
 
-You will need to install several node dependencies. Make sure you have nodejs installed. Navigate to `src\github.com\grafana\grafana` and run in prompt:
+Navigate to `src\github.com\grafana\grafana` and run in prompt:
 
 ```bash
 npm install -g yarn
@@ -44,17 +44,28 @@ yarn watch
 ```
 Do not close prompt if you want yarn to recompile code on runtime every time you save any changes.
 
+#### Step 3: Import and run app
+Import folder `/java-app` to Eclipse as existing Maven project and run it as Java Application or Spring Boot Application.
+
 Entry point is `java-app\src\main\java\simutool\app\StartApp.java`
 
+If grafana or influxdb will request special permissions, grant them.
 
-#### Build production package
+Default browser will launch automatically. If the page is not displayed correctly in some browser, start it manually by entering `http://localhost:8090` in Chrome.
+
+
+#### Step 4: Build production package
 
 1. in `application.properties` set BUILD_DIR variable empty. This line shall look like `BUILD_DIR = `
-2. Run app with Maven Build configuration, setting goals to `package spring-boot:repackage`
-3. At `java-app\target` find JAR file `influxdb-java-2.14-SNAPSHOT.jar`, convert it to .exe using any available tool (*Launch4j* recommended) and put into project root
+2. Create a new Maven Build configuration, choosing `influxdb-java` as main directory and setting goals to `package spring-boot:repackage`. In `JRE` tab choose JDK folder as execution environment (add JDK as new environment if it is not available yet). Run configuration.
+3. At `java-app\target` find JAR file `influxdb-java-2.14-SNAPSHOT.jar`, convert it to .exe called `online-monitoring-system.exe` using any available tool (*Launch4j* recommended) and put into project root
 4. Remove folders `java-app` and `src\github.com\grafana\grafana\node_modules` to reduce package size
-
-#### Start app
-The app is launched by `online-monitoring-system.exe` that is in the project root and runs on `http://localhost:8090`
+5. The app is launched by `online-monitoring-system.exe` that is in the project root and runs on `http://localhost:8090`
 App also uses ports `:8080` and `:8086`, make sure they are all free.
+
+Grafana credentials for this project are preconfigured:<br>
+**Username**: admin<br>
+**Password**: 12345
+
+
 
