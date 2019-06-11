@@ -17,7 +17,7 @@ https://github.com/simutool/online-monitoring-tool/blob/master/user_manual.pdf
 2. Eclipse (Neon or newer) with Maven support - [download](https://www.eclipse.org/downloads/packages/release/neon/3)
 3. Launch4j - [download](https://sourceforge.net/projects/launch4j/files/latest/download)
 4. JDK 8 (just JRE is not sufficient) - [download](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-5. 
+ 
 #### Structure
 The app consists of three major parts: 
 - Spring Boot app (`/java-app` folder)
