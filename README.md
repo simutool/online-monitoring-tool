@@ -68,4 +68,9 @@ Grafana credentials for this project are preconfigured:<br>
 **Password**: 12345
 
 
+## Authors
+
+* **Valentyna Voronova** - *Development*
+* **Nasr Kasrin** - *Project Management*
+* **Daniela Nicklas** - *Lead, Architecture*
 
