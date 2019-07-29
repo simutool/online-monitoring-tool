@@ -1,5 +1,8 @@
-# Simutool monitoring tool
+The online monitoring solution is a software component responsible to integrate data from sensors during production experiments (thermocouples or any other sensors used) with simulation data as well as the curing cycle data into a unified visual interactive tool. Its results and data logs are meant to be saved and added to the main knowledge base. It is part of the [SIMUTOOL Knowledge Management Suite](https://github.com/simutool/general) of software, for more information about the project please visit that link.
 
+# Installation
+
+To run the software there are two options, one for software developers and one for end users. The usual option will  be to install directly using a distribution package online-monitoring.zip for Windows(x64), see below. Unzip it and run online-monitoring-system.exe to start the app. For software developers, they can built the solution from source code using the instructions provided in the README.md file and manual included with the software package. 
 
 Distribution package (Windows x64):
 
@@ -10,7 +13,8 @@ User manual:
 https://github.com/simutool/online-monitoring-tool/blob/master/user_manual.pdf
 
 
-## Development
+## Development Buidling Instructions
+
 ##### Prerequisites:
 
 1. nodejs - [download](https://nodejs.org/en/download/)
