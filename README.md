@@ -70,7 +70,7 @@ Grafana credentials for this project are preconfigured:<br>
 
 ## Authors
 
-* **Valentyna Voronova** - *Development*
-* **Nasr Kasrin** - *Project Management*
-* **Daniela Nicklas** - *Lead, Architecture*
+* Valentyna Voronova - Development
+* Nasr Kasrin - Project Management
+* Daniela Nicklas - Lead, Architecture
 
