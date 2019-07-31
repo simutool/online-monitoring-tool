@@ -48,6 +48,9 @@ yarn watch
 ```
 Do not close prompt if you want yarn to recompile code on runtime every time you save any changes.
 
+You might need to kill `grafana-server.exe` process manually and restart `src\github.com\grafana\grafana\bin\grafana-server.exe` for changes to take effect.
+
+
 #### Step 3: Import and run app
 Import folder `/java-app` to Eclipse as existing Maven project and run it as Java Application or Spring Boot Application.
 
